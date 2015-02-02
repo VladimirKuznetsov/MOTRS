@@ -1,10 +1,13 @@
 #include "player.h"
+#include "floor.h"
 #include <QDebug>
 #include <QTimer>
 #include <QGraphicsScene>
+#include <QList>
+#include <typeinfo>
 
 //конструктор класса
-Player::Player()
+Player::Player(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 {
     verticalSpeed = 0;
     horizontalSpeed = 5;
@@ -32,9 +35,48 @@ void Player::move()
     verticalSpeed -= 1;
 
     //ограничение по вертикальному перемещению
-    if(pos().y() >= scene()->sceneRect().height() - rect().height()) {
-        jumps = 0;
-        verticalSpeed = 0;
-        setPos(x(), scene()->sceneRect().height() - rect().height());
+    solveCollisions();
+}
+
+//разрешение коллизий с другими объектами
+void Player::solveCollisions()
+{
+    QList <QGraphicsItem *> collisionList = collidingItems();
+    for (int i = 0; i < collisionList.size(); i++) {
+        if (typeid(*collisionList[i]) == typeid(Floor)) {
+            //упёрлись головой в потолок
+            if (verticalSpeed > 0) {
+                qDebug() << "Ceiling";
+                bool collision = true;
+                while (collision) {
+                    setPos(x(), y() + 1);
+                    QList <QGraphicsItem *> newCollisionList = collidingItems();
+                    collision = false;
+                    for (int i = 0; i < newCollisionList.size(); i++) {
+                        if (typeid(*newCollisionList[i]) == typeid(Floor)) {
+                            collision = true;
+                        }
+                    }
+                }
+                jumps = 2;
+            }
+            //провалились сквозь землю
+            if (verticalSpeed < 0) {
+                qDebug() << "Floor";bool collision = true;
+                while (collision) {
+                    setPos(x(), y() - 1);
+                    QList <QGraphicsItem *> newCollisionList = collidingItems();
+                    collision = false;
+                    for (int i = 0; i < newCollisionList.size(); i++) {
+                        if (typeid(*newCollisionList[i]) == typeid(Floor)) {
+                            collision = true;
+                        }
+                    }
+                }
+                jumps = 0;
+            }
+            verticalSpeed = 0;
+            break;
+        }
     }
 }

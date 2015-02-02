@@ -10,8 +10,9 @@ class Player : public QObject, public QGraphicsRectItem
     Q_OBJECT
 
 public:
-    Player();
+    Player(QGraphicsItem * parent = 0);
     void keyPressEvent(QKeyEvent *event);
+    void solveCollisions();
     signed int verticalSpeed;
     unsigned int horizontalSpeed;
     unsigned int jumps;

@@ -12,10 +12,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     player.cpp \
-    game.cpp
+    game.cpp \
+    floor.cpp
 
 HEADERS  += \
     player.h \
-    game.h
+    game.h \
+    floor.h
 
 FORMS    +=
