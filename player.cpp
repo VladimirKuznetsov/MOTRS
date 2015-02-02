@@ -4,7 +4,8 @@
 #include <QGraphicsScene>
 
 //конструктор класса
-Player::Player() {
+Player::Player()
+{
     verticalSpeed = 0;
     horizontalSpeed = 5;
     jumps = 2;
@@ -14,9 +15,8 @@ Player::Player() {
 }
 
 //обработака нажатия клавиши
-void Player::keyPressEvent(QKeyEvent *event) {
-    qDebug() << "Key has been pressed";
-
+void Player::keyPressEvent(QKeyEvent *event)
+{
     //прыжок по нажатию на пробел
     if ((event->key() == Qt::Key_Space) & (jumps < 2)) {
         jumps++;
@@ -26,7 +26,8 @@ void Player::keyPressEvent(QKeyEvent *event) {
 }
 
 //движение игрока
-void Player::move() {
+void Player::move()
+{
     setPos(x() + horizontalSpeed, y() - verticalSpeed);
     verticalSpeed -= 1;
 
