@@ -1,41 +1,46 @@
 #include "player.h"
 #include "floor.h"
+#include "game.h"
 #include <QDebug>
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QList>
 #include <typeinfo>
 
+extern Game * game;
+
 //конструктор класса
 Player::Player(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 {
     verticalSpeed = 0;
     horizontalSpeed = 5;
-    jumps = 2;
+    numberOfJumps = 2;
     QTimer *timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
     timer->start(30);
 }
 
-//обработака нажатия клавиши
-void Player::keyPressEvent(QKeyEvent *event)
+//совершить прыжок
+void Player::jump()
 {
-    //прыжок по нажатию на пробел
-    if ((event->key() == Qt::Key_Space) & (jumps < 2)) {
-        jumps++;
-        verticalSpeed = (16/jumps);
+    if (numberOfJumps < 2) {
+        numberOfJumps++;
+        verticalSpeed = (16/numberOfJumps);
     }
-
 }
 
 //движение игрока
 void Player::move()
 {
+    //передвигаем игрока
     setPos(x() + horizontalSpeed, y() - verticalSpeed);
     verticalSpeed -= 1;
 
     //ограничение по вертикальному перемещению
     solveCollisions();
+
+    //следим за передвижениями игрока
+    game->followPlayer();
 }
 
 //разрешение коллизий с другими объектами
@@ -46,7 +51,6 @@ void Player::solveCollisions()
         if (typeid(*collisionList[i]) == typeid(Floor)) {
             //упёрлись головой в потолок
             if (verticalSpeed > 0) {
-                qDebug() << "Ceiling";
                 bool collision = true;
                 while (collision) {
                     setPos(x(), y() + 1);
@@ -58,11 +62,11 @@ void Player::solveCollisions()
                         }
                     }
                 }
-                jumps = 2;
+                numberOfJumps = 2;
             }
             //провалились сквозь землю
             if (verticalSpeed < 0) {
-                qDebug() << "Floor";bool collision = true;
+                bool collision = true;
                 while (collision) {
                     setPos(x(), y() - 1);
                     QList <QGraphicsItem *> newCollisionList = collidingItems();
@@ -73,7 +77,7 @@ void Player::solveCollisions()
                         }
                     }
                 }
-                jumps = 0;
+                numberOfJumps = 0;
             }
             verticalSpeed = 0;
             break;

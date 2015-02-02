@@ -11,11 +11,11 @@ class Player : public QObject, public QGraphicsRectItem
 
 public:
     Player(QGraphicsItem * parent = 0);
-    void keyPressEvent(QKeyEvent *event);
+    void jump();
     void solveCollisions();
     signed int verticalSpeed;
     unsigned int horizontalSpeed;
-    unsigned int jumps;
+    unsigned int numberOfJumps;
 public slots:
     void move();
 };
