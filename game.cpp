@@ -18,15 +18,8 @@ Game::Game(QWidget *parent) : QGraphicsView(parent)
 //отрисовка компонентов игры
 void Game::init(QString map[])
 {
-    //создаём объект игрока
-    player = new Player();
-    player->setRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
-
-    //создаём сцену и добавляем игрока
+    //загрузка информации из массива строк
     scene = new QGraphicsScene();
-    scene->addItem(player);
-
-    //загрузка информации из массива map
     short sceneLength = 0;
     for (int row = 0; row < 10; row++)
     {
@@ -38,12 +31,30 @@ void Game::init(QString map[])
         //парсинг строки
         for (int column = 0; column < map[row].length(); column++)
         {
+            //отрисовка игрока
+            if (map[row][column] == 'p')
+            {
+                player = new Player();
+                player->setRect(column * CELL_SIZE, row * CELL_SIZE - PLAYER_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT);
+                scene->addItem(player);
+            }
             //отрисовка пола
             if (map[row][column] == 'f')
             {
-                Solid * solid = new Solid();
-                solid->setRect(column * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-                scene->addItem(solid);
+                Solid * floor = new Solid();
+                floor->kind = Solid::KindFloor;
+                floor->setRect(column * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                floor->setBrush(* new QBrush(Qt::gray));
+                scene->addItem(floor);
+            }
+            //отрисовка гидрантов
+            if (map[row][column] == 'h')
+            {
+                Solid * hydrant = new Solid();
+                hydrant->kind = Solid::KindObstacle;
+                hydrant->setRect(column * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                hydrant->setBrush(* new QBrush(Qt::red));
+                scene->addItem(hydrant);
             }
         }
     }
@@ -54,9 +65,6 @@ void Game::init(QString map[])
     setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    //устанавливаем игрока на место
-    player->setPos(0, WINDOW_HEIGHT / 3);
 
     //вывод на экран
     show();
