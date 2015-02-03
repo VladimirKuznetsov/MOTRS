@@ -36,19 +36,23 @@ void Player::jump()
 //движение игрока
 void Player::move()
 {
-    //передвигаем игрока
-    setPos(x() + horizontalSpeed, y() - verticalSpeed);
+    setPos(x() + horizontalSpeed, y());
+
+    //ограничение по вертикальному перемещению
+    solveHorizontalCollisions();
+
+    setPos(x(), y() - verticalSpeed);
     verticalSpeed -= GRAVITY;
 
     //ограничение по вертикальному перемещению
-    solveCollisions();
+    solveVerticalCollisions();
 
     //следим за передвижениями игрока
     game->followPlayer();
 }
 
-//разрешение коллизий с другими объектами
-void Player::solveCollisions()
+//разрешение коллизий с другими объектами при вертикальном движении
+void Player::solveVerticalCollisions()
 {
     QList <QGraphicsItem *> collisionList = collidingItems();
     for (int i = 0; i < collisionList.size(); i++) {
@@ -84,6 +88,45 @@ void Player::solveCollisions()
                 numberOfJumps = 0;
             }
             verticalSpeed = 0;
+            break;
+        }
+    }
+}
+
+//разрешение коллизий с другими объектами при горизонтальном движении
+void Player::solveHorizontalCollisions()
+{
+    QList <QGraphicsItem *> collisionList = collidingItems();
+    for (int i = 0; i < collisionList.size(); i++) {
+        if (typeid(*collisionList[i]) == typeid(Floor)) {
+            //упёрлись вправо
+            if (horizontalSpeed >= 0) {
+                bool collision = true;
+                while (collision) {
+                    setPos(x() - 1, y());
+                    QList <QGraphicsItem *> newCollisionList = collidingItems();
+                    collision = false;
+                    for (int i = 0; i < newCollisionList.size(); i++) {
+                        if (typeid(*newCollisionList[i]) == typeid(Floor)) {
+                            collision = true;
+                        }
+                    }
+                };
+            }
+            //провалились сквозь землю
+            if (horizontalSpeed < 0) {
+                bool collision = true;
+                while (collision) {
+                    setPos(x() + 1, y());
+                    QList <QGraphicsItem *> newCollisionList = collidingItems();
+                    collision = false;
+                    for (int i = 0; i < newCollisionList.size(); i++) {
+                        if (typeid(*newCollisionList[i]) == typeid(Floor)) {
+                            collision = true;
+                        }
+                    }
+                }
+            }
             break;
         }
     }

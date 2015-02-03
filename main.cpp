@@ -8,7 +8,7 @@ QString levelMap[] = {
     "                              ",
     "                              ",
     "                              ",
-    "         f                    ",
+    "                              ",
     "            f          f      ",
     "                              ",
     "      fff      f   f   ff     ",
