@@ -13,6 +13,7 @@ public:
     Game(QWidget *parent = 0);
     void init(QString map[]);
     void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
     void followPlayer();
     QGraphicsScene * scene;
     Player * player;

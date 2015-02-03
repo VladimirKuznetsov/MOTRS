@@ -12,11 +12,12 @@ class Player : public QObject, public QGraphicsRectItem
 public:
     Player(QGraphicsItem * parent = 0);
     void jump();
+    void right();
+    void left();
     bool collideWithSolid();
     signed int verticalSpeed;
-    unsigned int horizontalSpeed;
+    signed int horizontalSpeed;
     unsigned int numberOfJumps;
-private:
     short JUMP_SPEED;
     short HORIZONTAL_SPEED;
     short GRAVITY;

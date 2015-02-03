@@ -74,17 +74,38 @@ void Game::init(QString map[])
 void Game::keyPressEvent(QKeyEvent *event)
 {
     //прыжок по нажатию на пробел
-    if (event->key() == Qt::Key_Space) {
+    if (event->key() == Qt::Key_Up) {
         player->jump();
+    }
+    //движемся вправо
+    if (event->key() == Qt::Key_Right) {
+        player->right();
+    }
+    //движемся влево
+    if (event->key() == Qt::Key_Left) {
+        player->left();
     }
     //выход по нажатию на Esc
     if (event->key() == Qt::Key_Escape) {
-        this->close();
+        close();
+    }
+}
+
+//отработка отпускания клавиши
+void Game::keyReleaseEvent(QKeyEvent *event)
+{
+    //движемся вправо
+    if (event->key() == Qt::Key_Right) {
+        player->left();
+    }
+    //движемся влево
+    if (event->key() == Qt::Key_Left) {
+        player->right();
     }
 }
 
 //следим за перемещениями игрока
 void Game::followPlayer()
 {
-    ensureVisible(player, WINDOW_WIDTH*3/4, 0);
+    ensureVisible(player, WINDOW_WIDTH * 3/4, 0);
 }

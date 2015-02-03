@@ -13,11 +13,13 @@ TEMPLATE = app
 SOURCES += main.cpp \
     player.cpp \
     game.cpp \
-    solid.cpp
+    solid.cpp \
+    chase.cpp
 
 HEADERS  += \
     player.h \
     game.h \
-    solid.h
+    solid.h \
+    chase.h
 
 FORMS    +=

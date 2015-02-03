@@ -16,7 +16,7 @@ Player::Player(QGraphicsItem *parent) : QGraphicsRectItem(parent)
     HORIZONTAL_SPEED = (short)(game->CELL_SIZE / 10);
     GRAVITY = (short)(game->CELL_SIZE / 60);
 
-    horizontalSpeed = HORIZONTAL_SPEED;
+    horizontalSpeed = 0;
     verticalSpeed = 0;
     numberOfJumps = 2;
     QTimer *timer = new QTimer();
@@ -31,6 +31,18 @@ void Player::jump()
         numberOfJumps++;
         verticalSpeed = (JUMP_SPEED / numberOfJumps);
     }
+}
+
+//увеличить скорость вправо
+void Player::right()
+{
+    horizontalSpeed += HORIZONTAL_SPEED;
+}
+
+//увеличить скорость влево
+void Player::left()
+{
+    horizontalSpeed -= HORIZONTAL_SPEED;
 }
 
 //движение игрока
@@ -64,14 +76,14 @@ void Player::move()
     if (collideWithSolid() == true)
     {
         //упёрлись головой в потолок
-        if (verticalSpeed >= 0) {
+        if (verticalSpeed > 0) {
             do {
                 setPos(x(), y() + 1);
             } while (collideWithSolid() == true);
             numberOfJumps = 2;
         }
         //провалились сквозь землю
-        if (verticalSpeed < 0) {
+        if (verticalSpeed <= 0) {
             do {
                 setPos(x(), y() - 1);
             } while (collideWithSolid() == true);
