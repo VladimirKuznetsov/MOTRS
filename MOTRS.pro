@@ -13,11 +13,11 @@ TEMPLATE = app
 SOURCES += main.cpp \
     player.cpp \
     game.cpp \
-    floor.cpp
+    solid.cpp
 
 HEADERS  += \
     player.h \
     game.h \
-    floor.h
+    solid.h
 
 FORMS    +=

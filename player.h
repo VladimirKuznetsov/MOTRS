@@ -12,8 +12,7 @@ class Player : public QObject, public QGraphicsRectItem
 public:
     Player(QGraphicsItem * parent = 0);
     void jump();
-    void solveHorizontalCollisions();
-    void solveVerticalCollisions();
+    bool collideWithSolid();
     signed int verticalSpeed;
     unsigned int horizontalSpeed;
     unsigned int numberOfJumps;

@@ -1,5 +1,5 @@
 #include "game.h"
-#include "floor.h"
+#include "solid.h"
 #include <QTimer>
 #include <QDebug>
 #include <QString>
@@ -41,9 +41,9 @@ void Game::init(QString map[])
             //отрисовка пола
             if (map[row][column] == 'f')
             {
-                Floor * floor = new Floor();
-                floor->setRect(column * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-                scene->addItem(floor);
+                Solid * solid = new Solid();
+                solid->setRect(column * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                scene->addItem(solid);
             }
         }
     }

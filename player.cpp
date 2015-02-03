@@ -1,5 +1,5 @@
 #include "player.h"
-#include "floor.h"
+#include "solid.h"
 #include "game.h"
 #include <QDebug>
 #include <QTimer>
@@ -36,98 +36,62 @@ void Player::jump()
 //движение игрока
 void Player::move()
 {
+    //перемещаемся по горизонтали
     setPos(x() + horizontalSpeed, y());
 
-    //ограничение по вертикальному перемещению
-    solveHorizontalCollisions();
+    //ограничение по горизонтальному перемещению
+    if (collideWithSolid() == true)
+    {
+        //упёрлись вправо
+        if (horizontalSpeed >= 0) {
+            do {
+                setPos(x() - 1, y());
+            } while (collideWithSolid() == true);
+        }
+        //упёрлись влево
+        if (horizontalSpeed < 0) {
+            do {
+                setPos(x() + 1, y());
+            } while (collideWithSolid() == true);
+        }
+    }
 
+    //перемещаемся по вертикали
     setPos(x(), y() - verticalSpeed);
     verticalSpeed -= GRAVITY;
 
     //ограничение по вертикальному перемещению
-    solveVerticalCollisions();
+    if (collideWithSolid() == true)
+    {
+        //упёрлись головой в потолок
+        if (verticalSpeed >= 0) {
+            do {
+                setPos(x(), y() + 1);
+            } while (collideWithSolid() == true);
+            numberOfJumps = 2;
+        }
+        //провалились сквозь землю
+        if (verticalSpeed < 0) {
+            do {
+                setPos(x(), y() - 1);
+            } while (collideWithSolid() == true);
+            numberOfJumps = 0;
+        }
+        verticalSpeed = 0;
+    }
 
     //следим за передвижениями игрока
     game->followPlayer();
 }
 
-//разрешение коллизий с другими объектами при вертикальном движении
-void Player::solveVerticalCollisions()
+//проверка на коллизии с твёрдыми предметами
+bool Player::collideWithSolid()
 {
     QList <QGraphicsItem *> collisionList = collidingItems();
     for (int i = 0; i < collisionList.size(); i++) {
-        if (typeid(*collisionList[i]) == typeid(Floor)) {
-            //упёрлись головой в потолок
-            if (verticalSpeed > 0) {
-                bool collision = true;
-                while (collision) {
-                    setPos(x(), y() + 1);
-                    QList <QGraphicsItem *> newCollisionList = collidingItems();
-                    collision = false;
-                    for (int i = 0; i < newCollisionList.size(); i++) {
-                        if (typeid(*newCollisionList[i]) == typeid(Floor)) {
-                            collision = true;
-                        }
-                    }
-                }
-                numberOfJumps = 2;
-            }
-            //провалились сквозь землю
-            if (verticalSpeed < 0) {
-                bool collision = true;
-                while (collision) {
-                    setPos(x(), y() - 1);
-                    QList <QGraphicsItem *> newCollisionList = collidingItems();
-                    collision = false;
-                    for (int i = 0; i < newCollisionList.size(); i++) {
-                        if (typeid(*newCollisionList[i]) == typeid(Floor)) {
-                            collision = true;
-                        }
-                    }
-                }
-                numberOfJumps = 0;
-            }
-            verticalSpeed = 0;
-            break;
+        if (typeid(*collisionList[i]) == typeid(Solid)) {
+            return true;
         }
     }
-}
-
-//разрешение коллизий с другими объектами при горизонтальном движении
-void Player::solveHorizontalCollisions()
-{
-    QList <QGraphicsItem *> collisionList = collidingItems();
-    for (int i = 0; i < collisionList.size(); i++) {
-        if (typeid(*collisionList[i]) == typeid(Floor)) {
-            //упёрлись вправо
-            if (horizontalSpeed >= 0) {
-                bool collision = true;
-                while (collision) {
-                    setPos(x() - 1, y());
-                    QList <QGraphicsItem *> newCollisionList = collidingItems();
-                    collision = false;
-                    for (int i = 0; i < newCollisionList.size(); i++) {
-                        if (typeid(*newCollisionList[i]) == typeid(Floor)) {
-                            collision = true;
-                        }
-                    }
-                };
-            }
-            //провалились сквозь землю
-            if (horizontalSpeed < 0) {
-                bool collision = true;
-                while (collision) {
-                    setPos(x() + 1, y());
-                    QList <QGraphicsItem *> newCollisionList = collidingItems();
-                    collision = false;
-                    for (int i = 0; i < newCollisionList.size(); i++) {
-                        if (typeid(*newCollisionList[i]) == typeid(Floor)) {
-                            collision = true;
-                        }
-                    }
-                }
-            }
-            break;
-        }
-    }
+    return false;
 }
