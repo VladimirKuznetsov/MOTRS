@@ -13,7 +13,7 @@ extern Game * game;
 Player::Player(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 {
     JUMP_SPEED = (short)(game->CELL_SIZE / 4);
-    HORIZONTAL_SPEED = (short)(game->CELL_SIZE / 12);
+    HORIZONTAL_SPEED = (short)(game->CELL_SIZE / 10);
     GRAVITY = (short)(game->CELL_SIZE / 60);
 
     horizontalSpeed = HORIZONTAL_SPEED;

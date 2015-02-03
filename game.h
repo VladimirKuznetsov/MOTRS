@@ -11,8 +11,7 @@ class Game : public QGraphicsView
     Q_OBJECT
 public:
     Game(QWidget *parent = 0);
-    void init();
-    void loadScene(QString map[]);
+    void init(QString map[]);
     void keyPressEvent(QKeyEvent *event);
     void followPlayer();
     QGraphicsScene * scene;
