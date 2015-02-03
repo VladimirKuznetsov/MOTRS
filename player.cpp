@@ -12,8 +12,12 @@ extern Game * game;
 //конструктор класса
 Player::Player(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 {
+    JUMP_SPEED = (short)(game->CELL_SIZE / 4);
+    HORIZONTAL_SPEED = (short)(game->CELL_SIZE / 12);
+    GRAVITY = (short)(game->CELL_SIZE / 60);
+
+    horizontalSpeed = HORIZONTAL_SPEED;
     verticalSpeed = 0;
-    horizontalSpeed = 5;
     numberOfJumps = 2;
     QTimer *timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
@@ -25,7 +29,7 @@ void Player::jump()
 {
     if (numberOfJumps < 2) {
         numberOfJumps++;
-        verticalSpeed = (16/numberOfJumps);
+        verticalSpeed = (JUMP_SPEED / numberOfJumps);
     }
 }
 
@@ -34,7 +38,7 @@ void Player::move()
 {
     //передвигаем игрока
     setPos(x() + horizontalSpeed, y() - verticalSpeed);
-    verticalSpeed -= 1;
+    verticalSpeed -= GRAVITY;
 
     //ограничение по вертикальному перемещению
     solveCollisions();

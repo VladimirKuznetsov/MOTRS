@@ -16,6 +16,10 @@ public:
     signed int verticalSpeed;
     unsigned int horizontalSpeed;
     unsigned int numberOfJumps;
+private:
+    short JUMP_SPEED;
+    short HORIZONTAL_SPEED;
+    short GRAVITY;
 public slots:
     void move();
 };

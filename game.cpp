@@ -3,14 +3,18 @@
 #include <QTimer>
 #include <QDebug>
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
-#define PLAYER_WIDTH 60
-#define PLAYER_HEIGHT 100
-#define CELL_SIZE 50
-
 //загрузка игры
 Game::Game(QWidget *parent) : QGraphicsView(parent)
+{
+    //определяем геометрические параметры сцены
+    WINDOW_HEIGHT = 600;
+    WINDOW_WIDTH = 800;
+    PLAYER_HEIGHT = (short)(WINDOW_HEIGHT / 4);
+    PLAYER_WIDTH = PLAYER_HEIGHT * 0.75;
+    CELL_SIZE = WINDOW_HEIGHT / 10;
+}
+
+void Game::init()
 {
     //создаём объект игрока
     player = new Player();
@@ -40,6 +44,11 @@ Game::Game(QWidget *parent) : QGraphicsView(parent)
 
     //вывод на экран
     show();
+}
+
+//загрузка сцены из текстового массива
+void Game::loadScene(QString map[])
+{
 }
 
 //отработка нажатий клавиш
