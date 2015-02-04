@@ -1,31 +1,37 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <QObject>
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QString>
 #include "player.h"
+#include "enemy.h"
 
 class Game : public QGraphicsView
 {
     Q_OBJECT
 public:
-    Game(QWidget *parent = 0);
+    Game();
     void init(QString map[]);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
-    void followPlayer();
+    void followEnemy();
     QGraphicsScene * scene;
     Player * player;
+    Enemy * enemy;
 
-    //РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ РїР°СЂР°РјРµС‚СЂС‹ СЃС†РµРЅС‹
+    //геометрические параметры
+    short CELL_SIZE;
     short WINDOW_WIDTH;
     short WINDOW_HEIGHT;
     short PLAYER_WIDTH;
     short PLAYER_HEIGHT;
-    short CELL_SIZE;
+    short ENEMY_WIDTH;
+    short ENEMY_HEIGHT;
 signals:
 public slots:
+    void checkRules();
 };
 
 #endif // GAME_H

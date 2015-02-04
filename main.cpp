@@ -3,16 +3,21 @@
 #include "game.h"
 
 QString levelMap[] = {
-    "                              ",
-    "                              ",
-    "                              ",
-    "                              ",
-    "                              ",
-    "                              ",
-    "            h          f      ",
-    "                              ",
-    "  p   hhh      h   h   hh     ",
-    "ffffffffffffffffffffffffffffff",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "  p   hhh e    h   h   hh     h                      h         h h             ",
+    "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
 };
 
 Game * game;

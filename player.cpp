@@ -1,20 +1,22 @@
 #include "player.h"
-#include "solid.h"
+#include "cell.h"
 #include "game.h"
 #include <QDebug>
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QList>
 #include <typeinfo>
+#include <math.h>
+#include <float.h>
 
 extern Game * game;
 
 //конструктор класса
 Player::Player(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 {
-    JUMP_SPEED = (short)(game->CELL_SIZE / 4);
-    HORIZONTAL_SPEED = (short)(game->CELL_SIZE / 10);
-    GRAVITY = (short)(game->CELL_SIZE / 60);
+    JUMP_SPEED = ceil(float(game->CELL_SIZE) / 4);
+    HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) / 10);
+    GRAVITY = ceil(float(game->CELL_SIZE) / 60);
 
     horizontalSpeed = 0;
     verticalSpeed = 0;
@@ -91,9 +93,6 @@ void Player::move()
         }
         verticalSpeed = 0;
     }
-
-    //следим за передвижени€ми игрока
-    game->followPlayer();
 }
 
 //проверка на коллизии с твЄрдыми предметами
@@ -101,8 +100,10 @@ bool Player::collideWithSolid()
 {
     QList <QGraphicsItem *> collisionList = collidingItems();
     for (int i = 0; i < collisionList.size(); i++) {
-        if (typeid(*collisionList[i]) == typeid(Solid)) {
-            return true;
+        if (typeid(*collisionList[i]) == typeid(Cell)) {
+            if (((Cell*)(collisionList[i]))->isSolid == true) {
+                return true;
+            }
         }
     }
     return false;
