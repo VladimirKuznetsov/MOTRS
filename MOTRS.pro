@@ -12,14 +12,18 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     player.cpp \
-    game.cpp \
     enemy.cpp \
-    cell.cpp
+    cell.cpp \
+    levelChase.cpp \
+    level.cpp \
+    game.cpp
 
 HEADERS  += \
     player.h \
-    game.h \
     enemy.h \
-    cell.h
+    cell.h \
+    levelChase.h \
+    level.h \
+    game.h
 
 FORMS    +=

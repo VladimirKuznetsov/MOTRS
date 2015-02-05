@@ -1,29 +1,24 @@
 #include "player.h"
 #include "cell.h"
-#include "game.h"
 #include <QDebug>
-#include <QTimer>
 #include <QGraphicsScene>
 #include <QList>
 #include <typeinfo>
 #include <math.h>
 #include <float.h>
+#include <game.h>
 
 extern Game * game;
 
 //конструктор класса
 Player::Player(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 {
-    JUMP_SPEED = ceil(float(game->CELL_SIZE) / 4);
+    JUMP_SPEED = ceil(float(game->CELL_SIZE) / 3.5);
     HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) / 10);
-    GRAVITY = ceil(float(game->CELL_SIZE) / 60);
 
     horizontalSpeed = 0;
     verticalSpeed = 0;
     numberOfJumps = 2;
-    QTimer *timer = new QTimer();
-    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-    timer->start(30);
 }
 
 //совершить прыжок
@@ -72,7 +67,7 @@ void Player::move()
 
     //перемещаемся по вертикали
     setPos(x(), y() - verticalSpeed);
-    verticalSpeed -= GRAVITY;
+    verticalSpeed -= game->GRAVITY;
 
     //ограничение по вертикальному перемещению
     if (collideWithSolid() == true)

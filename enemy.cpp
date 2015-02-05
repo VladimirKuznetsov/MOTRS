@@ -1,23 +1,19 @@
 #include "enemy.h"
-#include "game.h"
 #include "cell.h"
-#include <QTimer>
 #include <typeinfo>
 #include <math.h>
 #include <float.h>
+#include "game.h"
 
 extern Game * game;
 
 Enemy::Enemy(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 {
-    GRAVITY = ceil(float(game->CELL_SIZE) / 60);
 
-    HORIZONTAL_SPEED = ceil(float(game->player->HORIZONTAL_SPEED) * 9 / 10);
+    HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 9 / 100);
+    //HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 5 / 100);
     horizontalSpeed = 0;
     verticalSpeed = 0;
-    QTimer * timer = new QTimer();
-    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-    timer->start(30);
 }
 
 void Enemy::move()
@@ -64,7 +60,7 @@ void Enemy::move()
 
     //перемещаемся по вертикали
     setPos(x(), y() - verticalSpeed);
-    verticalSpeed -= GRAVITY;
+    verticalSpeed -= game->GRAVITY;
 
     //ограничение по вертикальному перемещению
     if (collideWithFloor() == true)
@@ -83,9 +79,6 @@ void Enemy::move()
         }
         verticalSpeed = 0;
     }
-
-    //следим за движением
-    game->followEnemy();
 }
 
 //проверка на коллизии с твёрдыми предметами

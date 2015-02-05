@@ -9,14 +9,13 @@ class Enemy : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    Enemy(QGraphicsItem *parent = 0);
+    Enemy(QGraphicsItem * parent = 0);
     bool collideWithFloor();
     signed int verticalSpeed;
     signed int horizontalSpeed;
 
     short HORIZONTAL_SPEED;
     short VERTICAL_SPEED;
-    short GRAVITY;
 public slots:
     void move();
     

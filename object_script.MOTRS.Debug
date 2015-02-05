@@ -1,0 +1,14 @@
+INPUT(
+./debug\main.o
+./debug\player.o
+./debug\enemy.o
+./debug\cell.o
+./debug\levelChase.o
+./debug\level.o
+./debug\game.o
+./debug\moc_player.o
+./debug\moc_enemy.o
+./debug\moc_levelChase.o
+./debug\moc_level.o
+./debug\moc_game.o
+);
