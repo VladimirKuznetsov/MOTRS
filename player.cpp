@@ -46,26 +46,17 @@ void Player::left()
 void Player::move()
 {
     //перемещаемся по горизонтали
+    int oldX = x();
     setPos(x() + horizontalSpeed, y());
 
     //ограничение по горизонтальному перемещению
     if (collideWithSolid() == true)
     {
-        //упёрлись вправо
-        if (horizontalSpeed >= 0) {
-            do {
-                setPos(x() - 1, y());
-            } while (collideWithSolid() == true);
-        }
-        //упёрлись влево
-        if (horizontalSpeed < 0) {
-            do {
-                setPos(x() + 1, y());
-            } while (collideWithSolid() == true);
-        }
+        setPos(oldX, y());
     }
 
     //перемещаемся по вертикали
+    int oldY = y();
     setPos(x(), y() - verticalSpeed);
     verticalSpeed -= game->GRAVITY;
 
@@ -74,18 +65,13 @@ void Player::move()
     {
         //упёрлись головой в потолок
         if (verticalSpeed > 0) {
-            do {
-                setPos(x(), y() + 1);
-            } while (collideWithSolid() == true);
             numberOfJumps = 2;
         }
         //провалились сквозь землю
         if (verticalSpeed <= 0) {
-            do {
-                setPos(x(), y() - 1);
-            } while (collideWithSolid() == true);
             numberOfJumps = 0;
         }
+        setPos(x(), oldY);
         verticalSpeed = 0;
     }
 }

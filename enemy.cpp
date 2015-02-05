@@ -12,6 +12,7 @@ Enemy::Enemy(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 
     HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 9 / 100);
     //HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 5 / 100);
+    numberOfJumps = 2;
     horizontalSpeed = 0;
     verticalSpeed = 0;
 }
@@ -19,23 +20,13 @@ Enemy::Enemy(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 void Enemy::move()
 {
     //перемещаемся по горизонтали
+    int oldX = x();
     setPos(x() + horizontalSpeed, y());
 
     //ограничение по горизонтальному перемещению
     if (collideWithFloor() == true)
     {
-        //упёрлись вправо
-        if (horizontalSpeed >= 0) {
-            do {
-                setPos(x() - 1, y());
-            } while (collideWithFloor() == true);
-        }
-        //упёрлись влево
-        if (horizontalSpeed < 0) {
-            do {
-                setPos(x() + 1, y());
-            } while (collideWithFloor() == true);
-        }
+        setPos(oldX, y());
     }
 
     //плавный разгон
@@ -59,6 +50,7 @@ void Enemy::move()
     }
 
     //перемещаемся по вертикали
+    int oldY = y();
     setPos(x(), y() - verticalSpeed);
     verticalSpeed -= game->GRAVITY;
 
@@ -67,16 +59,13 @@ void Enemy::move()
     {
         //упёрлись головой в потолок
         if (verticalSpeed > 0) {
-            do {
-                setPos(x(), y() + 1);
-            } while (collideWithFloor() == true);
+            numberOfJumps = 2;
         }
         //провалились сквозь землю
         if (verticalSpeed <= 0) {
-            do {
-                setPos(x(), y() - 1);
-            } while (collideWithFloor() == true);
+            numberOfJumps = 0;
         }
+        setPos(x(), oldY);
         verticalSpeed = 0;
     }
 }
@@ -92,6 +81,15 @@ bool Enemy::collideWithFloor()
             }
         }
     }
+    /*
+    for (int i = (x()/game->CELL_SIZE); i <= (x() + rect.width())/game->CELL_SIZE; i++)
+    {
+        for (int j = y()/game->CELL_SIZE; j <= (y() + rect.height())/game->CELL_SIZE; j++)
+        {
+            if (game->levelMap[j][i] )
+        }
+    }
+    */
     return false;
 }
 

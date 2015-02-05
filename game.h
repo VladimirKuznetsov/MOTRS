@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <QGraphicsView>
+#include <QString>
 
 class Game : public QGraphicsView
 {
@@ -14,6 +15,7 @@ public:
     short WINDOW_HEIGHT;
     short CELL_SIZE;
     short GRAVITY;
+    QString levelMap[];
     
 signals:
     

@@ -25,8 +25,8 @@ void Game::loadLevel(int levelNumber)
         "                                                                               ",
         "                                                                               ",
         "                                                                               ",
-        "                                                                               ",
-        "  p   hhh e    h   h   hh     h                      h         h h             ",
+        "  p                                                                            ",
+        "      hhh e    h   h   hh     h                      h         h h             ",
         "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
     };
 
