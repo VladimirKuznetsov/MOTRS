@@ -1,5 +1,6 @@
 #include "game.h"
 #include <math.h>
+#include <QDebug>
 #include "levelChase.h"
 
 Game::Game()
@@ -35,9 +36,18 @@ void Game::loadLevel(int levelNumber)
     setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     //настраиваем параметры отображения
-    LevelChase * levelChase = new LevelChase();
+    LevelChase * levelChase = new LevelChase(this);
     levelChase->init(levelMap);
 
     //вывод на экран
     show();
+}
+
+void Game::levelCompleted(bool result)
+{
+    if (result == true) {
+        qDebug() << "WE GOT A WINNER";
+    } else {
+        qDebug() << "LOOK AT THIS LOOSER";
+    }
 }

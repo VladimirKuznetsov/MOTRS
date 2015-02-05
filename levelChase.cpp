@@ -6,17 +6,13 @@
 #include <QString>
 #include <QList>
 #include <typeinfo>
+#include <QGraphicsItem>
 
 extern Game * game;
 
 //конструктор
-LevelChase::LevelChase()
+LevelChase::LevelChase(QGraphicsView * parent) : Level(parent)
 {
-    //определяем геометрические параметры сцены
-    PLAYER_HEIGHT = game->CELL_SIZE * 2.5;
-    PLAYER_WIDTH = PLAYER_HEIGHT * 0.75;
-    ENEMY_HEIGHT = game->CELL_SIZE * 3;
-    ENEMY_WIDTH = ENEMY_HEIGHT * 1.5;
 }
 
 //отрисовка компонентов игры
@@ -83,7 +79,7 @@ void LevelChase::init(QString map[])
     //запускаем таймер, управляющий движением
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(checkRules()));
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(followEnemy()));
-    updateTimer->start(25);
+    updateTimer->start(20);
 }
 
 //отработка нажатий клавиш
@@ -129,10 +125,16 @@ void LevelChase::followEnemy()
 //проверка условий победы и поражения
 void LevelChase::checkRules()
 {
+    //победа если персонаж догнал соперника
     QList <QGraphicsItem *> collisionList = player->collidingItems();
     for (int i = 0; i < collisionList.size(); i++) {
         if (typeid(*collisionList[i]) == (typeid(Enemy))) {
-            qDebug() << "WE GOT A WINNER";
+            emit levelCompleted(true);
         }
+    }
+
+    //поражение если персонаж сильно отстал
+    if (enemy->x() - player->x() > game->CELL_SIZE * 10) {
+        emit levelCompleted(false);
     }
 }

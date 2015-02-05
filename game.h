@@ -3,6 +3,7 @@
 
 #include <QGraphicsView>
 #include <QString>
+#include <QObject>
 
 class Game : public QGraphicsView
 {
@@ -16,10 +17,9 @@ public:
     short CELL_SIZE;
     short GRAVITY;
     QString levelMap[];
-    
-signals:
-    
+
 public slots:
+    void levelCompleted(bool result);
     
 };
 

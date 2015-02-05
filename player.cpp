@@ -14,7 +14,7 @@ extern Game * game;
 Player::Player(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 {
     JUMP_SPEED = ceil(float(game->CELL_SIZE) / 3.5);
-    HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) / 10);
+    HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) / 5);
 
     horizontalSpeed = 0;
     verticalSpeed = 0;
@@ -66,14 +66,17 @@ void Player::move()
         //упёрлись головой в потолок
         if (verticalSpeed > 0) {
             numberOfJumps = 2;
+            qDebug() <<"ceil";
         }
         //провалились сквозь землю
         if (verticalSpeed <= 0) {
             numberOfJumps = 0;
+            qDebug() <<"floor";
         }
         setPos(x(), oldY);
         verticalSpeed = 0;
     }
+    qDebug() <<QString::number(numberOfJumps);
 }
 
 //проверка на коллизии с твёрдыми предметами

@@ -13,8 +13,7 @@ public:
     bool collideWithFloor();
     signed int verticalSpeed;
     signed int horizontalSpeed;
-    short numberOfJumps;
-
+    unsigned int numberOfJumps;
     short HORIZONTAL_SPEED;
     short VERTICAL_SPEED;
 public slots:

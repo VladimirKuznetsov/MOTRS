@@ -9,9 +9,8 @@ extern Game * game;
 
 Enemy::Enemy(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 {
-
-    HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 9 / 100);
-    //HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 5 / 100);
+    //HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 18 / 100);
+    HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 15 / 100);
     numberOfJumps = 2;
     horizontalSpeed = 0;
     verticalSpeed = 0;
@@ -32,7 +31,7 @@ void Enemy::move()
     //плавный разгон
     static int i = 0;
     i++;
-    if (i > 20) {
+    if (i > 5) {
         if (HORIZONTAL_SPEED > 0) {
             if (horizontalSpeed < HORIZONTAL_SPEED) horizontalSpeed++;
             if (horizontalSpeed > HORIZONTAL_SPEED) horizontalSpeed--;
