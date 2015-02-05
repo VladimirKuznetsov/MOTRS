@@ -11,10 +11,15 @@ Level::Level(QGraphicsView *parent) : QGraphicsScene(parent)
     ENEMY_HEIGHT = game->CELL_SIZE * 3;
     ENEMY_WIDTH = ENEMY_HEIGHT * 1.5;
 
-    connect(this, SIGNAL(levelCompleted(bool)), game, SLOT(levelCompleted(bool)));
+    connect(this, SIGNAL(levelCompleted(bool, Level*)), game, SLOT(levelCompleted(bool, Level*)));
+}
+
+void Level::init(QString levelMap[])
+{
 }
 
 void Level::gameOver(QString comment)
 {
-    emit levelCompleted(false);
+    emit levelCompleted(false,this);
+    //delete this;
 }

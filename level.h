@@ -10,6 +10,7 @@ class Level : public QGraphicsScene
     Q_OBJECT
 public:
     Level(QGraphicsView * parent);
+    void init (QString levelMap[]);
     void gameOver (QString comment);
 
     //определ€ем геометрические параметры сцены
@@ -19,7 +20,7 @@ public:
     short ENEMY_WIDTH;
     
 signals:
-    void levelCompleted (bool result);
+    void levelCompleted (bool result, Level * level);
     
 public slots:
     

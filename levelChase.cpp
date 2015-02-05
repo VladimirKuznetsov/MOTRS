@@ -129,12 +129,12 @@ void LevelChase::checkRules()
     QList <QGraphicsItem *> collisionList = player->collidingItems();
     for (int i = 0; i < collisionList.size(); i++) {
         if (typeid(*collisionList[i]) == (typeid(Enemy))) {
-            emit levelCompleted(true);
+            emit levelCompleted(true, this);
         }
     }
 
     //поражение если персонаж сильно отстал
     if (enemy->x() - player->x() > game->CELL_SIZE * 10) {
-        emit levelCompleted(false);
+        gameOver(":c");
     }
 }

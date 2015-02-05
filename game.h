@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QString>
 #include <QObject>
+#include "level.h"
 
 class Game : public QGraphicsView
 {
@@ -16,10 +17,9 @@ public:
     short WINDOW_HEIGHT;
     short CELL_SIZE;
     short GRAVITY;
-    QString levelMap[];
 
 public slots:
-    void levelCompleted(bool result);
+    void levelCompleted(bool result,Level * level);
     
 };
 
