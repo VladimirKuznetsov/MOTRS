@@ -17,7 +17,7 @@ Game::Game()
 }
 
 void Game::loadLevel(int levelNumber)
-{
+{\
     QString levelMap[] = {
         "                                                                               ",
         "                                                                               ",
@@ -33,9 +33,26 @@ void Game::loadLevel(int levelNumber)
         "                                                                               ",
         "  p                                                                            ",
         "      hhh e    h   h   hh     h                      h         h h             ",
-        "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "fffgffffffffffgffyfffyfffgfffffffyfffffffgfffffffffygfffffgfffffffyfgfffyfffffff",
     };
 
+    QString testMap[] = {
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "  p        ",
+        "      hhh e",
+        "fffffffffff",
+    };
 
     LevelChase * levelChase = new LevelChase(this);
     levelChase->init(levelMap);

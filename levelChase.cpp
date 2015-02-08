@@ -7,6 +7,7 @@
 #include <QList>
 #include <typeinfo>
 #include <QGraphicsItem>
+#include <float.h>
 
 extern Game * game;
 
@@ -52,20 +53,44 @@ void LevelChase::init(QString map[])
             //отрисовка пола
             if (map[row][column] == 'f')
             {
-                Cell * floor = new Cell();
+                Cell * floor = new Cell(":/img/ground1");
+                float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
+                floor->setScale(scaleFactor);
+                floor->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE);
                 floor->isSolid = true;
                 floor->isFloor = true;
-                floor->setRect(column * game->CELL_SIZE, row * game->CELL_SIZE, game->CELL_SIZE, game->CELL_SIZE);
-                floor->setBrush(* new QBrush(Qt::gray));
+                addItem(floor);
+            }
+            //отрисовка пола
+            if (map[row][column] == 'g')
+            {
+                Cell * floor = new Cell(":/img/ground2");
+                float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
+                floor->setScale(scaleFactor);
+                floor->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE);
+                floor->isSolid = true;
+                floor->isFloor = true;
+                addItem(floor);
+            }
+            //отрисовка пола
+            if (map[row][column] == 'y')
+            {
+                Cell * floor = new Cell(":/img/ground3");
+                float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
+                floor->setScale(scaleFactor);
+                floor->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE);
+                floor->isSolid = true;
+                floor->isFloor = true;
                 addItem(floor);
             }
             //отрисовка гидрантов
             if (map[row][column] == 'h')
             {
-                Cell * hydrant = new Cell();
+                Cell * hydrant = new Cell(":/img/hydrant");
+                float scaleFactor = game->CELL_SIZE / hydrant->boundingRect().width();
+                hydrant->setScale(scaleFactor);
+                hydrant->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE);
                 hydrant->isSolid = true;
-                hydrant->setRect(column * game->CELL_SIZE, row * game->CELL_SIZE, game->CELL_SIZE, game->CELL_SIZE);
-                hydrant->setBrush(* new QBrush(Qt::red));
                 addItem(hydrant);
             }
         }

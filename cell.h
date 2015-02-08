@@ -1,12 +1,13 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
+#include <QString>
 
-class Cell : public QGraphicsRectItem
+class Cell : public QGraphicsPixmapItem
 {
 public:
-    Cell(QGraphicsItem * parent = 0);
+    Cell(QString res, QGraphicsItem * parent = 0);
 
     bool isSolid;
     bool isFloor;

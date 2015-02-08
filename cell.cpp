@@ -1,7 +1,9 @@
 #include "cell.h"
+#include <QPixmap>
 
-Cell::Cell(QGraphicsItem * parent) : QGraphicsRectItem(parent)
+Cell::Cell(QString res, QGraphicsItem * parent) : QGraphicsPixmapItem(parent)
 {
+    setPixmap(QPixmap(res));
     isSolid = false;
     isFloor = false;
     isInteractive = false;

@@ -27,3 +27,6 @@ HEADERS  += \
     game.h
 
 FORMS    +=
+
+RESOURCES += \
+    res.qrc
