@@ -3,12 +3,17 @@
 #include <typeinfo>
 #include <math.h>
 #include <float.h>
+#include <QDebug>
 #include "game.h"
 
 extern Game * game;
 
-Enemy::Enemy(QGraphicsItem *parent) : QGraphicsRectItem(parent)
+Enemy::Enemy(QString _dir, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
 {
+    dir = _dir;
+    frame = 1;
+    animationSpeed = 0.2;
+    setPixmap(QPixmap(dir + QString::number(int(frame))));
     //HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 18 / 100);
     HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 15 / 100);
     numberOfJumps = 2;
@@ -67,6 +72,11 @@ void Enemy::move()
         setPos(x(), oldY);
         verticalSpeed = 0;
     }
+
+    //анимация движения
+    frame += animationSpeed;
+    if (frame >= 3) frame = 1;
+    setPixmap(QPixmap(dir + QString::number(int(frame))));
 }
 
 //проверка на коллизии с твёрдыми предметами
@@ -80,15 +90,6 @@ bool Enemy::collideWithFloor()
             }
         }
     }
-    /*
-    for (int i = (x()/game->CELL_SIZE); i <= (x() + rect.width())/game->CELL_SIZE; i++)
-    {
-        for (int j = y()/game->CELL_SIZE; j <= (y() + rect.height())/game->CELL_SIZE; j++)
-        {
-            if (game->levelMap[j][i] )
-        }
-    }
-    */
     return false;
 }
 

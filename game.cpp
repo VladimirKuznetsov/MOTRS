@@ -5,8 +5,8 @@
 
 Game::Game()
 {
-    WINDOW_HEIGHT = 600;
-    WINDOW_WIDTH = 1000;
+    WINDOW_HEIGHT = 700;
+    WINDOW_WIDTH = 1100;
     CELL_SIZE = WINDOW_HEIGHT / 15;
     GRAVITY = ceil(float(CELL_SIZE) / 60);
 
@@ -17,7 +17,7 @@ Game::Game()
 }
 
 void Game::loadLevel(int levelNumber)
-{\
+{
     QString levelMap[] = {
         "                                                                               ",
         "                                                                               ",

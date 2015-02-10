@@ -19,6 +19,8 @@ LevelChase::LevelChase(QGraphicsView * parent) : Level(parent)
 //отрисовка компонентов игры
 void LevelChase::init(QString map[])
 {
+    setBackgroundBrush(QBrush(Qt::gray));
+
     //создаём таймер, который будет управлять движением
     QTimer *updateTimer = new QTimer();
 
@@ -37,16 +39,20 @@ void LevelChase::init(QString map[])
             //отрисовка игрока
             if (map[row][column] == 'p')
             {
-                player = new Player();
-                player->setRect(column * game->CELL_SIZE, row * game->CELL_SIZE - PLAYER_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT);
+                player = new Player(":/img/dasha");
+                float scaleFactor = PLAYER_HEIGHT / player->boundingRect().height();
+                player->setScale(scaleFactor);
+                player->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE - PLAYER_HEIGHT);
                 addItem(player);
                 connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
             }
             //отрисовка противника
             if (map[row][column] == 'e')
             {
-                enemy = new Enemy();
-                enemy->setRect(column * game->CELL_SIZE, row * game->CELL_SIZE - ENEMY_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT);
+                enemy = new Enemy(":/img/van/");
+                float scaleFactor = ENEMY_HEIGHT / enemy->boundingRect().height();
+                enemy->setScale(scaleFactor);
+                enemy->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE - ENEMY_HEIGHT);
                 addItem(enemy);
                 connect(updateTimer, SIGNAL(timeout()), enemy, SLOT(move()));
             }
@@ -110,35 +116,24 @@ void LevelChase::init(QString map[])
 //отработка нажатий клавиш
 void LevelChase::keyPressEvent(QKeyEvent *event)
 {
-    //прыжок по нажатию на пробел
-    if (event->key() == Qt::Key_Up) {
-        player->jump();
-    }
-    //движемся вправо
-    if (event->key() == Qt::Key_Right) {
-        player->right();
-    }
-    //движемся влево
-    if (event->key() == Qt::Key_Left) {
-        player->left();
-    }
-    //выход по нажатию на Esc
-    if (event->key() == Qt::Key_Escape) {
+    switch (event->key()) {
+
+    //выход из игры
+    case (Qt::Key_Escape):
         game->close();
+        break;
+
+    //управление персонажем
+    default:
+        player->keyPressEvent(event);
+        break;
     }
 }
 
 //отработка отпускания клавиши
 void LevelChase::keyReleaseEvent(QKeyEvent *event)
 {
-    //движемся вправо
-    if (event->key() == Qt::Key_Right) {
-        player->left();
-    }
-    //движемся влево
-    if (event->key() == Qt::Key_Left) {
-        player->right();
-    }
+    player->keyReleaseEvent(event);
 }
 
 //следим за перемещениями игрока
@@ -158,8 +153,9 @@ void LevelChase::checkRules()
         }
     }
 
+    //перерисовать тюленя!
     //поражение если персонаж сильно отстал
-    if (enemy->x() - player->x() > game->CELL_SIZE * 10) {
+    if (enemy->x() - player->x() > game->CELL_SIZE * 20) { //10
         gameOver(":c");
     }
 }
