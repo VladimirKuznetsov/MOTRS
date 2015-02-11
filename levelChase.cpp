@@ -108,8 +108,8 @@ void LevelChase::init(QString map[])
     game->centerOn(player);
 
     //запускаем таймер, управл€ющий движением
-    connect(updateTimer, SIGNAL(timeout()), this, SLOT(checkRules()));
-    connect(updateTimer, SIGNAL(timeout()), this, SLOT(followEnemy()));
+    //connect(updateTimer, SIGNAL(timeout()), this, SLOT(checkRules()));
+    //connect(updateTimer, SIGNAL(timeout()), this, SLOT(followEnemy()));
     updateTimer->start(20);
 }
 

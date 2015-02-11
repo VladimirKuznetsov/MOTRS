@@ -14,7 +14,9 @@ extern Game * game;
 Player::Player(QString dir, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
 {
     JUMP_SPEED = ceil(float(game->CELL_SIZE) / 3.5);
-    HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) / 5);
+    WALK_SPEED = ceil(float(game->CELL_SIZE) / 8);
+    RUN_SPEED = ceil(float(game->CELL_SIZE) / 5);
+    MAX_STEP_HEIGHT = ceil(float(game->CELL_SIZE) / 3);
 
     frame = 0;
     animationSpeed = 0.3;
@@ -24,7 +26,6 @@ Player::Player(QString dir, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
 
     spriteSheet = QPixmap(dir);
     setPixmap(spriteSheet.copy(0, 0, 50, 90));
-    //setTransformOriginPoint(boundingRect().width() / 2, 0);
 
     horizontalSpeed = 0;
     verticalSpeed = 0;
@@ -40,7 +41,16 @@ void Player::move()
     if (action == ACT_GO) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 90, 50, 90));
     if (action == ACT_RUN) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 180, 50, 90));
 
+    //разрешаем коллизии анимации
+    while (collideWithSolid() == true)
+    {
+        unsigned int oldY = y();
+        if (collideWithSolid() == true) setPos(x(), y() - 1);
+        if (collideWithSolid() == true) setPos(x() - pow(-1, (direction == DIR_RIGHT) + 1), y());
+    }
+
     //перемещаемся по вертикали
+    unsigned int oldY = y();
     setPos(x(), y() - verticalSpeed);
     verticalSpeed -= game->GRAVITY;
 
@@ -55,10 +65,16 @@ void Player::move()
     }
 
     //ограничение по вертикальному перемещению
-    while (collideWithSolid() == true)
+    if (collideWithSolid() == true)
     {
-        if (verticalSpeed != 0) setPos(x(), y() - verticalSpeed);
-        else setPos(x(), y() - 1);
+        while (collideWithSolid() == true)
+        {
+            setPos(x(), y() - pow(-1, (verticalSpeed <= 0) + 1));
+        }
+
+        //не позволяем персонажу карабкаться на высокие препятствия
+        if (abs(y() - oldY) > MAX_STEP_HEIGHT)  setPos(x(), oldY);
+
         verticalSpeed = 0;
     }
 
@@ -68,9 +84,9 @@ void Player::move()
     //ограничение по горизонтальному перемещению
     while (collideWithSolid() == true)
     {
-        if (horizontalSpeed != 0) setPos(x() - horizontalSpeed, y());
-        else setPos(x() - 1, y());
+        setPos(x() - pow(-1, (direction == DIR_RIGHT) + 1), y());
     }
+
 }
 
 //проверка на коллизии с твёрдыми предметами
@@ -90,7 +106,6 @@ bool Player::collideWithSolid()
 //отработка нажатия клавиши
 void Player::keyPressEvent(QKeyEvent *event)
 {
-
     //движемся вправо или влево
     if ((event->key() == Qt::Key_Right) || (event->key() == Qt::Key_Left))
     {
@@ -109,6 +124,7 @@ void Player::keyPressEvent(QKeyEvent *event)
         //изменяем направление движения
         if ((event->key() == Qt::Key_Right) && (direction == DIR_LEFT))
         {
+            frame = 0;
             setOffset(-boundingRect().width() / 2, 0);
             scale(-1, 1);
             direction = DIR_RIGHT;
@@ -116,18 +132,23 @@ void Player::keyPressEvent(QKeyEvent *event)
 
         if ((event->key() == Qt::Key_Left) && (direction == DIR_RIGHT))
         {
+            frame = 0;
             setOffset(-boundingRect().width() / 2, 0);
             scale(-1, 1);
             direction = DIR_LEFT;
         }
 
         //изменяем скорость движения
-        horizontalSpeed = HORIZONTAL_SPEED * (shiftIsPressed + 1) * pow(-1, (direction == DIR_RIGHT) + 1);
+        if (shiftIsPressed == true) horizontalSpeed = RUN_SPEED;
+        else horizontalSpeed = WALK_SPEED;
+
+        horizontalSpeed *= pow(-1, (direction == DIR_RIGHT) + 1);
     }
 
     //прыгаем, если это возможно
     if ((event->key() == Qt::Key_Up) && (action != ACT_JUMP))
     {
+        frame = 0;
         action = ACT_JUMP;
         verticalSpeed = JUMP_SPEED;
     }
@@ -141,7 +162,7 @@ void Player::keyPressEvent(QKeyEvent *event)
         if (action == ACT_GO)
         {
             action = ACT_RUN;
-            horizontalSpeed = HORIZONTAL_SPEED * 2;
+            horizontalSpeed = RUN_SPEED * pow(-1, (direction == DIR_RIGHT) + 1);
         }
     }
 }
@@ -149,7 +170,6 @@ void Player::keyPressEvent(QKeyEvent *event)
 //отработка отпускания клавиши
 void Player::keyReleaseEvent(QKeyEvent *event)
 {
-
     //прекращаем движение
     if (((event->key() == Qt::Key_Left) && (direction == DIR_LEFT)) || \
             ((event->key() == Qt::Key_Right) && (direction == DIR_RIGHT)))
@@ -171,7 +191,7 @@ void Player::keyReleaseEvent(QKeyEvent *event)
         if (action == ACT_RUN)
         {
             action = ACT_GO;
-            horizontalSpeed = HORIZONTAL_SPEED;
+            horizontalSpeed = WALK_SPEED * pow(-1, (direction == DIR_RIGHT) + 1);
         }
     }
 }

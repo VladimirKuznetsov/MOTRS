@@ -13,9 +13,6 @@ class Player : public QObject, public QGraphicsPixmapItem
 
 public:
     Player(QString dir, QGraphicsItem * parent = 0);
-    void jump();
-    void right();
-    void left();
     bool collideWithSolid();
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -34,7 +31,9 @@ public:
 
     //константы скорости
     short JUMP_SPEED;
-    short HORIZONTAL_SPEED;
+    short WALK_SPEED;
+    short RUN_SPEED;
+    short MAX_STEP_HEIGHT;
 
     //константы состояний
     static const char ACT_STAND = 1;
