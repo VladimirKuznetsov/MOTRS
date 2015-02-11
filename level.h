@@ -4,6 +4,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QString>
+#include "player.h"
+#include "enemy.h"
 
 class Level : public QGraphicsScene
 {
@@ -12,6 +14,9 @@ public:
     Level(QGraphicsView * parent);
     void init (QString levelMap[]);
     void gameOver (QString comment);
+    Player * player;
+    Enemy * enemy[10];
+    unsigned short numberOfEnemies;
 
     //определ€ем геометрические параметры сцены
     short PLAYER_HEIGHT;

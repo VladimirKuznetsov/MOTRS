@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsPolygonItem>
 #include <QKeyEvent>
 #include <QString>
 #include <float.h>
@@ -16,8 +17,8 @@ public:
     bool collideWithSolid();
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
-    signed int verticalSpeed;
-    signed int horizontalSpeed;
+    QGraphicsPolygonItem * actionArea;
+    QString activatedItems;
 
     //анимация
     float frame;
@@ -28,6 +29,8 @@ public:
     char action;
     bool shiftIsPressed;
     char direction;
+    signed int verticalSpeed;
+    signed int horizontalSpeed;
 
     //константы скорости
     short JUMP_SPEED;

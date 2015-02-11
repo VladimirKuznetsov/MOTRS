@@ -7,12 +7,17 @@
 #include <math.h>
 #include <float.h>
 #include <game.h>
+#include <QVector>
+#include <QPointF>
+#include <QPolygonF>
 
 extern Game * game;
 
 //конструктор класса
 Player::Player(QString dir, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
 {
+    activatedItems = "";
+
     JUMP_SPEED = ceil(float(game->CELL_SIZE) / 3.5);
     WALK_SPEED = ceil(float(game->CELL_SIZE) / 8);
     RUN_SPEED = ceil(float(game->CELL_SIZE) / 5);
@@ -26,6 +31,14 @@ Player::Player(QString dir, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
 
     spriteSheet = QPixmap(dir);
     setPixmap(spriteSheet.copy(0, 0, 50, 90));
+    QVector <QPointF> areaCorners;
+    //описываем область действий игрока
+    areaCorners << QPointF(-boundingRect().width() / 2, 0) << QPointF(boundingRect().width() * 3 / 2, 0) \
+                   << QPointF(boundingRect().width() * 3 / 2, boundingRect().height()) \
+                      << QPointF(-boundingRect().width() / 2, boundingRect().height());
+
+    actionArea = new QGraphicsPolygonItem(QPolygonF(areaCorners), this);
+    //actionArea->setBrush(QBrush(Qt::green));
 
     horizontalSpeed = 0;
     verticalSpeed = 0;
@@ -44,7 +57,6 @@ void Player::move()
     //разрешаем коллизии анимации
     while (collideWithSolid() == true)
     {
-        unsigned int oldY = y();
         if (collideWithSolid() == true) setPos(x(), y() - 1);
         if (collideWithSolid() == true) setPos(x() - pow(-1, (direction == DIR_RIGHT) + 1), y());
     }
@@ -59,8 +71,14 @@ void Player::move()
         //провалились сквозь землю
         if (verticalSpeed <= 0) {
             if (horizontalSpeed == 0) action = ACT_STAND;
-            else if (shiftIsPressed == true) action = ACT_RUN;
-            else action = ACT_GO;
+            else if (shiftIsPressed == true) {
+                action = ACT_RUN;
+                horizontalSpeed = RUN_SPEED * pow(-1, (direction == DIR_RIGHT) + 1);
+            } else
+            {
+                action = ACT_GO;
+                horizontalSpeed = WALK_SPEED * pow(-1, (direction == DIR_RIGHT) + 1);
+            }
         }
     }
 
@@ -106,6 +124,25 @@ bool Player::collideWithSolid()
 //отработка нажатия клавиши
 void Player::keyPressEvent(QKeyEvent *event)
 {
+    //взаимодействие
+    if (event->key() == Qt::Key_Space)
+    {
+        QList <QGraphicsItem *> availableItems = actionArea->collidingItems();
+        for (int i = 0; i < availableItems.size(); i++) {
+
+            //обнаруживаем интерактивную клетку в поле действия
+            if ((typeid(*availableItems[i]) == typeid(Cell)) && (((Cell*)availableItems[i])->isInteractive == true)) {
+
+                //если клетка ещё не была записана, добавляем символ в историю взаимодействий
+                if (activatedItems.contains(((Cell*)availableItems[i])->shortSymbol, Qt::CaseSensitive) == false) {
+                    activatedItems.append(((Cell*)availableItems[i])->shortSymbol);
+                }
+                        qDebug() << activatedItems;
+                break;
+            }
+        }
+    }
+
     //движемся вправо или влево
     if ((event->key() == Qt::Key_Right) || (event->key() == Qt::Key_Left))
     {
@@ -125,7 +162,7 @@ void Player::keyPressEvent(QKeyEvent *event)
         if ((event->key() == Qt::Key_Right) && (direction == DIR_LEFT))
         {
             frame = 0;
-            setOffset(-boundingRect().width() / 2, 0);
+            setOffset(-boundingRect().width() / 4, 0);
             scale(-1, 1);
             direction = DIR_RIGHT;
         }
@@ -133,7 +170,7 @@ void Player::keyPressEvent(QKeyEvent *event)
         if ((event->key() == Qt::Key_Left) && (direction == DIR_RIGHT))
         {
             frame = 0;
-            setOffset(-boundingRect().width() / 2, 0);
+            setOffset(-boundingRect().width() / 4, 0);
             scale(-1, 1);
             direction = DIR_LEFT;
         }

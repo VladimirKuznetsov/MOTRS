@@ -26,7 +26,7 @@ void LevelChase::init(QString map[])
 
     //загрузка информации из массива строк
     short sceneLength = 0;
-    for (int row = 0; row < 15; row++)
+    for (int row = 1; row < 16; row++)
     {
         //определяем длину сцены по самой длинной строке
         if (map[row].length() > sceneLength)
@@ -42,19 +42,21 @@ void LevelChase::init(QString map[])
                 player = new Player(":/img/dasha");
                 float scaleFactor = PLAYER_HEIGHT / player->boundingRect().height();
                 player->setScale(scaleFactor);
-                player->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE - PLAYER_HEIGHT);
+                player->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE - PLAYER_HEIGHT);
                 addItem(player);
                 connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
             }
             //отрисовка противника
             if (map[row][column] == 'e')
             {
-                enemy = new Enemy(":/img/van/");
-                float scaleFactor = ENEMY_HEIGHT / enemy->boundingRect().height();
-                enemy->setScale(scaleFactor);
-                enemy->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE - ENEMY_HEIGHT);
-                addItem(enemy);
-                connect(updateTimer, SIGNAL(timeout()), enemy, SLOT(move()));
+                enemy[numberOfEnemies] = new Enemy(":/img/van/");
+                float scaleFactor = ENEMY_HEIGHT / enemy[numberOfEnemies]->boundingRect().height();
+                enemy[numberOfEnemies]->setScale(scaleFactor);
+                enemy[numberOfEnemies]->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE - ENEMY_HEIGHT);
+                addItem(enemy[numberOfEnemies]);
+                connect(updateTimer, SIGNAL(timeout()), enemy[numberOfEnemies], SLOT(move()));
+
+                numberOfEnemies++;
             }
             //отрисовка пола
             if (map[row][column] == 'f')
@@ -62,7 +64,7 @@ void LevelChase::init(QString map[])
                 Cell * floor = new Cell(":/img/ground1");
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
-                floor->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE);
+                floor->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
@@ -73,7 +75,7 @@ void LevelChase::init(QString map[])
                 Cell * floor = new Cell(":/img/ground2");
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
-                floor->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE);
+                floor->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
@@ -84,7 +86,7 @@ void LevelChase::init(QString map[])
                 Cell * floor = new Cell(":/img/ground3");
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
-                floor->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE);
+                floor->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
@@ -92,11 +94,16 @@ void LevelChase::init(QString map[])
             //отрисовка гидрантов
             if (map[row][column] == 'h')
             {
-                Cell * hydrant = new Cell(":/img/hydrant");
+                Cell * hydrant = new Cell(":/img/hydrant_a");
                 float scaleFactor = game->CELL_SIZE / hydrant->boundingRect().width();
                 hydrant->setScale(scaleFactor);
-                hydrant->setPos(column * game->CELL_SIZE, row * game->CELL_SIZE);
+                hydrant->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
                 hydrant->isSolid = true;
+
+                //ДЛЯ ТЕСТА ДЕЛАЕМ ГИДРАНТ ИНТЕРАКТИВНЫМ
+                hydrant->addInteraction('h');
+
+
                 addItem(hydrant);
             }
         }
@@ -108,8 +115,8 @@ void LevelChase::init(QString map[])
     game->centerOn(player);
 
     //запускаем таймер, управляющий движением
-    //connect(updateTimer, SIGNAL(timeout()), this, SLOT(checkRules()));
-    //connect(updateTimer, SIGNAL(timeout()), this, SLOT(followEnemy()));
+    connect(updateTimer, SIGNAL(timeout()), this, SLOT(checkRules()));
+    connect(updateTimer, SIGNAL(timeout()), this, SLOT(followEnemy()));
     updateTimer->start(20);
 }
 
@@ -139,7 +146,7 @@ void LevelChase::keyReleaseEvent(QKeyEvent *event)
 //следим за перемещениями игрока
 void LevelChase::followEnemy()
 {
-    game->ensureVisible(enemy, game->WINDOW_WIDTH * 1/5, 0);
+    game->ensureVisible(enemy[0], game->WINDOW_WIDTH * 1/5, 0);
 }
 
 //проверка условий победы и поражения
@@ -155,7 +162,7 @@ void LevelChase::checkRules()
 
     //перерисовать тюленя!
     //поражение если персонаж сильно отстал
-    if (enemy->x() - player->x() > game->CELL_SIZE * 20) { //10
+    if (enemy[0]->x() - player->x() > game->CELL_SIZE * 20) { //10
         gameOver(":c");
     }
 }

@@ -11,6 +11,7 @@ Level::Level(QGraphicsView *parent) : QGraphicsScene(parent)
     ENEMY_HEIGHT = game->CELL_SIZE * 3;
     ENEMY_WIDTH = ENEMY_HEIGHT * 1.5;
 
+    numberOfEnemies = 0;
     connect(this, SIGNAL(levelCompleted(bool, Level*)), game, SLOT(levelCompleted(bool, Level*)));
 }
 

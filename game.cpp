@@ -1,10 +1,51 @@
 #include "game.h"
 #include <math.h>
 #include <QDebug>
+#include <QVector>
 #include "levelChase.h"
+
+QString testMap[] = {
+    "LEVEL: CHASE"
+    "           ",
+    "           ",
+    "           ",
+    "           ",
+    "           ",
+    "           ",
+    "           ",
+    "           ",
+    "           ",
+    "           ",
+    "           ",
+    "           ",
+    "  p        ",
+    "      hhh e",
+    "fffffffffff",
+};
+
+QString levelMap0[] =
+{
+    "LEVEL: CHASE",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "                                                                               ",
+    "  p   hhh e    h   h   hh     h                      h         h h             ",
+    "fffyffffffffffgffyfffyfffyfffffffyfffffffgfffffffffygfffffgfffffffyfgfffyfffffff",
+};
 
 Game::Game()
 {
+    levelNumber = 0;
     WINDOW_HEIGHT = 700;
     WINDOW_WIDTH = 1100;
     CELL_SIZE = WINDOW_HEIGHT / 15;
@@ -16,46 +57,18 @@ Game::Game()
     setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
-void Game::loadLevel(int levelNumber)
+void Game::loadLevel()
 {
-    QString levelMap[] = {
-        "                                                                               ",
-        "                                                                               ",
-        "                                                                               ",
-        "                                                                               ",
-        "                                                                               ",
-        "                                                                               ",
-        "                                                                               ",
-        "                                                                               ",
-        "                                                                               ",
-        "                                                                               ",
-        "                                                                               ",
-        "                                                                               ",
-        "  p                                                                            ",
-        "      hhh e    h   h   hh     h                      h         h h             ",
-        "fffgffffffffffgffyfffyfffgfffffffyfffffffgfffffffffygfffffgfffffffyfgfffyfffffff",
-    };
-
-    QString testMap[] = {
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "  p        ",
-        "      hhh e",
-        "fffffffffff",
-    };
-
-    LevelChase * levelChase = new LevelChase(this);
-    levelChase->init(levelMap);
+    switch (levelNumber)
+    {
+    case 0:
+        if (levelMap0[0] == QString("LEVEL: CHASE"))
+        {
+            LevelChase * levelChase = new LevelChase(this);
+            levelChase->init(levelMap0);
+        }
+        break;
+    }
 
     //вывод на экран
     show();
@@ -65,9 +78,10 @@ void Game::levelCompleted(bool result, Level * level)
 {
     if (result == true) {
         qDebug() << "WE GOT A WINNER";
+        levelNumber++;
     } else {
         qDebug() << "LOOK AT THIS LOOSER";
         delete level;
-        loadLevel(0);
+        loadLevel();
     }
 }

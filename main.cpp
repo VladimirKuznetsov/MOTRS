@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     game = new Game();
-    game->loadLevel(0);
+    game->loadLevel();
     game->show();
 
     return a.exec();

@@ -5,8 +5,6 @@
 #include <QGraphicsView>
 #include <QGraphicsItem>
 #include "level.h"
-#include "player.h"
-#include "enemy.h"
 
 class LevelChase : public Level
 {
@@ -16,8 +14,6 @@ public:
     void init(QString map[]);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
-    Player * player;
-    Enemy * enemy;
 
 signals:
 public slots:

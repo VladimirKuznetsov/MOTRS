@@ -11,12 +11,13 @@ class Game : public QGraphicsView
     Q_OBJECT
 public:
     Game();
-    void loadLevel(int levelNumber);
+    void loadLevel();
 
-    short WINDOW_WIDTH;
-    short WINDOW_HEIGHT;
-    short CELL_SIZE;
-    short GRAVITY;
+    unsigned short levelNumber;
+    unsigned short WINDOW_WIDTH;
+    unsigned short WINDOW_HEIGHT;
+    unsigned short CELL_SIZE;
+    unsigned short GRAVITY;
 
 public slots:
     void levelCompleted(bool result,Level * level);
