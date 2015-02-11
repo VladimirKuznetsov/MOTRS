@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QString>
+#include <QTimer>
 #include "player.h"
 #include "enemy.h"
 
@@ -16,6 +17,7 @@ public:
     void gameOver (QString comment);
     Player * player;
     Enemy * enemy[10];
+    QTimer *updateTimer;
     unsigned short numberOfEnemies;
 
     //определ€ем геометрические параметры сцены

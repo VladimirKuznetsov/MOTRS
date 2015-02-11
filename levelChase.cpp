@@ -1,7 +1,6 @@
 #include "levelChase.h"
 #include "cell.h"
 #include "game.h"
-#include <QTimer>
 #include <QDebug>
 #include <QString>
 #include <QList>
@@ -22,7 +21,7 @@ void LevelChase::init(QString map[])
     setBackgroundBrush(QBrush(Qt::gray));
 
     //создаём таймер, который будет управлять движением
-    QTimer *updateTimer = new QTimer();
+    updateTimer = new QTimer();
 
     //загрузка информации из массива строк
     short sceneLength = 0;
@@ -46,8 +45,8 @@ void LevelChase::init(QString map[])
                 addItem(player);
                 connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
             }
-            //отрисовка противника
-            if (map[row][column] == 'e')
+            //отрисовка автомобиля
+            if (map[row][column] == 'v')
             {
                 enemy[numberOfEnemies] = new Enemy(":/img/van/");
                 float scaleFactor = ENEMY_HEIGHT / enemy[numberOfEnemies]->boundingRect().height();
@@ -102,6 +101,7 @@ void LevelChase::init(QString map[])
 
                 //ДЛЯ ТЕСТА ДЕЛАЕМ ГИДРАНТ ИНТЕРАКТИВНЫМ
                 hydrant->addInteraction('h');
+                hydrant->setCellActive();
 
 
                 addItem(hydrant);
@@ -160,9 +160,13 @@ void LevelChase::checkRules()
         }
     }
 
-    //перерисовать тюленя!
-    //поражение если персонаж сильно отстал
-    if (enemy[0]->x() - player->x() > game->CELL_SIZE * 20) { //10
-        gameOver(":c");
+    //поражение, если персонаж сильно отстал
+    if (enemy[0]->x() - player->x() > game->CELL_SIZE * 20) {
+        gameOver("Похитителю удалось скрыться.");
+    }
+
+    //поражение, если противник уехал за границу экрана
+    if (enemy[0]->x() > sceneRect().width()) {
+        gameOver("Похитителю удалось скрыться.");
     }
 }

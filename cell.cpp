@@ -37,6 +37,10 @@ void Cell::setCellActive()
 //установить режим после активации
 void Cell::setCellActivated()
 {
+    //перезаряжаемые предметы не входят в этот режим
+    if (isRechargeable == true) return;
+
+    isInteractive = 0;
     setPixmap(spriteSheet.copy(60, 0, 30, 30));
 }
 

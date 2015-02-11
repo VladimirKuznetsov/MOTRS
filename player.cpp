@@ -33,12 +33,11 @@ Player::Player(QString dir, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
     setPixmap(spriteSheet.copy(0, 0, 50, 90));
     QVector <QPointF> areaCorners;
     //описываем область действий игрока
-    areaCorners << QPointF(-boundingRect().width() / 2, 0) << QPointF(boundingRect().width() * 3 / 2, 0) \
+    areaCorners << QPointF(0, 0) << QPointF(boundingRect().width() * 3 / 2, 0) \
                    << QPointF(boundingRect().width() * 3 / 2, boundingRect().height()) \
-                      << QPointF(-boundingRect().width() / 2, boundingRect().height());
+                      << QPointF(0, boundingRect().height());
 
     actionArea = new QGraphicsPolygonItem(QPolygonF(areaCorners), this);
-    //actionArea->setBrush(QBrush(Qt::green));
 
     horizontalSpeed = 0;
     verticalSpeed = 0;
@@ -137,7 +136,7 @@ void Player::keyPressEvent(QKeyEvent *event)
                 if (activatedItems.contains(((Cell*)availableItems[i])->shortSymbol, Qt::CaseSensitive) == false) {
                     activatedItems.append(((Cell*)availableItems[i])->shortSymbol);
                 }
-                        qDebug() << activatedItems;
+                ((Cell*)availableItems[i])->setCellActivated();
                 break;
             }
         }

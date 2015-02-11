@@ -19,7 +19,7 @@ QString testMap[] = {
     "           ",
     "           ",
     "  p        ",
-    "      hhh e",
+    "      hhh v",
     "fffffffffff",
 };
 
@@ -39,8 +39,8 @@ QString levelMap0[] =
     "                                                                               ",
     "                                                                               ",
     "                                                                               ",
-    "  p   hhh e    h   h   hh     h                      h         h h             ",
-    "fffyffffffffffgffyfffyfffyfffffffyfffffffgfffffffffygfffffgfffffffyfgfffyfffffff",
+    "  p   hhh v    h   h   hh     h                      h         h h             ",
+    "fffyffffffffffgffffffyfffffffffffyfffffffgffffffffygfffffgfffffffffffffyfffffff",
 };
 
 Game::Game()
