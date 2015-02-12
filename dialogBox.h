@@ -1,7 +1,6 @@
 #ifndef DIALOGBOX_H
 #define DIALOGBOX_H
 
-#include <QGraphicsTextItem>
 #include <QString>
 #include <QFont>
 #include <cell.h>
@@ -10,7 +9,7 @@ class DialogBox : public QGraphicsTextItem
 {
     Q_OBJECT
 public:
-    DialogBox(QGraphicsItem *parent = 0);
+    DialogBox(QGraphicsObject *parent = 0);
     void nextLine();
     void skip();
     QString text[10];
@@ -25,8 +24,8 @@ public slots:
     void move();
 
 signals:
-    void dialogEnded(Cell * c);
-    void dialogEnded();
+    void ended(Cell * c);
+    void ended();
     
 };
 

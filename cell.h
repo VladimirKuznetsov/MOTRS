@@ -5,10 +5,11 @@
 #include <QString>
 #include <QPixmap>
 
-class Cell : public QGraphicsPixmapItem
+class Cell : public QObject, public QGraphicsPixmapItem
 {
 public:
-    Cell(QString res, QGraphicsItem * parent = 0);
+    Cell(QObject * parent = 0);
+    Cell(QString res, QObject * parent = 0);
     void addInteraction(char _shortSymbol);
     void addInteraction(char _shortSymbol, char _cellToActivate);
 

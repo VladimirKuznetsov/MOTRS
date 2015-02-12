@@ -1,5 +1,7 @@
 #include "levelInvestigate.h"
 #include "game.h"
+#include <typeinfo>
+#include <QList>
 #include <QDebug>
 
 extern Game * game;
@@ -15,17 +17,26 @@ void LevelInvestigate::checkRules()
     //камера следит за противником
     followPlayer();
 
-    //сверяем списки улик
-    bool unfoundClues = false;
-    for (int i = 0; i < clues.size(); i++)
+    //если игрок стоит на клетке выхода
+    QList <QGraphicsItem *> availableItems = player->actionArea->collidingItems();
+    for (int i = 0; i < availableItems.size(); i++)
     {
-        if (player->clues.contains(clues[i]) == false) unfoundClues = true;
-    }
+        //обнаруживаем клетку выхода
+        if ((typeid(*availableItems[i]) == typeid(Cell)) && (((Cell*)availableItems[i])->isTarget == true))
+        {
+            //сверяем списки улик
+            bool unfoundClues = false;
+            for (int i = 0; i < clues.size(); i++)
+            {
+                if (player->clues.contains(clues[i]) == false) unfoundClues = true;
+            }
 
-    //если все улики найдены, уровень закончен
-    if (unfoundClues == false)
-    {
-        levelCompleted(endMessage);
+            //если все улики найдены, уровень закончен
+            if (unfoundClues == false)
+            {
+                levelCompleted(endMessage);
+            }
+        }
     }
 }
 

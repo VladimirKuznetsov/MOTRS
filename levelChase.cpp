@@ -31,7 +31,7 @@ void LevelChase::checkRules()
     QList <QGraphicsItem *> collisionList = player->collidingItems();
     for (int i = 0; i < collisionList.size(); i++) {
         if (typeid(*collisionList[i]) == (typeid(Enemy))) {
-            emit levelCompleted();
+            emit win();
         }
     }
 

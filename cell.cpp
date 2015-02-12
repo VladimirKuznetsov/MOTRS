@@ -3,8 +3,24 @@
 #include <QGraphicsRectItem>
 #include <QBrush>
 
-//конструктор класса клетки
-Cell::Cell(QString res, QGraphicsItem * parent) : QGraphicsPixmapItem(parent)
+//упрощённый конструктор
+Cell::Cell(QObject *parent)
+{
+    //устанавливаем значения по умолчанию
+    isSolid = false;
+    isFloor = false;
+    isInteractive = false;
+    isGun = false;
+    isTarget = false;
+    isRechargeable = false;
+    activatesCell = false;
+    shortSymbol = ' ';
+    cellToActivate = ' ';
+    setCellInactive();
+}
+
+//полноценный конструктор
+Cell::Cell(QString res, QObject * parent) : QObject(parent)
 {
     //загружаем спрайтлист
     spriteSheet = QPixmap(res);

@@ -20,8 +20,8 @@ Level::Level(QGraphicsView *parent) : QGraphicsScene(parent)
     ENEMY_WIDTH = ENEMY_HEIGHT * 1.5;
 
     numberOfEnemies = 0;
-    connect(this, SIGNAL(levelCompleted()), game, SLOT(nextLevel()));
-    connect(this, SIGNAL(gameOver()), game, SLOT(resetLevel()));
+    connect(this, SIGNAL(win()), game, SLOT(nextLevel()));
+    connect(this, SIGNAL(lose()), game, SLOT(resetLevel()));
 }
 
 //загрузка карты из массива строк
@@ -31,7 +31,7 @@ void Level::init(QString map[])
     setBackgroundBrush(QBrush(Qt::gray));
 
     //создаём таймер, который будет управлять движением
-    updateTimer = new QTimer();
+    updateTimer = new QTimer(this);
 
     //загрузка информации из массива строк
     short sceneLength = 0;
@@ -59,7 +59,7 @@ void Level::init(QString map[])
             //отрисовка автомобиля
             if (map[row][column] == 'v')
             {
-                enemy[numberOfEnemies] = new Enemy(":/img/van/");
+                enemy[numberOfEnemies] = new Enemy(":/img/van/", this);
                 float scaleFactor = ENEMY_HEIGHT / enemy[numberOfEnemies]->boundingRect().height();
                 enemy[numberOfEnemies]->setScale(scaleFactor);
                 enemy[numberOfEnemies]->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE - ENEMY_HEIGHT);
@@ -71,7 +71,7 @@ void Level::init(QString map[])
             //отрисовка выхода
             if (map[row][column] == 't')
             {
-                Cell * target = new Cell(":/img/ground1");
+                Cell * target = new Cell(":/img/ground1", this);
                 float scaleFactor = game->CELL_SIZE / target->boundingRect().width();
                 target->setScale(scaleFactor);
                 target->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
@@ -82,7 +82,7 @@ void Level::init(QString map[])
             //отрисовка пола
             if (map[row][column] == 'f')
             {
-                Cell * floor = new Cell(":/img/ground1");
+                Cell * floor = new Cell(":/img/ground1", this);
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
                 floor->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
@@ -93,7 +93,7 @@ void Level::init(QString map[])
             //отрисовка пола
             if (map[row][column] == 'g')
             {
-                Cell * floor = new Cell(":/img/ground2");
+                Cell * floor = new Cell(":/img/ground2", this);
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
                 floor->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
@@ -104,7 +104,7 @@ void Level::init(QString map[])
             //отрисовка пола
             if (map[row][column] == 'y')
             {
-                Cell * floor = new Cell(":/img/ground3");
+                Cell * floor = new Cell(":/img/ground3", this);
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
                 floor->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
@@ -115,7 +115,7 @@ void Level::init(QString map[])
             //отрисовка невидимых стен
             if (map[row][column] == 'w')
             {
-                Cell * wall = new Cell(":/img/ground1");
+                Cell * wall = new Cell(":/img/ground1", this);
                 float scaleFactor = game->CELL_SIZE / wall->boundingRect().width();
                 wall->setScale(scaleFactor);
                 wall->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
@@ -126,7 +126,7 @@ void Level::init(QString map[])
             //отрисовка гидрантов
             if (map[row][column] == 'h')
             {
-                Cell * hydrant = new Cell(":/img/hydrant_a");
+                Cell * hydrant = new Cell(":/img/hydrant_a", this);
                 float scaleFactor = game->CELL_SIZE / hydrant->boundingRect().width();
                 hydrant->setScale(scaleFactor);
                 hydrant->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
@@ -172,8 +172,9 @@ void Level::init(QString map[])
     //создаём диалоговое поле
     dialog = new DialogBox();
     addItem(dialog);
+    dialog->setParent(this);
     connect(player, SIGNAL(investigating(Cell*)), dialog, SLOT(setDialog(Cell*)));
-    connect(dialog, SIGNAL(dialogEnded(Cell*)), player, SLOT(addClue(Cell*)));
+    connect(dialog, SIGNAL(ended(Cell*)), player, SLOT(addClue(Cell*)));
 
     //запускаем таймер, управляющий движением
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(checkRules()));
@@ -188,14 +189,14 @@ void Level::init(QString map[])
 void Level::gameOver(QString comment)
 {
     updateTimer->stop();
-    emit gameOver();
+    emit lose();
 }
 
 void Level::levelCompleted(QString message[])
 {
     updateTimer->stop();
     dialog->setDialog(message);
-    connect (dialog, SIGNAL(dialogEnded()), this, SIGNAL(levelCompleted()));
+    connect (dialog, SIGNAL(ended()), this, SIGNAL(win()));
 }
 
 //макет проверки правил

@@ -14,7 +14,7 @@
 extern Game * game;
 
 //конструктор класса
-Player::Player(QString dir, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
+Player::Player(QString dir, QObject *parent) : QObject(parent)
 {
     clues = "";
 

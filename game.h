@@ -5,6 +5,7 @@
 #include <QString>
 #include <QObject>
 #include "level.h"
+#include "levelChase.h"
 
 class Game : public QGraphicsView
 {
@@ -12,7 +13,7 @@ class Game : public QGraphicsView
 public:
     Game();
     void loadLevel();
-
+LevelChase * level;
     unsigned short levelNumber;
     unsigned short WINDOW_WIDTH;
     unsigned short WINDOW_HEIGHT;

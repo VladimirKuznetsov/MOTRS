@@ -11,7 +11,7 @@ class Enemy : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    Enemy(QString _dir, QGraphicsItem * parent = 0);
+    Enemy(QString _dir, QObject * parent = 0);
     bool collideWithFloor();
     signed int verticalSpeed;
     signed int horizontalSpeed;

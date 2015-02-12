@@ -40,8 +40,8 @@ public:
     short ENEMY_WIDTH;
     
 signals:
-    void gameOver();
-    void levelCompleted();
+    void lose();
+    void win();
 
 public slots:
     void checkRules();

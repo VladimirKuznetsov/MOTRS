@@ -41,7 +41,7 @@ void Game::loadLevel()
         "w                                                                             w",
         "w                                                                             w",
         "w                                                                             w",
-        "w    hhh v    h   h   hh     h   p                   h         h h            w",
+        "t    hhh v    h   h   hh     h   p                   h         h h            w",
         "fffyffffffffffgffffffyfffffffffffyfffffffgffffffffygfffffgfffffffffffffyfffffff",
         "---",
         "h  ",
@@ -74,8 +74,19 @@ void Game::loadLevel()
         "w                                                                              ",
         "w p   hhh v    h   h   hh     h                      h         h h             ",
         "fffyffffffffffgffffffyfffffffffffyfffffffgffffffffygfffffgfffffffffffffyfffffff",
+        "---",
+        "h  ",
+        "---",
+        "Нужно разобраться с этим делом побыстрее.",
+        "---",
+        "Итак, наша лучшая зацепка это пропавший сторож...",
+        "Но где его искать?",
+        "...",
+        "Как? Уже шесть вечера?!",
+        "Сторожем займусь завтра на свежую голову, а сейчас домой.",
+        "---",
     };
-
+/*
     QString map[27];
 
     //загружаем интересующую нас карту в map[]
@@ -109,6 +120,10 @@ void Game::loadLevel()
         LevelInvestigate * level = new LevelInvestigate(this);
         level->init(map);
     }
+*/
+
+    level = new LevelChase(this);
+    level->init(levelMap1);
 
     //вывод на экран
     show();
@@ -118,11 +133,17 @@ void Game::nextLevel()
 {
     qDebug() << "WE GOT A WINNER";
     levelNumber++;
+    //Level * level = reinterpret_cast<Level *>(this->scene());
+    level->clear();
+    delete level;
+    loadLevel();
 }
 
 void Game::resetLevel()
 {
     qDebug() << "LOOK AT THIS LOOSER";
-    delete scene();
+    //Level * level = reinterpret_cast<Level *>(this->scene());
+    level->clear();
+    //delete level;
     loadLevel();
 }

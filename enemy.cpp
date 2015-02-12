@@ -8,7 +8,7 @@
 
 extern Game * game;
 
-Enemy::Enemy(QString _dir, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
+Enemy::Enemy(QString _dir, QObject *parent) : QObject(parent)
 {
     dir = _dir;
     frame = 1;

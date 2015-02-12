@@ -10,11 +10,12 @@
 extern Game * game;
 
 //конструктор
-DialogBox::DialogBox(QGraphicsItem *parent) : QGraphicsTextItem(parent)
+DialogBox::DialogBox(QGraphicsObject *parent) : QGraphicsTextItem(parent)
 {
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
 
-
+    cell = new Cell();
+    cell->setParent(this);
     QGraphicsRectItem * back = new QGraphicsRectItem(-game->WINDOW_WIDTH / 2, - game->CELL_SIZE, \
                                                      game->WINDOW_WIDTH * 2, game->CELL_SIZE * 3, this);
     back->setBrush(QBrush(Qt::black));
@@ -66,16 +67,15 @@ void DialogBox::nextLine()
     if ((text[lineNumber] == QString("")) || (lineNumber == 9))
     {
         isOn = false;
+        setVisible(false);
 
         if ((cell) && (cell->shortSymbol != ' ')) {
-            emit dialogEnded(cell);
+            emit ended(cell);
             cell->shortSymbol = ' ';
         } else
         {
-            emit dialogEnded();
+            emit ended();
         }
-
-        setVisible(false);
         return;
     }
     setPlainText(text[lineNumber]);
