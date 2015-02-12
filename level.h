@@ -5,6 +5,8 @@
 #include <QGraphicsView>
 #include <QString>
 #include <QTimer>
+#include "cell.h"
+#include "dialogBox.h"
 #include "player.h"
 #include "enemy.h"
 
@@ -13,12 +15,19 @@ class Level : public QGraphicsScene
     Q_OBJECT
 public:
     Level(QGraphicsView * parent);
-    void init (QString levelMap[]);
+    void init (QString map[]);
     void gameOver (QString comment);
+
+    //ввод с клавиатуры
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
+
+    //некоторые объекты сцены
+    unsigned short numberOfEnemies;
     Player * player;
     Enemy * enemy[10];
-    QTimer *updateTimer;
-    unsigned short numberOfEnemies;
+    QTimer * updateTimer;
+    DialogBox * dialog;
 
     //определяем геометрические параметры сцены
     short PLAYER_HEIGHT;
@@ -28,9 +37,9 @@ public:
     
 signals:
     void levelCompleted (bool result, Level * level);
-    
+
 public slots:
-    
+    void checkRules();
 };
 
 #endif // LEVEL_H

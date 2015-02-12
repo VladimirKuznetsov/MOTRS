@@ -106,6 +106,16 @@ void Player::move()
 
 }
 
+//регистрируем взаимодействие в списке
+void Player::addActivatedItem(Cell * c)
+{
+    if (activatedItems.contains(c->shortSymbol, Qt::CaseSensitive) == false)
+    {
+        activatedItems.append(c->shortSymbol);
+    }
+    qDebug() << activatedItems;
+}
+
 //проверка на коллизии с твёрдыми предметами
 bool Player::collideWithSolid()
 {
@@ -132,11 +142,17 @@ void Player::keyPressEvent(QKeyEvent *event)
             //обнаруживаем интерактивную клетку в поле действия
             if ((typeid(*availableItems[i]) == typeid(Cell)) && (((Cell*)availableItems[i])->isInteractive == true)) {
 
-                //если клетка ещё не была записана, добавляем символ в историю взаимодействий
-                if (activatedItems.contains(((Cell*)availableItems[i])->shortSymbol, Qt::CaseSensitive) == false) {
-                    activatedItems.append(((Cell*)availableItems[i])->shortSymbol);
-                }
-                ((Cell*)availableItems[i])->setCellActivated();
+                //останавливаемся для взаимодействия
+                horizontalSpeed = 0;
+
+                //переключаем объект в режим "активирован"
+                Cell * c = dynamic_cast<Cell *>(availableItems[i]);
+                c->setCellActivated();
+
+                //отображаем диалог
+                emit interactionStarted(c);
+
+                //взаимодействуем с одной клеткой за раз
                 break;
             }
         }

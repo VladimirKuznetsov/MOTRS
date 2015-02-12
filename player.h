@@ -6,6 +6,7 @@
 #include <QGraphicsPolygonItem>
 #include <QKeyEvent>
 #include <QString>
+#include <cell.h>
 #include <float.h>
 
 class Player : public QObject, public QGraphicsPixmapItem
@@ -17,6 +18,8 @@ public:
     bool collideWithSolid();
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
+
+    //переменные для взаимодействия с объектами
     QGraphicsPolygonItem * actionArea;
     QString activatedItems;
 
@@ -50,6 +53,10 @@ public:
 
 public slots:
     void move();
+    void addActivatedItem(Cell * c);
+
+signals:
+    void interactionStarted(Cell * c);
 };
 
 #endif // PLAYER_H

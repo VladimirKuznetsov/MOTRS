@@ -11,14 +11,11 @@ class LevelChase : public Level
     Q_OBJECT
 public:
     LevelChase(QGraphicsView * parent);
-    void init(QString map[]);
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
+    void followEnemy();
 
 signals:
 public slots:
     void checkRules();
-    void followEnemy();
 };
 
 #endif // LEVELCHASE_H

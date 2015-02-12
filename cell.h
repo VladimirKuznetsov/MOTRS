@@ -32,6 +32,8 @@ public:
     char shortSymbol;
     char cellToActivate;
 
+    //диалог, отображаемый при исследовании
+    QString interactionDialogue[10];
 
 };
 

@@ -25,12 +25,14 @@ Cell::Cell(QString res, QGraphicsItem * parent) : QGraphicsPixmapItem(parent)
 //установить неактивный режим
 void Cell::setCellInactive()
 {
+    isInteractive = false;
     setPixmap(spriteSheet.copy(0, 0, 30, 30));
 }
 
 //установить активный режим (готов к взаимодействию)
 void Cell::setCellActive()
 {
+    isInteractive = true;
     setPixmap(spriteSheet.copy(30, 0, 30, 30));
 }
 
@@ -40,7 +42,7 @@ void Cell::setCellActivated()
     //перезаряжаемые предметы не входят в этот режим
     if (isRechargeable == true) return;
 
-    isInteractive = 0;
+    isInteractive = false;
     setPixmap(spriteSheet.copy(60, 0, 30, 30));
 }
 
@@ -48,7 +50,6 @@ void Cell::setCellActivated()
 void Cell::addInteraction(char _shortSymbol)
 {
     shortSymbol = _shortSymbol;
-    isInteractive = true;
 }
 
 //добавить возможность взаимодействия с игроком и другими клетками
@@ -56,6 +57,5 @@ void Cell::addInteraction(char _shortSymbol, char _cellToActivate)
 {
     shortSymbol = _shortSymbol;
     cellToActivate = _cellToActivate;
-    isInteractive = true;
     activatesCell = true;
 }

@@ -2,6 +2,7 @@
 #include <math.h>
 #include <QDebug>
 #include <QVector>
+#include <QTextCodec>
 #include "levelChase.h"
 
 QString testMap[] = {
@@ -45,6 +46,9 @@ QString levelMap0[] =
 
 Game::Game()
 {
+
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
+
     levelNumber = 0;
     WINDOW_HEIGHT = 700;
     WINDOW_WIDTH = 1100;
