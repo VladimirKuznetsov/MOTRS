@@ -3,6 +3,8 @@
 #include <QDebug>
 #include <QPointF>
 #include <QGraphicsRectItem>
+#include <QColor>
+#include <float.h>
 #include "game.h"
 
 extern Game * game;
@@ -15,11 +17,13 @@ DialogBox::DialogBox(QGraphicsItem *parent) : QGraphicsTextItem(parent)
 
     QGraphicsRectItem * back = new QGraphicsRectItem(-game->WINDOW_WIDTH / 2, - game->CELL_SIZE, \
                                                      game->WINDOW_WIDTH * 2, game->CELL_SIZE * 3, this);
-    back->setBrush(QBrush(Qt::gray));
+    back->setBrush(QBrush(Qt::black));
+    back->setOpacity(0.1);
     back->setFlag(QGraphicsItem::ItemStacksBehindParent);
     setDefaultTextColor(Qt::black);
     setFont(QFont("Arial", 16));
     mapToScene(20, 20);
+    setVisible(false);
     isOn = false;
 
 }
@@ -41,6 +45,7 @@ void DialogBox::setDialog(QString _text[10])
     isOn = true;
     lineNumber = 0;
     setPlainText(text[lineNumber]);
+    setVisible(true);
 }
 
 //загружаем текст из клетки
@@ -70,6 +75,8 @@ void DialogBox::nextLine()
         if (cell) {
             emit interactionEnded(cell);
         }
+
+        setVisible(false);
         return;
     }
 }

@@ -113,7 +113,6 @@ void Player::addActivatedItem(Cell * c)
     {
         activatedItems.append(c->shortSymbol);
     }
-    qDebug() << activatedItems;
 }
 
 //проверка на коллизии с твёрдыми предметами
