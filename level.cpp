@@ -3,12 +3,16 @@
 #include "dialogBox.h"
 #include <QGraphicsTextItem>
 #include <QDebug>
+#include <QTextCodec>
 
 extern Game * game;
 
 //конструктор
 Level::Level(QGraphicsView *parent) : QGraphicsScene(parent)
 {
+
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
+
     //определяем геометрические параметры сцены
     PLAYER_HEIGHT = game->CELL_SIZE * 2.5;
     PLAYER_WIDTH = PLAYER_HEIGHT * 0.75;
@@ -140,8 +144,23 @@ void Level::init(QString map[])
     }
 
     //загружаем список улик
-    clues = map[16];
+    clues = map[17];
     clues.remove(' ');
+
+    //загружаем начальное и финальное сообщение уровня
+    int i;
+    for (i = 19; i < 29; i++)
+    {
+        if (map[i] == QString("---")) break;
+        startMessage[i - 19] = map[i];
+    }
+    i++;
+    int j;
+    for (j = i; j < i + 10; j++)
+    {
+        if (map[j] == QString("---")) break;
+        endMessage[j - i] = map[j];
+    }
 
     //определяем размеры сцены
     setSceneRect(0, 0, sceneLength * game->CELL_SIZE, game->WINDOW_HEIGHT);
@@ -161,11 +180,8 @@ void Level::init(QString map[])
     connect(updateTimer, SIGNAL(timeout()), dialog, SLOT(move()));
     updateTimer->start(20);
 
-    QString test[10] = {
-        "level is about to start",
-        "yes it is",
-    };
-    dialog->setDialog(test);
+    //загрузка начального диалога
+    dialog->setDialog(startMessage);
 }
 
 //отображаем в случае провала

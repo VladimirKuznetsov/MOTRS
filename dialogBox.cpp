@@ -63,7 +63,6 @@ void DialogBox::move()
 void DialogBox::nextLine()
 {
     lineNumber++;
-    setPlainText(text[lineNumber]);
     if ((text[lineNumber] == QString("")) || (lineNumber == 9))
     {
         isOn = false;
@@ -79,6 +78,7 @@ void DialogBox::nextLine()
         setVisible(false);
         return;
     }
+    setPlainText(text[lineNumber]);
 }
 
 //пропуск диалога

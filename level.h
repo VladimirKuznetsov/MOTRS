@@ -19,6 +19,8 @@ public:
     void gameOver (QString comment);
     void levelCompleted (QString message[]);
     QString clues;
+    QString startMessage[10];
+    QString endMessage[10];
 
     //ввод с клавиатуры
     void keyPressEvent(QKeyEvent *event);

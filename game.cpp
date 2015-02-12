@@ -6,47 +6,6 @@
 #include "levelChase.h"
 #include "levelInvestigate.h"
 
-QString levelMap0[] =
-{
-    "LEVEL: INVESTIGATION",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w                                                                             w",
-    "w    hhh v    h   h   hh     h   p                   h         h h            w",
-    "fffyffffffffffgffffffyfffffffffffyfffffffgffffffffygfffffgfffffffffffffyfffffff",
-    "h  ",
-};
-
-QString levelMap1[] =
-{
-    "LEVEL: CHASE",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w                                                                              ",
-    "w p   hhh v    h   h   hh     h                      h         h h             ",
-    "fffyffffffffffgffffffyfffffffffffyfffffffgffffffffygfffffgfffffffffffffyfffffff",
-};
-
 Game::Game()
 {
 
@@ -66,10 +25,61 @@ Game::Game()
 
 void Game::loadLevel()
 {
-    QString map[17];
+    QString levelMap0[] =
+    {
+        "LEVEL: INVESTIGATION",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w                                                                             w",
+        "w    hhh v    h   h   hh     h   p                   h         h h            w",
+        "fffyffffffffffgffffffyfffffffffffyfffffffgffffffffygfffffgfffffffffffffyfffffff",
+        "---",
+        "h  ",
+        "---",
+        "Нужно разобраться с этим делом побыстрее.",
+        "---",
+        "Итак, наша лучшая зацепка это пропавший сторож...",
+        "Но где его искать?",
+        "...",
+        "Как? Уже шесть вечера?!",
+        "Сторожем займусь завтра на свежую голову, а сейчас домой.",
+        "---",
+    };
+
+    QString levelMap1[] =
+    {
+        "LEVEL: CHASE",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w                                                                              ",
+        "w p   hhh v    h   h   hh     h                      h         h h             ",
+        "fffyffffffffffgffffffyfffffffffffyfffffffgffffffffygfffffgfffffffffffffyfffffff",
+    };
+
+    QString map[27];
 
     //загружаем интересующую нас карту в map[]
-    for (int i = 0; i < 17; i++)
+    for (int i = 0; i < 27; i++)
     {
         switch (levelNumber)
         {

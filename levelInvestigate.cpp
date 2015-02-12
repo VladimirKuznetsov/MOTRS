@@ -25,15 +25,7 @@ void LevelInvestigate::checkRules()
     //если все улики найдены, уровень закончен
     if (unfoundClues == false)
     {
-        QString exitingMessage[10] =
-        {
-            "Итак, наша лучшая зацепка это пропавший сторож...",
-            "Но где его искать?",
-            "...",
-            "Как? Уже шесть вечера?!",
-            "Сторожем займусь завтра на свежую голову, а сейчас домой.",
-        };
-        levelCompleted(exitingMessage);
+        levelCompleted(endMessage);
     }
 }
 
