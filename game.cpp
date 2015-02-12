@@ -86,7 +86,7 @@ void Game::loadLevel()
         "Сторожем займусь завтра на свежую голову, а сейчас домой.",
         "---",
     };
-/*
+
     QString map[27];
 
     //загружаем интересующую нас карту в map[]
@@ -111,20 +111,20 @@ void Game::loadLevel()
     //создаём уровень: погоня
     if (map[0] == QString("LEVEL: CHASE"))
     {
-        LevelChase * level = new LevelChase(this);
+        level = new LevelChase(this);
         level->init(map);
 
     //создаём уровень: расследование
     } else if (map[0] == QString("LEVEL: INVESTIGATION"))
     {
-        LevelInvestigate * level = new LevelInvestigate(this);
+        level = new LevelInvestigate(this);
         level->init(map);
     }
-*/
 
+/*
     level = new LevelChase(this);
     level->init(levelMap1);
-
+*/
     //вывод на экран
     show();
 }
@@ -133,7 +133,6 @@ void Game::nextLevel()
 {
     qDebug() << "WE GOT A WINNER";
     levelNumber++;
-    //Level * level = reinterpret_cast<Level *>(this->scene());
     level->clear();
     delete level;
     loadLevel();
@@ -142,8 +141,7 @@ void Game::nextLevel()
 void Game::resetLevel()
 {
     qDebug() << "LOOK AT THIS LOOSER";
-    //Level * level = reinterpret_cast<Level *>(this->scene());
     level->clear();
-    //delete level;
+    delete level;
     loadLevel();
 }

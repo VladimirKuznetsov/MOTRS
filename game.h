@@ -13,7 +13,7 @@ class Game : public QGraphicsView
 public:
     Game();
     void loadLevel();
-LevelChase * level;
+    Level * level;
     unsigned short levelNumber;
     unsigned short WINDOW_WIDTH;
     unsigned short WINDOW_HEIGHT;
