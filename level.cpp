@@ -28,14 +28,15 @@ Level::Level(QGraphicsView *parent) : QGraphicsScene(parent)
 void Level::init(QString map[])
 {
     //отрисовываем фон
-    setBackgroundBrush(QBrush(Qt::gray));
+    QStringList colors = map[2].split(' ');
+    setBackgroundBrush(QBrush(QColor(colors[0].toInt(), colors[1].toInt(), colors[2].toInt())));
 
     //создаём таймер, который будет управлять движением
     updateTimer = new QTimer(this);
 
     //загрузка информации из массива строк
     short sceneLength = 0;
-    for (int row = 1; row < 16; row++)
+    for (int row = 4; row < 20; row++)
     {
         //определяем длину сцены по самой длинной строке
         if (map[row].length() > sceneLength)
@@ -51,7 +52,7 @@ void Level::init(QString map[])
                 player = new Player(":/img/dasha");
                 float scaleFactor = PLAYER_HEIGHT / player->boundingRect().height();
                 player->setScale(scaleFactor);
-                player->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE - PLAYER_HEIGHT);
+                player->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE - PLAYER_HEIGHT);
                 player->setZValue(1);
                 addItem(player);
                 connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
@@ -62,7 +63,7 @@ void Level::init(QString map[])
                 enemy[numberOfEnemies] = new Enemy(":/img/van/", this);
                 float scaleFactor = ENEMY_HEIGHT / enemy[numberOfEnemies]->boundingRect().height();
                 enemy[numberOfEnemies]->setScale(scaleFactor);
-                enemy[numberOfEnemies]->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE - ENEMY_HEIGHT);
+                enemy[numberOfEnemies]->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE - ENEMY_HEIGHT);
                 addItem(enemy[numberOfEnemies]);
                 connect(updateTimer, SIGNAL(timeout()), enemy[numberOfEnemies], SLOT(move()));
 
@@ -74,7 +75,7 @@ void Level::init(QString map[])
                 Cell * target = new Cell(":/img/ground1", this);
                 float scaleFactor = game->CELL_SIZE / target->boundingRect().width();
                 target->setScale(scaleFactor);
-                target->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
+                target->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
                 target->isTarget = true;
                 target->setOpacity(0);
                 addItem(target);
@@ -85,7 +86,7 @@ void Level::init(QString map[])
                 Cell * floor = new Cell(":/img/ground1", this);
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
-                floor->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
+                floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
@@ -96,7 +97,7 @@ void Level::init(QString map[])
                 Cell * floor = new Cell(":/img/ground2", this);
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
-                floor->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
+                floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
@@ -107,7 +108,7 @@ void Level::init(QString map[])
                 Cell * floor = new Cell(":/img/ground3", this);
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
-                floor->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
+                floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
@@ -118,7 +119,7 @@ void Level::init(QString map[])
                 Cell * wall = new Cell(":/img/ground1", this);
                 float scaleFactor = game->CELL_SIZE / wall->boundingRect().width();
                 wall->setScale(scaleFactor);
-                wall->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
+                wall->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
                 wall->isSolid = true;
                 wall->setOpacity(0);
                 addItem(wall);
@@ -129,7 +130,7 @@ void Level::init(QString map[])
                 Cell * hydrant = new Cell(":/img/hydrant_a", this);
                 float scaleFactor = game->CELL_SIZE / hydrant->boundingRect().width();
                 hydrant->setScale(scaleFactor);
-                hydrant->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
+                hydrant->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
                 hydrant->isSolid = true;
 
                 //ДЛЯ ТЕСТА ДЕЛАЕМ ГИДРАНТ ИНТЕРАКТИВНЫМ
@@ -144,12 +145,12 @@ void Level::init(QString map[])
     }
 
     //загружаем список улик
-    clues = map[17];
+    clues = map[21];
     clues.remove(' ');
 
     //загружаем начальное и финальное сообщение уровня
     int i;
-    for (i = 19; i < 29; i++)
+    for (i = 23; i < 33; i++)
     {
         if (map[i] == QString("---")) break;
         startMessage[i - 19] = map[i];

@@ -12,7 +12,7 @@ Game::Game()
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
 
     levelNumber = 0;
-    WINDOW_HEIGHT = 700;
+    WINDOW_HEIGHT = 600;
     WINDOW_WIDTH = 1100;
     CELL_SIZE = WINDOW_HEIGHT / 15;
     GRAVITY = ceil(float(CELL_SIZE) / 60);
@@ -28,6 +28,9 @@ void Game::loadLevel()
     QString levelMap0[] =
     {
         "LEVEL: INVESTIGATION",
+        "---",
+        "140 150 210",
+        "---",
         "w                                                                             w",
         "w                                                                             w",
         "w                                                                             w",
@@ -59,6 +62,9 @@ void Game::loadLevel()
     QString levelMap1[] =
     {
         "LEVEL: CHASE",
+        "---",
+        "20 20 50",
+        "---",
         "w                                                                              ",
         "w                                                                              ",
         "w                                                                              ",
@@ -87,10 +93,10 @@ void Game::loadLevel()
         "---",
     };
 
-    QString map[27];
+    QString map[30];
 
     //загружаем интересующую нас карту в map[]
-    for (int i = 0; i < 27; i++)
+    for (int i = 0; i < 30; i++)
     {
         switch (levelNumber)
         {
