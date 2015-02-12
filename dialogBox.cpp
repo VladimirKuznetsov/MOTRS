@@ -18,11 +18,10 @@ DialogBox::DialogBox(QGraphicsItem *parent) : QGraphicsTextItem(parent)
     QGraphicsRectItem * back = new QGraphicsRectItem(-game->WINDOW_WIDTH / 2, - game->CELL_SIZE, \
                                                      game->WINDOW_WIDTH * 2, game->CELL_SIZE * 3, this);
     back->setBrush(QBrush(Qt::black));
-    back->setOpacity(0.1);
+    back->setOpacity(0.2);
     back->setFlag(QGraphicsItem::ItemStacksBehindParent);
-    setDefaultTextColor(Qt::black);
-    setFont(QFont("Arial", 16));
-    mapToScene(20, 20);
+    setDefaultTextColor(Qt::white);
+    setFont(QFont("Calibri", 22));
     setVisible(false);
     isOn = false;
 
@@ -31,21 +30,19 @@ DialogBox::DialogBox(QGraphicsItem *parent) : QGraphicsTextItem(parent)
 //загружаем текст из массива строк
 void DialogBox::setDialog(QString _text[10])
 {
-    if (_text[0] == QString("") == true)
-    {
-        isOn = false;
-        return;
-    }
-
     for (int i = 0; i < 10; i++)
     {
         text[i] = _text[i];
         if (text[i] == QString("")) break;
     }
+
     isOn = true;
     lineNumber = 0;
     setPlainText(text[lineNumber]);
     setVisible(true);
+
+    //если массив пуст, пропускаем диалог
+    if (text[0] == QString("")) skip();
 }
 
 //загружаем текст из клетки
@@ -67,16 +64,26 @@ void DialogBox::nextLine()
 {
     lineNumber++;
     setPlainText(text[lineNumber]);
-    qDebug() << text[lineNumber];
-    if (text[lineNumber] == QString(""))
+    if ((text[lineNumber] == QString("")) || (lineNumber == 9))
     {
         isOn = false;
 
-        if (cell) {
-            emit interactionEnded(cell);
+        if ((cell) && (cell->shortSymbol != ' ')) {
+            emit dialogEnded(cell);
+            cell->shortSymbol = ' ';
+        } else
+        {
+            emit dialogEnded();
         }
 
         setVisible(false);
         return;
     }
+}
+
+//пропуск диалога
+void DialogBox::skip()
+{
+    lineNumber = 8;
+    nextLine();
 }

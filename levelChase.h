@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QGraphicsView>
-#include <QGraphicsItem>
 #include "level.h"
 
 class LevelChase : public Level

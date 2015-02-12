@@ -12,6 +12,7 @@ class DialogBox : public QGraphicsTextItem
 public:
     DialogBox(QGraphicsItem *parent = 0);
     void nextLine();
+    void skip();
     QString text[10];
     Cell * cell;
     unsigned short lineNumber;
@@ -24,7 +25,8 @@ public slots:
     void move();
 
 signals:
-    void interactionEnded(Cell * c);
+    void dialogEnded(Cell * c);
+    void dialogEnded();
     
 };
 

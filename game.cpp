@@ -4,43 +4,46 @@
 #include <QVector>
 #include <QTextCodec>
 #include "levelChase.h"
-
-QString testMap[] = {
-    "LEVEL: CHASE"
-    "           ",
-    "           ",
-    "           ",
-    "           ",
-    "           ",
-    "           ",
-    "           ",
-    "           ",
-    "           ",
-    "           ",
-    "           ",
-    "           ",
-    "  p        ",
-    "      hhh v",
-    "fffffffffff",
-};
+#include "levelInvestigate.h"
 
 QString levelMap0[] =
 {
+    "LEVEL: INVESTIGATION",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w                                                                             w",
+    "w    hhh v    h   h   hh     h   p                   h         h h            w",
+    "fffyffffffffffgffffffyfffffffffffyfffffffgffffffffygfffffgfffffffffffffyfffffff",
+    "h  ",
+};
+
+QString levelMap1[] =
+{
     "LEVEL: CHASE",
-    "                                                                               ",
-    "                                                                               ",
-    "                                                                               ",
-    "                                                                               ",
-    "                                                                               ",
-    "                                                                               ",
-    "                                                                               ",
-    "                                                                               ",
-    "                                                                               ",
-    "                                                                               ",
-    "                                                                               ",
-    "                                                                               ",
-    "                                                                               ",
-    "  p   hhh v    h   h   hh     h                      h         h h             ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w                                                                              ",
+    "w p   hhh v    h   h   hh     h                      h         h h             ",
     "fffyffffffffffgffffffyfffffffffffyfffffffgffffffffygfffffgfffffffffffffyfffffff",
 };
 
@@ -63,29 +66,53 @@ Game::Game()
 
 void Game::loadLevel()
 {
-    switch (levelNumber)
+    QString map[17];
+
+    //загружаем интересующую нас карту в map[]
+    for (int i = 0; i < 17; i++)
     {
-    case 0:
-        if (levelMap0[0] == QString("LEVEL: CHASE"))
+        switch (levelNumber)
         {
-            LevelChase * levelChase = new LevelChase(this);
-            levelChase->init(levelMap0);
+
+        case 0:
+            if (levelMap0[i] != QString("")) map[i] = levelMap0[i];
+            break;
+
+        case 1:
+            if (levelMap1[i] != QString("")) map[i] = levelMap1[i];
+            break;
+
+        default:
+            break;
         }
-        break;
+    }
+
+    //создаём уровень: погоня
+    if (map[0] == QString("LEVEL: CHASE"))
+    {
+        LevelChase * level = new LevelChase(this);
+        level->init(map);
+
+    //создаём уровень: расследование
+    } else if (map[0] == QString("LEVEL: INVESTIGATION"))
+    {
+        LevelInvestigate * level = new LevelInvestigate(this);
+        level->init(map);
     }
 
     //вывод на экран
     show();
 }
 
-void Game::levelCompleted(bool result, Level * level)
+void Game::nextLevel()
 {
-    if (result == true) {
-        qDebug() << "WE GOT A WINNER";
-        levelNumber++;
-    } else {
-        qDebug() << "LOOK AT THIS LOOSER";
-        delete level;
-        loadLevel();
-    }
+    qDebug() << "WE GOT A WINNER";
+    levelNumber++;
+}
+
+void Game::resetLevel()
+{
+    qDebug() << "LOOK AT THIS LOOSER";
+    delete scene();
+    loadLevel();
 }

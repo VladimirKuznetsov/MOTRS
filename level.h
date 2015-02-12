@@ -17,6 +17,8 @@ public:
     Level(QGraphicsView * parent);
     void init (QString map[]);
     void gameOver (QString comment);
+    void levelCompleted (QString message[]);
+    QString clues;
 
     //ввод с клавиатуры
     void keyPressEvent(QKeyEvent *event);
@@ -36,7 +38,8 @@ public:
     short ENEMY_WIDTH;
     
 signals:
-    void levelCompleted (bool result, Level * level);
+    void gameOver();
+    void levelCompleted();
 
 public slots:
     void checkRules();

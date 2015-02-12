@@ -21,7 +21,7 @@ public:
 
     //переменные для взаимодействия с объектами
     QGraphicsPolygonItem * actionArea;
-    QString activatedItems;
+    QString clues;
 
     //анимация
     float frame;
@@ -53,10 +53,10 @@ public:
 
 public slots:
     void move();
-    void addActivatedItem(Cell * c);
+    void addClue(Cell * c);
 
 signals:
-    void interactionStarted(Cell * c);
+    void investigating(Cell * c);
 };
 
 #endif // PLAYER_H

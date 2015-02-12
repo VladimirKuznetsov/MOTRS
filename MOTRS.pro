@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     levelChase.cpp \
     level.cpp \
     game.cpp \
-    dialogBox.cpp
+    dialogBox.cpp \
+    levelInvestigate.cpp
 
 HEADERS  += \
     player.h \
@@ -26,7 +27,8 @@ HEADERS  += \
     levelChase.h \
     level.h \
     game.h \
-    dialogBox.h
+    dialogBox.h \
+    levelInvestigate.h
 
 FORMS    +=
 

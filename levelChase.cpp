@@ -18,10 +18,7 @@ LevelChase::LevelChase(QGraphicsView * parent) : Level(parent)
 //следим за перемещениями игрока
 void LevelChase::followEnemy()
 {
-    //if (dialog->isOn == false)
-    //{
-        game->ensureVisible(enemy[0], game->WINDOW_WIDTH * 1/5, 0);
-    //}
+    game->ensureVisible(enemy[0], game->WINDOW_WIDTH * 1/5, 0);
 }
 
 //проверка условий победы и поражения
@@ -34,7 +31,7 @@ void LevelChase::checkRules()
     QList <QGraphicsItem *> collisionList = player->collidingItems();
     for (int i = 0; i < collisionList.size(); i++) {
         if (typeid(*collisionList[i]) == (typeid(Enemy))) {
-            emit levelCompleted(true, this);
+            emit levelCompleted();
         }
     }
 

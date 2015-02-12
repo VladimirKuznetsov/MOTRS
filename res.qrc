@@ -6,6 +6,7 @@
         <file alias="ground1">img/ground1.png</file>
         <file alias="ground3">img/ground3.png</file>
         <file alias="hydrant_a">img/hydrant_a.png</file>
+        <file alias="invisible">img/invisible.png</file>
     </qresource>
     <qresource prefix="/img/van">
         <file alias="1">img/van1.png</file>

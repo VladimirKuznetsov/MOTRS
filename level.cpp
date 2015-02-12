@@ -16,7 +16,8 @@ Level::Level(QGraphicsView *parent) : QGraphicsScene(parent)
     ENEMY_WIDTH = ENEMY_HEIGHT * 1.5;
 
     numberOfEnemies = 0;
-    connect(this, SIGNAL(levelCompleted(bool, Level*)), game, SLOT(levelCompleted(bool, Level*)));
+    connect(this, SIGNAL(levelCompleted()), game, SLOT(nextLevel()));
+    connect(this, SIGNAL(gameOver()), game, SLOT(resetLevel()));
 }
 
 //загрузка карты из массива строк
@@ -63,6 +64,17 @@ void Level::init(QString map[])
 
                 numberOfEnemies++;
             }
+            //отрисовка выхода
+            if (map[row][column] == 't')
+            {
+                Cell * target = new Cell(":/img/ground1");
+                float scaleFactor = game->CELL_SIZE / target->boundingRect().width();
+                target->setScale(scaleFactor);
+                target->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
+                target->isTarget = true;
+                target->setOpacity(0);
+                addItem(target);
+            }
             //отрисовка пола
             if (map[row][column] == 'f')
             {
@@ -96,6 +108,17 @@ void Level::init(QString map[])
                 floor->isFloor = true;
                 addItem(floor);
             }
+            //отрисовка невидимых стен
+            if (map[row][column] == 'w')
+            {
+                Cell * wall = new Cell(":/img/ground1");
+                float scaleFactor = game->CELL_SIZE / wall->boundingRect().width();
+                wall->setScale(scaleFactor);
+                wall->setPos(column * game->CELL_SIZE, (row - 1) * game->CELL_SIZE);
+                wall->isSolid = true;
+                wall->setOpacity(0);
+                addItem(wall);
+            }
             //отрисовка гидрантов
             if (map[row][column] == 'h')
             {
@@ -115,6 +138,12 @@ void Level::init(QString map[])
             }
         }
     }
+
+    //загружаем список улик
+    clues = map[16];
+    clues.remove(' ');
+
+    //определяем размеры сцены
     setSceneRect(0, 0, sceneLength * game->CELL_SIZE, game->WINDOW_HEIGHT);
 
     //позиционируем камеру в начальный момент времени
@@ -124,19 +153,33 @@ void Level::init(QString map[])
     //создаём диалоговое поле
     dialog = new DialogBox();
     addItem(dialog);
-    connect(player, SIGNAL(interactionStarted(Cell*)), dialog, SLOT(setDialog(Cell*)));
-    connect(dialog, SIGNAL(interactionEnded(Cell*)), player, SLOT(addActivatedItem(Cell*)));
-    connect(updateTimer, SIGNAL(timeout()), dialog, SLOT(move()));
+    connect(player, SIGNAL(investigating(Cell*)), dialog, SLOT(setDialog(Cell*)));
+    connect(dialog, SIGNAL(dialogEnded(Cell*)), player, SLOT(addClue(Cell*)));
 
     //запускаем таймер, управляющий движением
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(checkRules()));
+    connect(updateTimer, SIGNAL(timeout()), dialog, SLOT(move()));
     updateTimer->start(20);
+
+    QString test[10] = {
+        "level is about to start",
+        "yes it is",
+    };
+    dialog->setDialog(test);
 }
 
 //отображаем в случае провала
 void Level::gameOver(QString comment)
 {
-    emit levelCompleted(false,this);
+    updateTimer->stop();
+    emit gameOver();
+}
+
+void Level::levelCompleted(QString message[])
+{
+    updateTimer->stop();
+    dialog->setDialog(message);
+    connect (dialog, SIGNAL(dialogEnded()), this, SIGNAL(levelCompleted()));
 }
 
 //макет проверки правил
@@ -150,23 +193,34 @@ void Level::keyPressEvent(QKeyEvent *event)
     //режим прокрутки диалога
     if (dialog->isOn == true)
     {
-        //прокрутка диалога
-        if (event->key() == Qt::Key_Space)
+        switch (event->key())
         {
+        //прокрутка диалога
+        case (Qt::Key_Space):
             dialog->nextLine();
+            break;
+
+        //выход из диалога
+        case (Qt::Key_Escape):
+            dialog->skip();
+            break;
+
+        //в противном случае игнорируем нажатие
+        default:
+            break;
         }
 
     //обычный режим игры
     } else
     {
-        switch (event->key()) {
-
+        switch (event->key())
+        {
         //выход из игры
         case (Qt::Key_Escape):
             game->close();
             break;
 
-        //управление персонажем
+        //передаём управление персонажу
         default:
             player->keyPressEvent(event);
             break;

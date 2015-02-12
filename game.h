@@ -20,7 +20,8 @@ public:
     unsigned short GRAVITY;
 
 public slots:
-    void levelCompleted(bool result,Level * level);
+    void nextLevel();
+    void resetLevel();
     
 };
 

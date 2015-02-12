@@ -16,7 +16,7 @@ extern Game * game;
 //конструктор класса
 Player::Player(QString dir, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
 {
-    activatedItems = "";
+    clues = "";
 
     JUMP_SPEED = ceil(float(game->CELL_SIZE) / 3.5);
     WALK_SPEED = ceil(float(game->CELL_SIZE) / 8);
@@ -38,7 +38,7 @@ Player::Player(QString dir, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
                       << QPointF(0, boundingRect().height());
 
     actionArea = new QGraphicsPolygonItem(QPolygonF(areaCorners), this);
-
+    actionArea->setVisible(false);
     horizontalSpeed = 0;
     verticalSpeed = 0;
 }
@@ -107,11 +107,11 @@ void Player::move()
 }
 
 //регистрируем взаимодействие в списке
-void Player::addActivatedItem(Cell * c)
+void Player::addClue(Cell * c)
 {
-    if (activatedItems.contains(c->shortSymbol, Qt::CaseSensitive) == false)
+    if (clues.contains(c->shortSymbol, Qt::CaseSensitive) == false)
     {
-        activatedItems.append(c->shortSymbol);
+        clues.append(c->shortSymbol);
     }
 }
 
@@ -149,7 +149,7 @@ void Player::keyPressEvent(QKeyEvent *event)
                 c->setCellActivated();
 
                 //отображаем диалог
-                emit interactionStarted(c);
+                emit investigating(c);
 
                 //взаимодействуем с одной клеткой за раз
                 break;
