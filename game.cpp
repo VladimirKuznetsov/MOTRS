@@ -11,7 +11,7 @@ Game::Game()
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
 
-    levelNumber = 1;
+    levelNumber = 0;
     WINDOW_HEIGHT = 600;
     WINDOW_WIDTH = 1100;
     CELL_SIZE = WINDOW_HEIGHT / 15;
@@ -96,6 +96,38 @@ void Game::loadLevel()
     };
 
     QString levelMap2[] =
+    {
+        "LEVEL: INVESTIGATION",
+        "---",
+        "110 110 115",
+        "---",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTSSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "ta     K               i    P     RSSS",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWSSSS",
+        "---",
+        "a",
+        "---",
+        "*БАХ!*",
+        "Три часа ночи... кто станет ломиться в дверь в такое время?",
+        "---",
+        "Надеюсь, это не западня...",
+        "---",
+        "%",
+    };
+
+    QString levelMap3[] =
     {
         "LEVEL: CHASE",
         "---",

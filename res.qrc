@@ -12,6 +12,8 @@
         <file alias="wood_s">img/wood_solid.png</file>
         <file alias="kitchen">img/kitchen.png</file>
         <file alias="bed">img/bed.png</file>
+        <file alias="kitchen_n">img/kitchen_n.png</file>
+        <file alias="letter">img/letter.png</file>
     </qresource>
     <qresource prefix="/img/van">
         <file alias="1">img/van1.png</file>

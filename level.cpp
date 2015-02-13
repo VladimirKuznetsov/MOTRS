@@ -269,7 +269,7 @@ void Level::init(QString map[])
                 mr->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * mr->boundingRect().height());
                 mr->addInteraction('o');
                 mr->setCellActive();
-                mr->interactionDialogue[0] = QString("– Добрый день, Господин Огурцов. Старший следователь Дарья Винокурова.");
+                mr->interactionDialogue[0] = QString("– Добрый день, господин Огурцов. Старший следователь Дарья Винокурова.");
                 mr->interactionDialogue[1] = QString("Это вы вызывали полицию?");
                 mr->interactionDialogue[2] = QString("– Да. Дело в том, что сегодня ночью из своей клетки пропал полосатый тюлень.");
                 mr->interactionDialogue[3] = QString("Прошу вас, найдите его скорее!");
@@ -293,6 +293,15 @@ void Level::init(QString map[])
                 kitchen->interactionDialogue[1] = QString("Теперь можно и поспать.");
                 addItem(kitchen);;
             }
+            //отрисовка ночной кухни
+            if (map[row][column] == 'K')
+            {
+                Cell * kitchen = new Cell(":/img/kitchen_n", 0, this);
+                float scaleFactor = game->CELL_SIZE * 9 / kitchen->boundingRect().height();
+                kitchen->setScale(scaleFactor);
+                kitchen->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * kitchen->boundingRect().height());
+                addItem(kitchen);
+            }
             //отрисовка кровати
             if (map[row][column] == 'i')
             {
@@ -305,6 +314,24 @@ void Level::init(QString map[])
                 bed->interactionDialogue[0] = QString("");
                 bed->isTarget = true;
                 addItem(bed);
+            }
+            //отрисовка письма
+            if (map[row][column] == 'a')
+            {
+                Cell * letter = new Cell(":/img/letter", 0, this);
+                float scaleFactor = game->CELL_SIZE / letter->boundingRect().height();
+                letter->setScale(scaleFactor);
+                letter->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * letter->boundingRect().height());
+                letter->addInteraction('a');
+                letter->setCellActive();
+                letter->interactionDialogue[0] = QString("Анонимное письмо?");
+                letter->interactionDialogue[1] = QString("«Дарья, мне жаль, что я не могу встретиться с вами лично...»");
+                letter->interactionDialogue[2] = QString("... терпеть не могу, когда меня называют Дарья...");
+                letter->interactionDialogue[3] = QString("«... однако я вынужден держать свою личность в тайне.");
+                letter->interactionDialogue[4] = QString("У меня есть информация по делу об исчезновении полосатого тюленя.");
+                letter->interactionDialogue[5] = QString("Животное держат на старом складе сталелитейного завода по адресу...»");
+                letter->interactionDialogue[6] = QString("«... требуется срочное вмешательство сотрудников правопорядка...»");
+                addItem(letter);
             }
         }
     }
