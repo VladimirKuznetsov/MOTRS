@@ -9,11 +9,11 @@ class Cell : public QObject, public QGraphicsPixmapItem
 {
 public:
     Cell(QObject * parent = 0);
-    Cell(QString res, QObject * parent = 0);
+    Cell(QString res, int num, QObject * parent = 0);
     void addInteraction(char _shortSymbol);
     void addInteraction(char _shortSymbol, char _cellToActivate);
 
-    QPixmap spriteSheet;
+    QPixmap spSheet;
 
     //переключение режимов
     void setCellInactive();

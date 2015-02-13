@@ -31,32 +31,36 @@ void Game::loadLevel()
         "---",
         "140 150 210",
         "---",
-        "w                                                                             w",
-        "w                                                                             w",
-        "w                                                                             w",
-        "w                                                                             w",
-        "w                                                                             w",
-        "w                                                                             w",
-        "w                                                                             w",
-        "w                                                                             w",
-        "w                                                                             w",
-        "w                                                                             w",
-        "w                                                                             w",
-        "w                                                                             w",
-        "w                                                                             w",
-        "t    hhh v    h   h   hh     h   p                   h         h h            w",
-        "fffyffffffffffgffffffyfffffffffffyfffffffgffffffffygfffffgfffffffffffffyfffffff",
+        "w                                                      w",
+        "w                                                      w",
+        "w                                                      w",
+        "w                                                      w",
+        "w                                                      w",
+        "w                                                      w",
+        "w                                                      w",
+        "w                                                      w",
+        "w                                                      w",
+        "w                                                      w",
+        "w                                                      w",
+        "w                                                      w",
+        "w                                                      w",
+        "t     H  n      b p  B c          o       b   B   s    t",
+        "fffffyfffffgffffffffffffffffffffffffffyffffffffffffffgff",
         "---",
-        "h  ",
+        "scno",
         "---",
-        "Нужно разобраться с этим делом побыстрее.",
+        "Сегодня ночью из Московского зоопарка сбежал редкий полосатый тюлень.",
+        "Моя задача отыскать его и вернуть домой. Но с чего начать?",
+        "Куда пойдёт огромный полосатый тюлень в большом городе?",
+        "Сосредоточься, Даша! Ты должна думать как тюлень.",
         "---",
-        "Итак, наша лучшая зацепка это пропавший сторож...",
-        "Но где его искать?",
+        "Итак, наш главный подозреваемый это пропавший сторож...",
+        "Ночью он мог открыть дверь клетки, выманить тюленя мячом и похитить...",
+        "Но зачем ему это? И где его теперь искать?",
         "...",
-        "Как? Уже шесть вечера?!",
-        "Сторожем займусь завтра на свежую голову, а сейчас домой.",
+        "Шесть часов вечера, пора домой. Вот только разошлю ориентировку на сторожа...",
         "---",
+        "%",
     };
 
     QString levelMap1[] =
@@ -91,22 +95,35 @@ void Game::loadLevel()
         "Как? Уже шесть вечера?!",
         "Сторожем займусь завтра на свежую голову, а сейчас домой.",
         "---",
+        "%",
     };
 
-    QString map[30];
+    QString map[50];
 
     //загружаем интересующую нас карту в map[]
-    for (int i = 0; i < 30; i++)
+    for (int i = 0; i < 50; i++)
     {
         switch (levelNumber)
         {
 
         case 0:
-            if (levelMap0[i] != QString("")) map[i] = levelMap0[i];
+            if (levelMap0[i] != "%")
+            {
+                 map[i] = levelMap0[i];
+            } else
+            {
+                i = 50;
+            }
             break;
 
         case 1:
-            if (levelMap1[i] != QString("")) map[i] = levelMap1[i];
+            if (levelMap1[i] != "%")
+            {
+                map[i] = levelMap1[i];
+            } else
+            {
+                i = 50;
+            }
             break;
 
         default:
@@ -127,10 +144,6 @@ void Game::loadLevel()
         level->init(map);
     }
 
-/*
-    level = new LevelChase(this);
-    level->init(levelMap1);
-*/
     //вывод на экран
     show();
 }
@@ -140,7 +153,7 @@ void Game::nextLevel()
     qDebug() << "WE GOT A WINNER";
     levelNumber++;
     level->clear();
-    delete level;
+    //delete level;
     loadLevel();
 }
 

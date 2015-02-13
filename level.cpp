@@ -52,8 +52,8 @@ void Level::init(QString map[])
                 player = new Player(":/img/dasha");
                 float scaleFactor = PLAYER_HEIGHT / player->boundingRect().height();
                 player->setScale(scaleFactor);
-                player->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE - PLAYER_HEIGHT);
-                player->setZValue(1);
+                player->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - PLAYER_HEIGHT);
+                player->setZValue(10);
                 addItem(player);
                 connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
             }
@@ -63,7 +63,7 @@ void Level::init(QString map[])
                 enemy[numberOfEnemies] = new Enemy(":/img/van/", this);
                 float scaleFactor = ENEMY_HEIGHT / enemy[numberOfEnemies]->boundingRect().height();
                 enemy[numberOfEnemies]->setScale(scaleFactor);
-                enemy[numberOfEnemies]->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE - ENEMY_HEIGHT);
+                enemy[numberOfEnemies]->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - ENEMY_HEIGHT);
                 addItem(enemy[numberOfEnemies]);
                 connect(updateTimer, SIGNAL(timeout()), enemy[numberOfEnemies], SLOT(move()));
 
@@ -72,7 +72,7 @@ void Level::init(QString map[])
             //отрисовка выхода
             if (map[row][column] == 't')
             {
-                Cell * target = new Cell(":/img/ground1", this);
+                Cell * target = new Cell(":/img/ground", 0, this);
                 float scaleFactor = game->CELL_SIZE / target->boundingRect().width();
                 target->setScale(scaleFactor);
                 target->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
@@ -83,7 +83,7 @@ void Level::init(QString map[])
             //отрисовка пола
             if (map[row][column] == 'f')
             {
-                Cell * floor = new Cell(":/img/ground1", this);
+                Cell * floor = new Cell(":/img/ground", 0, this);
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
                 floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
@@ -94,7 +94,7 @@ void Level::init(QString map[])
             //отрисовка пола
             if (map[row][column] == 'g')
             {
-                Cell * floor = new Cell(":/img/ground2", this);
+                Cell * floor = new Cell(":/img/ground", 1, this);
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
                 floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
@@ -105,7 +105,7 @@ void Level::init(QString map[])
             //отрисовка пола
             if (map[row][column] == 'y')
             {
-                Cell * floor = new Cell(":/img/ground3", this);
+                Cell * floor = new Cell(":/img/ground", 2, this);
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
                 floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
@@ -116,7 +116,7 @@ void Level::init(QString map[])
             //отрисовка невидимых стен
             if (map[row][column] == 'w')
             {
-                Cell * wall = new Cell(":/img/ground1", this);
+                Cell * wall = new Cell(":/img/ground", 0, this);
                 float scaleFactor = game->CELL_SIZE / wall->boundingRect().width();
                 wall->setScale(scaleFactor);
                 wall->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
@@ -124,37 +124,125 @@ void Level::init(QString map[])
                 wall->setOpacity(0);
                 addItem(wall);
             }
-            //отрисовка гидрантов
+            //отрисовка гидрантов - препятствий
             if (map[row][column] == 'h')
             {
-                Cell * hydrant = new Cell(":/img/hydrant_a", this);
+                Cell * hydrant = new Cell(":/img/hydrant", 0, this);
                 float scaleFactor = game->CELL_SIZE / hydrant->boundingRect().width();
                 hydrant->setScale(scaleFactor);
                 hydrant->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
                 hydrant->isSolid = true;
-
-                //ДЛЯ ТЕСТА ДЕЛАЕМ ГИДРАНТ ИНТЕРАКТИВНЫМ
                 hydrant->addInteraction('h');
                 hydrant->setCellActive();
-                hydrant->interactionDialogue[0] = QString("Этот гидрант подарил мне отец на день рождения");
-                hydrant->interactionDialogue[1] = QString("Это Hydro Jet Super 2000");
-                hydrant->interactionDialogue[2] = QString("");
+                hydrant->interactionDialogue[0] = QString("Лучше я не буду тут ничего трогать...");
                 addItem(hydrant);
+            }
+            //отрисовка фоновых гидрантов
+            if (map[row][column] == 'H')
+            {
+                Cell * hydrant = new Cell(":/img/hydrant", 0, this);
+                float scaleFactor = game->CELL_SIZE / hydrant->boundingRect().width();
+                hydrant->setScale(scaleFactor);
+                hydrant->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                hydrant->addInteraction('h');
+                hydrant->setCellActive();
+                hydrant->interactionDialogue[0] = QString("Лучше я не буду тут ничего трогать...");
+                addItem(hydrant);
+            }
+            //отрисовка автомобиля без тюленя
+            if (map[row][column] == 'n')
+            {
+                Cell * van_ns = new Cell(":/img/van_ns", 0, this);
+                float scaleFactor = game->CELL_SIZE * 4 / van_ns->boundingRect().height();
+                van_ns->setScale(scaleFactor);
+                van_ns->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * van_ns->boundingRect().height());
+                van_ns->addInteraction('n');
+                van_ns->setCellActive();
+                van_ns->interactionDialogue[0] = QString("Эта машина принадлежит зоопарку.");
+                addItem(van_ns);
+                van_ns->setZValue(2);
+            }
+            //отрисовка фоновых кустов
+            if (map[row][column] == 'b')
+            {
+                Cell * bush = new Cell(":/img/bush", 0, this);
+                float scaleFactor = (float)game->CELL_SIZE * 3 / bush->boundingRect().height();
+                bush->setScale(scaleFactor);
+                bush->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * bush->boundingRect().height());
+                addItem(bush);
+            }
+            //отрисовка фоновых кустов
+            if (map[row][column] == 'B')
+            {
+                Cell * bush = new Cell(":/img/bush", 1, this);
+                float scaleFactor = (float)game->CELL_SIZE * 3 / bush->boundingRect().height();
+                bush->setScale(scaleFactor);
+                bush->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * bush->boundingRect().height());
+                addItem(bush);
+            }
+            //отрисовка мячика
+            if (map[row][column] == 's')
+            {
+                Cell * ball = new Cell(":/img/ball", 0, this);
+                float scaleFactor = game->CELL_SIZE / ball->boundingRect().height();
+                ball->setScale(scaleFactor);
+                ball->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                ball->addInteraction('s');
+                ball->setCellActive();
+                ball->interactionDialogue[0] = QString("Это мячик для шоу с тюленями. Что он здесь делает?..");
+                addItem(ball);
+                ball->setZValue(-1);
+            }
+
+            //отрисовка клетки для тюленя
+            if (map[row][column] == 'c')
+            {
+                Cell * cell = new Cell(":/img/cell", 0, this);
+                float scaleFactor = (float)game->CELL_SIZE * 5 / cell->boundingRect().height();
+                cell->setScale(scaleFactor);
+                cell->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * cell->boundingRect().height());
+                cell->addInteraction('c');
+                cell->setCellActive();
+                cell->interactionDialogue[0] = QString("Кажется, эта дверь - единственный способ выбраться из клетки.");
+                cell->interactionDialogue[1] = QString("...что если нашему тюленю помогли сбежать?");
+                addItem(cell);
+            }
+            //отрисовка г-на Огурцова
+            if (map[row][column] == 'o')
+            {
+                Cell * mr = new Cell(":/img/ogurtsov", 0, this);
+                float scaleFactor = (float)PLAYER_HEIGHT / mr->boundingRect().height();
+                mr->setScale(scaleFactor);
+                mr->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * mr->boundingRect().height());
+                mr->addInteraction('o');
+                mr->setCellActive();
+                mr->interactionDialogue[0] = QString("– Добрый день, Господин Огурцов. Старший следователь Дарья Винокурова.");
+                mr->interactionDialogue[1] = QString("Это вы вызывали полицию?");
+                mr->interactionDialogue[2] = QString("– Да. Дело в том, что сегодня ночью из своей клетки пропал полосатый тюлень.");
+                mr->interactionDialogue[3] = QString("Прошу вас, найдите его скорее!");
+                mr->interactionDialogue[4] = QString("– Мы сделаем всё возможное. Скажите, у кого были ключи от клетки?");
+                mr->interactionDialogue[5] = QString("– У нашего сторожа.");
+                mr->interactionDialogue[6] = QString("– Могу я с ним побеседовать?");
+                mr->interactionDialogue[7] = QString("– Боюсь, что нет. Сегодня он не вышел на работу.");
+                mr->interactionDialogue[8] = QString("– Любопытно...");
+                addItem(mr);
             }
         }
     }
 
     //загружаем список улик
-    clues = map[21];
+    clues = map[20];
     clues.remove(' ');
 
     //загружаем начальное и финальное сообщение уровня
     int i;
-    for (i = 23; i < 33; i++)
+    for (i = 22; i < 32; i++)
     {
         if (map[i] == QString("---")) break;
-        startMessage[i - 19] = map[i];
+        startMessage[i - 22] = map[i];
     }
+    startMessage[i - 22] = "";
+
     i++;
     int j;
     for (j = i; j < i + 10; j++)
@@ -162,6 +250,8 @@ void Level::init(QString map[])
         if (map[j] == QString("---")) break;
         endMessage[j - i] = map[j];
     }
+    qDebug() << QString::number(j-i);
+    endMessage[j - i] = "";
 
     //определяем размеры сцены
     setSceneRect(0, 0, sceneLength * game->CELL_SIZE, game->WINDOW_HEIGHT);
@@ -184,6 +274,7 @@ void Level::init(QString map[])
 
     //загрузка начального диалога
     dialog->setDialog(startMessage);
+    qDebug() << endMessage[5];
 }
 
 //отображаем в случае провала
