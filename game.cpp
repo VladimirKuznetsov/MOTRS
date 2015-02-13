@@ -11,7 +11,7 @@ Game::Game()
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
 
-    levelNumber = 0;
+    levelNumber = 3;
     WINDOW_HEIGHT = 600;
     WINDOW_WIDTH = 1100;
     CELL_SIZE = WINDOW_HEIGHT / 15;
@@ -58,7 +58,7 @@ void Game::loadLevel()
         "Ночью он мог открыть дверь клетки, выманить тюленя мячом и похитить...",
         "Но зачем ему это? И где его теперь искать?",
         "...",
-        "Шесть часов вечера, пора домой. Вот только разошлю ориентировку на сторожа...",
+        "Шесть часов вечера, пора домой. Вот только разошлю ориентировку на сторожа.",
         "---",
         "%",
     };
@@ -90,7 +90,7 @@ void Game::loadLevel()
         "Опять провозилась с протоколами до позднего вечера.",
         "Всё бы сейчас отдала за чашку хорошего кофе...",
         "---",
-        "Это был странный день. Пора его заканчивать.",
+        "Это был странный день. Пора с ним заканчивать.",
         "---",
         "%",
     };
@@ -101,21 +101,21 @@ void Game::loadLevel()
         "---",
         "110 110 115",
         "---",
-        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
-        "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTSSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "ta     K               i    P     RSSS",
-        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWSSSS",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUFFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "ta     K               i  P       rFFF",
+        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCFFFF",
         "---",
         "a",
         "---",
@@ -128,6 +128,38 @@ void Game::loadLevel()
     };
 
     QString levelMap3[] =
+    {
+        "LEVEL: INVESTIGATION",
+        "---",
+        "80 80 80",
+        "---",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU",
+        "w                                                                                  w",
+        "w                                                                                  w",
+        "w                                                                                  w",
+        "w                                                                                  w",
+        "w                                                                                  w",
+        "w                                                                                  w",
+        "w                                                                                  w",
+        "w                                                                                  w",
+        "w                                                                                  w",
+        "w        Q Q                                                                       w",
+        "w                                                                                  w",
+        "w I    Q Q Q                                                                       t",
+        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+        "---",
+        "a",
+        "---",
+        "Не нравится мне это место...",
+        "---",
+        "*ЗВУКИ ДВИГАТЕЛЯ*",
+        "Неужели преступник ещё здесь?!",
+        "---",
+        "%",
+    };
+
+    QString levelMap4[] =
     {
         "LEVEL: CHASE",
         "---",
@@ -194,6 +226,26 @@ void Game::loadLevel()
             if (levelMap2[i] != "%")
             {
                 map[i] = levelMap2[i];
+            } else
+            {
+                i = 50;
+            }
+            break;
+
+        case 3:
+            if (levelMap3[i] != "%")
+            {
+                map[i] = levelMap3[i];
+            } else
+            {
+                i = 50;
+            }
+            break;
+
+        case 4:
+            if (levelMap4[i] != "%")
+            {
+                map[i] = levelMap4[i];
             } else
             {
                 i = 50;

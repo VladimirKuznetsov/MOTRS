@@ -14,6 +14,9 @@
         <file alias="bed">img/bed.png</file>
         <file alias="kitchen_n">img/kitchen_n.png</file>
         <file alias="letter">img/letter.png</file>
+        <file alias="concrete_s">img/concrete_s.png</file>
+        <file alias="concrete">img/concrete.png</file>
+        <file alias="box">img/box.png</file>
     </qresource>
     <qresource prefix="/img/van">
         <file alias="1">img/van1.png</file>

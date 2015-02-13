@@ -61,10 +61,22 @@ void Level::init(QString map[])
             if (map[row][column] == 'P')
             {
                 player = new Player(":/img/dasha");
-                player->bigMode(true);
+                player->setZoom(2);
                 float scaleFactor = PLAYER_HEIGHT * 3 / player->boundingRect().height();
                 player->setScale(scaleFactor);
                 player->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - PLAYER_HEIGHT*3);
+                player->setZValue(10);
+                addItem(player);
+                connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
+            }
+            //отрисовка игрока - средний
+            if (map[row][column] == 'I')
+            {
+                player = new Player(":/img/dasha");
+                player->setZoom(2);
+                float scaleFactor = PLAYER_HEIGHT * 2 / player->boundingRect().height();
+                player->setScale(scaleFactor);
+                player->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - PLAYER_HEIGHT*2);
                 player->setZValue(10);
                 addItem(player);
                 connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
@@ -166,6 +178,47 @@ void Level::init(QString map[])
                 solid->isSolid = true;
                 addItem(solid);
             }
+            //отрисовка бетонного пола
+            if (map[row][column] == 'C')
+            {
+                Cell * floor = new Cell(":/img/concrete", 0, this);
+                float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
+                floor->setScale(scaleFactor);
+                floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                floor->isSolid = true;
+                floor->isFloor = true;
+                addItem(floor);
+            }
+            //отрисовка бетонных cтен
+            if (map[row][column] == 'r')
+            {
+                Cell * wall = new Cell(":/img/concrete", 1, this);
+                float scaleFactor = game->CELL_SIZE / wall->boundingRect().width();
+                wall->setScale(scaleFactor);
+                wall->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                wall->isSolid = true;
+                addItem(wall);
+            }
+            //отрисовка бетонного потолка
+            if (map[row][column] == 'U')
+            {
+                Cell * ceiling = new Cell(":/img/concrete", 2, this);
+                float scaleFactor = game->CELL_SIZE / ceiling->boundingRect().width();
+                ceiling->setScale(scaleFactor);
+                ceiling->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                ceiling->isSolid = true;
+                addItem(ceiling);
+            }
+            //отрисовка цельного бетона
+            if (map[row][column] == 'F')
+            {
+                Cell * solid = new Cell(":/img/concrete_s", 0, this);
+                float scaleFactor = game->CELL_SIZE / solid->boundingRect().width();
+                solid->setScale(scaleFactor);
+                solid->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                solid->isSolid = true;
+                addItem(solid);
+            }
             //отрисовка невидимых стен
             if (map[row][column] == 'w')
             {
@@ -246,7 +299,6 @@ void Level::init(QString map[])
                 addItem(ball);
                 ball->setZValue(-1);
             }
-
             //отрисовка клетки для тюленя
             if (map[row][column] == 'c')
             {
@@ -270,7 +322,7 @@ void Level::init(QString map[])
                 mr->addInteraction('o');
                 mr->setCellActive();
                 mr->interactionDialogue[0] = QString("– Добрый день, господин Огурцов. Старший следователь Дарья Винокурова.");
-                mr->interactionDialogue[1] = QString("Это вы вызывали полицию?");
+                mr->interactionDialogue[1] = QString("Вы вызвали полицию?");
                 mr->interactionDialogue[2] = QString("– Да. Дело в том, что сегодня ночью из своей клетки пропал полосатый тюлень.");
                 mr->interactionDialogue[3] = QString("Прошу вас, найдите его скорее!");
                 mr->interactionDialogue[4] = QString("– Мы сделаем всё возможное. Скажите, у кого были ключи от клетки?");
@@ -326,12 +378,22 @@ void Level::init(QString map[])
                 letter->setCellActive();
                 letter->interactionDialogue[0] = QString("Анонимное письмо?");
                 letter->interactionDialogue[1] = QString("«Дарья, мне жаль, что я не могу встретиться с вами лично...»");
-                letter->interactionDialogue[2] = QString("... терпеть не могу, когда меня называют Дарья...");
-                letter->interactionDialogue[3] = QString("«... однако я вынужден держать свою личность в тайне.");
+                letter->interactionDialogue[2] = QString("...терпеть не могу, когда меня называют Дарья...");
+                letter->interactionDialogue[3] = QString("«...однако я вынужден держать свою личность в тайне.");
                 letter->interactionDialogue[4] = QString("У меня есть информация по делу об исчезновении полосатого тюленя.");
                 letter->interactionDialogue[5] = QString("Животное держат на старом складе сталелитейного завода по адресу...»");
-                letter->interactionDialogue[6] = QString("«... требуется срочное вмешательство сотрудников правопорядка...»");
+                letter->interactionDialogue[6] = QString("«...требуется срочное вмешательство сотрудников правопорядка...»");
                 addItem(letter);
+            }
+            //отрисовка ящиков
+            if (map[row][column] == 'Q')
+            {
+                Cell * box = new Cell(":/img/box", 1, this);
+                float scaleFactor = game->CELL_SIZE * 2 / box->boundingRect().width();
+                box->setScale(scaleFactor);
+                box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
+                box->isSolid = true;
+                addItem(box);
             }
         }
     }

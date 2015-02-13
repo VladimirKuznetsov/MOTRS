@@ -15,7 +15,7 @@ class Player : public QObject, public QGraphicsPixmapItem
 
 public:
     Player(QString dir, QObject * parent = 0);
-    void bigMode(bool b);
+    void setZoom(float _zoom);
     bool collideWithSolid();
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -30,7 +30,7 @@ public:
     QPixmap spriteSheet;
 
     //переменные состояния и направления
-    bool isBig;
+    float zoom;
     char action;
     bool shiftIsPressed;
     char direction;
