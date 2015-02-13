@@ -11,7 +11,7 @@ Game::Game()
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
 
-    levelNumber = 0;
+    levelNumber = 1;
     WINDOW_HEIGHT = 600;
     WINDOW_WIDTH = 1100;
     CELL_SIZE = WINDOW_HEIGHT / 15;
@@ -64,6 +64,38 @@ void Game::loadLevel()
     };
 
     QString levelMap1[] =
+    {
+        "LEVEL: INVESTIGATION",
+        "---",
+        "190 180 110",
+        "---",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTSSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w                                 RSSS",
+        "w  P    k               i         RSSS",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWSSSS",
+        "---",
+        "ik",
+        "---",
+        "Опять провозилась с протоколами до позднего вечера.",
+        "Всё бы сейчас отдала за чашку хорошего кофе...",
+        "---",
+        "Это был странный день. Пора его заканчивать.",
+        "---",
+        "%",
+    };
+
+    QString levelMap2[] =
     {
         "LEVEL: CHASE",
         "---",
@@ -126,6 +158,16 @@ void Game::loadLevel()
             }
             break;
 
+        case 2:
+            if (levelMap2[i] != "%")
+            {
+                map[i] = levelMap2[i];
+            } else
+            {
+                i = 50;
+            }
+            break;
+
         default:
             break;
         }
@@ -161,6 +203,6 @@ void Game::resetLevel()
 {
     qDebug() << "LOOK AT THIS LOOSER";
     level->clear();
-    delete level;
+    //delete level;
     loadLevel();
 }

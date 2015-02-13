@@ -15,6 +15,7 @@ class Player : public QObject, public QGraphicsPixmapItem
 
 public:
     Player(QString dir, QObject * parent = 0);
+    void bigMode(bool b);
     bool collideWithSolid();
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -29,6 +30,7 @@ public:
     QPixmap spriteSheet;
 
     //переменные состояния и направления
+    bool isBig;
     char action;
     bool shiftIsPressed;
     char direction;

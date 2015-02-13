@@ -57,6 +57,18 @@ void Level::init(QString map[])
                 addItem(player);
                 connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
             }
+            //отрисовка игрока - крупнее
+            if (map[row][column] == 'P')
+            {
+                player = new Player(":/img/dasha");
+                player->bigMode(true);
+                float scaleFactor = PLAYER_HEIGHT * 3 / player->boundingRect().height();
+                player->setScale(scaleFactor);
+                player->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - PLAYER_HEIGHT*3);
+                player->setZValue(10);
+                addItem(player);
+                connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
+            }
             //отрисовка автомобиля
             if (map[row][column] == 'v')
             {
@@ -112,6 +124,47 @@ void Level::init(QString map[])
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
+            }
+            //отрисовка деревянного пола
+            if (map[row][column] == 'W')
+            {
+                Cell * floor = new Cell(":/img/wood", 0, this);
+                float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
+                floor->setScale(scaleFactor);
+                floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                floor->isSolid = true;
+                floor->isFloor = true;
+                addItem(floor);
+            }
+            //отрисовка деревянных cтен
+            if (map[row][column] == 'R')
+            {
+                Cell * wall = new Cell(":/img/wood", 1, this);
+                float scaleFactor = game->CELL_SIZE / wall->boundingRect().width();
+                wall->setScale(scaleFactor);
+                wall->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                wall->isSolid = true;
+                addItem(wall);
+            }
+            //отрисовка деревянного потолка
+            if (map[row][column] == 'T')
+            {
+                Cell * ceiling = new Cell(":/img/wood", 2, this);
+                float scaleFactor = game->CELL_SIZE / ceiling->boundingRect().width();
+                ceiling->setScale(scaleFactor);
+                ceiling->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                ceiling->isSolid = true;
+                addItem(ceiling);
+            }
+            //отрисовка цельного дерева
+            if (map[row][column] == 'S')
+            {
+                Cell * solid = new Cell(":/img/wood_s", 0, this);
+                float scaleFactor = game->CELL_SIZE / solid->boundingRect().width();
+                solid->setScale(scaleFactor);
+                solid->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                solid->isSolid = true;
+                addItem(solid);
             }
             //отрисовка невидимых стен
             if (map[row][column] == 'w')
@@ -226,6 +279,32 @@ void Level::init(QString map[])
                 mr->interactionDialogue[7] = QString("– Боюсь, что нет. Сегодня он не вышел на работу.");
                 mr->interactionDialogue[8] = QString("– Любопытно...");
                 addItem(mr);
+            }
+            //отрисовка кухни
+            if (map[row][column] == 'k')
+            {
+                Cell * kitchen = new Cell(":/img/kitchen", 0, this);
+                float scaleFactor = game->CELL_SIZE * 9 / kitchen->boundingRect().height();
+                kitchen->setScale(scaleFactor);
+                kitchen->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * kitchen->boundingRect().height());
+                kitchen->addInteraction('k');
+                kitchen->setCellActive();
+                kitchen->interactionDialogue[0] = QString("Превосходно...");
+                kitchen->interactionDialogue[1] = QString("Теперь можно и поспать.");
+                addItem(kitchen);;
+            }
+            //отрисовка кровати
+            if (map[row][column] == 'i')
+            {
+                Cell * bed = new Cell(":/img/bed", 0, this);
+                float scaleFactor = game->CELL_SIZE * 9 / bed->boundingRect().width();
+                bed->setScale(scaleFactor);
+                bed->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * bed->boundingRect().height());
+                bed->addInteraction('i');
+                bed->setCellActive();
+                bed->interactionDialogue[0] = QString("");
+                bed->isTarget = true;
+                addItem(bed);
             }
         }
     }

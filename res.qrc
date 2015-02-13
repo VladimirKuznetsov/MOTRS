@@ -8,6 +8,10 @@
         <file alias="ball">img/ball.png</file>
         <file alias="cell">img/cell.png</file>
         <file alias="ogurtsov">img/ogurtsov.png</file>
+        <file alias="wood">img/wood.png</file>
+        <file alias="wood_s">img/wood_solid.png</file>
+        <file alias="kitchen">img/kitchen.png</file>
+        <file alias="bed">img/bed.png</file>
     </qresource>
     <qresource prefix="/img/van">
         <file alias="1">img/van1.png</file>

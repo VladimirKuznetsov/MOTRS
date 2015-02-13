@@ -22,6 +22,7 @@ Player::Player(QString dir, QObject *parent) : QObject(parent)
     WALK_SPEED = ceil(float(game->CELL_SIZE) / 8);
     RUN_SPEED = ceil(float(game->CELL_SIZE) / 5);
     MAX_STEP_HEIGHT = ceil(float(game->CELL_SIZE) / 3);
+    isBig = false;
 
     frame = 0;
     animationSpeed = 0.3;
@@ -41,6 +42,24 @@ Player::Player(QString dir, QObject *parent) : QObject(parent)
     actionArea->setVisible(false);
     horizontalSpeed = 0;
     verticalSpeed = 0;
+}
+
+//режим крупного плана
+void Player::bigMode(bool b)
+{
+    isBig = b;
+    if (isBig)
+    {
+        JUMP_SPEED *= 2;
+        WALK_SPEED *= 3;
+        RUN_SPEED *= 3;
+        MAX_STEP_HEIGHT *= 3;
+    } else {
+        JUMP_SPEED = ceil(float(game->CELL_SIZE) / 3.5);
+        WALK_SPEED = ceil(float(game->CELL_SIZE) / 8);
+        RUN_SPEED = ceil(float(game->CELL_SIZE) / 5);
+        MAX_STEP_HEIGHT = ceil(float(game->CELL_SIZE) / 3);
+    }
 }
 
 //движение игрока
@@ -63,7 +82,8 @@ void Player::move()
     //перемещаемся по вертикали
     unsigned int oldY = y();
     setPos(x(), y() - verticalSpeed);
-    verticalSpeed -= game->GRAVITY;
+    if (isBig == true) verticalSpeed -= (game->GRAVITY * 2);
+    else verticalSpeed -= game->GRAVITY;
 
     if (collideWithSolid() == true)
     {
