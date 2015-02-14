@@ -14,6 +14,7 @@ Level::Level(QGraphicsView *parent) : QGraphicsScene(parent)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
 
     //определяем геометрические параметры сцены
+    check = true;
     PLAYER_HEIGHT = game->CELL_SIZE * 2.5;
     PLAYER_WIDTH = PLAYER_HEIGHT * 0.75;
     ENEMY_HEIGHT = game->CELL_SIZE * 3;
@@ -89,6 +90,7 @@ void Level::init(QString map[])
                 enemy[numberOfEnemies]->setScale(scaleFactor);
                 enemy[numberOfEnemies]->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - ENEMY_HEIGHT);
                 addItem(enemy[numberOfEnemies]);
+                enemy[numberOfEnemies]->setParent(this);
                 connect(updateTimer, SIGNAL(timeout()), enemy[numberOfEnemies], SLOT(move()));
 
                 numberOfEnemies++;
@@ -466,7 +468,7 @@ void Level::init(QString map[])
                 docs->setCellActive();
                 docs->interactionDialogue[0] = QString("Страховые документы...");
                 docs->interactionDialogue[1] = QString("Похоже, что зоопарк получит крупную сумму в случае пропажи тюленя.");
-                docs->interactionDialogue[2] = QString("И думаю, господин Огурцов прекрасно знает об этом.");
+                docs->interactionDialogue[2] = QString("И думаю, господин Огурцов прекрасно об этом осведомлён.");
                 docs->interactionDialogue[3] = QString("Вопрос лишь в том, как эти документы попали сюда...");
                 addItem(docs);
             }

@@ -11,7 +11,7 @@ Game::Game()
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
 
-    levelNumber = 3;
+    levelNumber = 4;
     WINDOW_HEIGHT = 600;
     WINDOW_WIDTH = 1100;
     CELL_SIZE = WINDOW_HEIGHT / 15;
@@ -55,10 +55,10 @@ void Game::loadLevel()
         "Сосредоточься, Даша! Ты должна думать как тюлень.",
         "---",
         "Итак, наш главный подозреваемый это пропавший сторож...",
-        "Ночью он мог открыть дверь клетки, выманить тюленя мячом и похитить...",
-        "Но зачем ему это? И где его теперь искать?",
+        "Ночью он мог открыть дверь клетки и похитить тюленя...",
+        "Но в чём мотив? И где его теперь искать?",
         "...",
-        "Шесть часов вечера, пора домой. Вот только разошлю ориентировку на сторожа.",
+        "Шесть часов вечера, пора домой. Вот только закончу с бумажной работой.",
         "---",
         "%",
     };
@@ -168,31 +168,91 @@ void Game::loadLevel()
         "---",
         "20 20 50",
         "---",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w                                                                              ",
-        "w p   hhh v    h   h   hh     h                      h         h h             ",
-        "fffyffffffffffgffffffyfffffffffffyfffffffgffffffffygfffffgfffffffffffffyfffffff",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w                                                                                                                                             ",
+        "w p    v    h     h     hh               hhh         h      h            h h         h    h h       hhh          h h        h          hh     ",
+        "ffffffffffffffgffffffffffffffffffyfffffffffffffffygfffffffffffffffffffffffffffffffffffffffffffffyffffffffffffffffffffffffffffffffffgffffffffff",
         "---",
         "h  ",
         "---",
-        "Нужно разобраться с этим делом побыстрее.",
+        "Это же машина зоопарка! Стоять! Полиция!",
         "---",
-        "Итак, наша лучшая зацепка это пропавший сторож...",
-        "Но где его искать?",
-        "...",
-        "Как? Уже шесть вечера?!",
-        "Сторожем займусь завтра на свежую голову, а сейчас домой.",
+        " ",
+        "---",
+        "%",
+    };
+
+    QString levelMap5[] =
+    {
+        "LEVEL: INVESTIGATION",
+        "---",
+        "110 110 115",
+        "---",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUFFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "ta     K               i  P       rFFF",
+        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "---",
+        "a",
+        "---",
+        "*БАХ!*",
+        "Три часа ночи... кто станет ломиться в дверь в такое время?",
+        "---",
+        "Старый склад... Думаю, я знаю, где это.",
+        "---",
+        "%",
+    };
+
+    QString levelMap6[] =
+    {
+        "LEVEL: INVESTIGATION",
+        "---",
+        "110 110 115",
+        "---",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUFFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "w                                 rFFF",
+        "ta     K               i  P       rFFF",
+        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "---",
+        "a",
+        "---",
+        "*БАХ!*",
+        "Три часа ночи... кто станет ломиться в дверь в такое время?",
+        "---",
+        "Старый склад... Думаю, я знаю, где это.",
         "---",
         "%",
     };
@@ -249,6 +309,26 @@ void Game::loadLevel()
             if (levelMap4[i] != "%")
             {
                 map[i] = levelMap4[i];
+            } else
+            {
+                i = 50;
+            }
+            break;
+
+        case 5:
+            if (levelMap5[i] != "%")
+            {
+                map[i] = levelMap5[i];
+            } else
+            {
+                i = 50;
+            }
+            break;
+
+        case 6:
+            if (levelMap6[i] != "%")
+            {
+                map[i] = levelMap6[i];
             } else
             {
                 i = 50;

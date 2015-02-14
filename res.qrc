@@ -21,9 +21,10 @@
         <file alias="food">img/food.png</file>
         <file alias="box_l">img/largeBox.png</file>
         <file alias="cigarettes">img/cigarettes.png</file>
+        <file alias="van_ws">img/van_ws.png</file>
     </qresource>
     <qresource prefix="/img/van">
-        <file alias="1">img/van1.png</file>
         <file alias="2">img/van2.png</file>
+        <file alias="1">img/van1.png</file>
     </qresource>
 </RCC>

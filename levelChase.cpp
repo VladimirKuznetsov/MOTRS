@@ -27,21 +27,30 @@ void LevelChase::checkRules()
     //камера следит за противником
     followEnemy();
 
-    //победа если персонаж догнал соперника
-    QList <QGraphicsItem *> collisionList = player->collidingItems();
-    for (int i = 0; i < collisionList.size(); i++) {
-        if (typeid(*collisionList[i]) == (typeid(Enemy))) {
-            emit win();
+    if (check == true)
+    {
+        //победа если персонаж догнал соперника
+        QList <QGraphicsItem *> collisionList = player->collidingItems();
+        for (int i = 0; i < collisionList.size(); i++) {
+            if (typeid(*collisionList[i]) == (typeid(Enemy))) {
+                updateTimer->stop();
+                check = false;
+                emit win();
+            }
         }
-    }
 
-    //поражение, если персонаж сильно отстал
-    if (enemy[0]->x() - player->x() > game->CELL_SIZE * 20) {
-        gameOver("Похитителю удалось скрыться.");
-    }
+        //поражение, если персонаж сильно отстал
+        if (enemy[0]->x() - player->x() > game->CELL_SIZE * 20) {
+            //updateTimer->stop();
+            check = false;
+            gameOver("Похитителю удалось скрыться.");
+        }
 
-    //поражение, если противник уехал за границу экрана
-    if (enemy[0]->x() > sceneRect().width()) {
-        gameOver("Похитителю удалось скрыться.");
+        //поражение, если противник уехал за границу экрана
+        if (enemy[0]->x() > sceneRect().width()) {
+            //updateTimer->stop();
+            check = false;
+            gameOver("Похитителю удалось скрыться.");
+        }
     }
 }

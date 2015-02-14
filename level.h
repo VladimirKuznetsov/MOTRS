@@ -21,6 +21,7 @@ public:
     QString clues;
     QString startMessage[10];
     QString endMessage[10];
+    bool check;
 
     //ввод с клавиатуры
     void keyPressEvent(QKeyEvent *event);
