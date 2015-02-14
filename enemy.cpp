@@ -14,8 +14,8 @@ Enemy::Enemy(QString _dir, QObject *parent) : QObject(parent)
     frame = 1;
     animationSpeed = 0.2;
     setPixmap(QPixmap(dir + QString::number(int(frame))));
-    HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 17 / 100);
-    //HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 15 / 100);
+    HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 10 / 100);
+    //HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 17 / 100);
     numberOfJumps = 2;
     horizontalSpeed = 0;
     verticalSpeed = 0;

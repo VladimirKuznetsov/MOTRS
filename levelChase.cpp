@@ -33,9 +33,8 @@ void LevelChase::checkRules()
         QList <QGraphicsItem *> collisionList = player->collidingItems();
         for (int i = 0; i < collisionList.size(); i++) {
             if (typeid(*collisionList[i]) == (typeid(Enemy))) {
-                updateTimer->stop();
-                check = false;
                 emit win();
+                return;
             }
         }
 
@@ -44,6 +43,7 @@ void LevelChase::checkRules()
             //updateTimer->stop();
             check = false;
             gameOver("ѕохитителю удалось скрытьс€.");
+            return;
         }
 
         //поражение, если противник уехал за границу экрана
@@ -51,6 +51,7 @@ void LevelChase::checkRules()
             //updateTimer->stop();
             check = false;
             gameOver("ѕохитителю удалось скрытьс€.");
+            return;
         }
     }
 }

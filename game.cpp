@@ -11,7 +11,7 @@ Game::Game()
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
 
-    levelNumber = 4;
+    levelNumber = 0;
     WINDOW_HEIGHT = 600;
     WINDOW_WIDTH = 1100;
     CELL_SIZE = WINDOW_HEIGHT / 15;
@@ -197,28 +197,44 @@ void Game::loadLevel()
     {
         "LEVEL: INVESTIGATION",
         "---",
-        "110 110 115",
+        "20 20 50",
         "---",
-        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-        "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUFFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "ta     K               i  P       rFFF",
-        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCFFFF",
-        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "w                                    w",
+        "w                                    w",
+        "w                                    w",
+        "w                                    w",
+        "w                                    w",
+        "w                                    w",
+        "w                                    w",
+        "w                                    w",
+        "w                                    w",
+        "w                                    w",
+        "w                                    w",
+        "w                                    w",
+        "w                                    w",
+        "w     P   O                          w",
+        "ffffffffffffffffffffffffffffffffffffff",
         "---",
         "a",
         "---",
-        "*БАХ!*",
-        "Три часа ночи... кто станет ломиться в дверь в такое время?",
+        "-Господин Огурцов! Так это вы - тюлений вор?",
+        "-У меня в багажнике трёхсоткилограммовый тюлень. Глупо что-либо отрицать.",
+        "-Тогда давайте начистоту. Зачем вы похитили тюленя? Ради наживы?",
+        "...",
+        "-В последнее время дела в зоопарке идут не лучшим образом...",
+        "Старые вольеры уже разваливаются, а новые строить не на что.",
+        "Страховка за похищенного тюленя была нашей последней надеждой.",
+        "Потом я, конечно, устроил бы счастливое воссоединение...",
+        "...но на время тюлень должен был исчезнуть.",
+        "-А что же сторож? Он, ведь, не согласился на вашу аферу. Как вы убрали его с дороги?",
+        "-Отпустил погулять на денёк, пригрозил оставить без работы, если он проболтается...",
+        "С ним всё в порядке.",
+        "Более того, я так понимаю, это именно он вас сюда направил.",
+        "Больше об этом месте никто не знал.",
+        "...",
+        "Послушайте, Даша, всё что я делал, я делал ради зоопарка!",
+        "И никакого злого умысла в это не вкладывал",
+        "-Теперь это будет решать суд",
         "---",
         "Старый склад... Думаю, я знаю, где это.",
         "---",
@@ -228,39 +244,45 @@ void Game::loadLevel()
     QString levelMap6[] =
     {
         "LEVEL: INVESTIGATION",
-        "---",
-        "110 110 115",
-        "---",
-        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-        "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUFFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "ta     K               i  P       rFFF",
-        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCFFFF",
-        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-        "---",
-        "a",
-        "---",
-        "*БАХ!*",
-        "Три часа ночи... кто станет ломиться в дверь в такое время?",
+                "---",
+                "20 20 50",
+                "---",
+                "w                                    w",
+                "w                                    w",
+                "w                                    w",
+                "w                                    w",
+                "w                                    w",
+                "w                                    w",
+                "w                                    w",
+                "w                                    w",
+                "w                                    w",
+                "w                                    w",
+                "w                                    w",
+                "w                                    w",
+                "w                                    w",
+                "w     P   O                          w",
+                "ffffffffffffffffffffffffffffffffffffff",
+                "---",
+                "a",
+                "---",
+                "-Господин Огурцов! Так это вы - тюлений вор?",
+                "-У меня в багажнике трёхсоткилограммовый тюлень. Глупо что-либо отрицать.",
+                "-Тогда давайте начистоту. Зачем вы похитили тюленя? Ради наживы?",
+                "...",
+                "-В последнее время дела в зоопарке идут не лучшим образом...",
+                "Старые вольеры уже разваливаются, а новые строить не на что.",
+                "Страховка за похищенного тюленя была нашей последней надеждой.",
+
         "---",
         "Старый склад... Думаю, я знаю, где это.",
         "---",
         "%",
     };
 
-    QString map[50];
+    QString map[100];
 
     //загружаем интересующую нас карту в map[]
-    for (int i = 0; i < 50; i++)
+    for (int i = 0; i < 100; i++)
     {
         switch (levelNumber)
         {
@@ -271,7 +293,7 @@ void Game::loadLevel()
                  map[i] = levelMap0[i];
             } else
             {
-                i = 50;
+                i = 100;
             }
             break;
 
@@ -281,7 +303,7 @@ void Game::loadLevel()
                 map[i] = levelMap1[i];
             } else
             {
-                i = 50;
+                i = 100;
             }
             break;
 
@@ -291,7 +313,7 @@ void Game::loadLevel()
                 map[i] = levelMap2[i];
             } else
             {
-                i = 50;
+                i = 100;
             }
             break;
 
@@ -301,7 +323,7 @@ void Game::loadLevel()
                 map[i] = levelMap3[i];
             } else
             {
-                i = 50;
+                i = 100;
             }
             break;
 
@@ -311,7 +333,7 @@ void Game::loadLevel()
                 map[i] = levelMap4[i];
             } else
             {
-                i = 50;
+                i = 100;
             }
             break;
 
@@ -321,7 +343,7 @@ void Game::loadLevel()
                 map[i] = levelMap5[i];
             } else
             {
-                i = 50;
+                i = 100;
             }
             break;
 
@@ -331,7 +353,7 @@ void Game::loadLevel()
                 map[i] = levelMap6[i];
             } else
             {
-                i = 50;
+                i = 100;
             }
             break;
 
@@ -361,15 +383,13 @@ void Game::nextLevel()
 {
     qDebug() << "WE GOT A WINNER";
     levelNumber++;
-    level->clear();
-    //delete level;
+    delete level;
     loadLevel();
 }
 
 void Game::resetLevel()
 {
     qDebug() << "LOOK AT THIS LOOSER";
-    level->clear();
-    //delete level;
+    delete level;
     loadLevel();
 }

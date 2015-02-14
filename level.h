@@ -19,8 +19,8 @@ public:
     void gameOver (QString comment);
     void levelCompleted (QString message[]);
     QString clues;
-    QString startMessage[10];
-    QString endMessage[10];
+    QString startMessage[30];
+    QString endMessage[30];
     bool check;
 
     //ввод с клавиатуры

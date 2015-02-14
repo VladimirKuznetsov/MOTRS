@@ -506,7 +506,7 @@ void Level::init(QString map[])
 
     //загружаем начальное и финальное сообщение уровня
     int i;
-    for (i = 22; i < 32; i++)
+    for (i = 22; i < 52; i++)
     {
         if (map[i] == QString("---")) break;
         startMessage[i - 22] = map[i];
@@ -515,12 +515,11 @@ void Level::init(QString map[])
 
     i++;
     int j;
-    for (j = i; j < i + 10; j++)
+    for (j = i; j < i + 30; j++)
     {
         if (map[j] == QString("---")) break;
         endMessage[j - i] = map[j];
     }
-    qDebug() << QString::number(j-i);
     endMessage[j - i] = "";
 
     //определяем размеры сцены
@@ -544,7 +543,6 @@ void Level::init(QString map[])
 
     //загрузка начального диалога
     dialog->setDialog(startMessage);
-    qDebug() << endMessage[5];
 }
 
 //отображаем в случае провала

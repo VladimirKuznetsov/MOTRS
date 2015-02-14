@@ -12,7 +12,7 @@ public:
     DialogBox(QGraphicsObject *parent = 0);
     void nextLine();
     void skip();
-    QString text[10];
+    QString text[30];
     Cell * cell;
     unsigned short lineNumber;
 
