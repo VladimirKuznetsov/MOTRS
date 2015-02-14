@@ -324,7 +324,7 @@ void Level::init(QString map[])
                 mr->addInteraction('o');
                 mr->setCellActive();
                 mr->interactionDialogue[0] = QString("– Добрый день, господин Огурцов. Старший следователь Дарья Винокурова.");
-                mr->interactionDialogue[1] = QString("Вы вызвали полицию?");
+                mr->interactionDialogue[1] = QString("Это вы вызвали полицию?");
                 mr->interactionDialogue[2] = QString("– Да. Дело в том, что сегодня ночью из своей клетки пропал полосатый тюлень.");
                 mr->interactionDialogue[3] = QString("Прошу вас, найдите его скорее!");
                 mr->interactionDialogue[4] = QString("– Мы сделаем всё возможное. Скажите, у кого были ключи от клетки?");
@@ -517,6 +517,29 @@ void Level::init(QString map[])
                 end->setCellActive();
                 end->interactionDialogue[0] = QString("");
                 addItem(end);
+            }
+            //отрисовка заголовка
+            if (map[row][column] == 'D')
+            {
+                title = new Cell(":/img/title", 0, this);
+                float scaleFactor = game->WINDOW_WIDTH / title->boundingRect().width();
+                title->setScale(scaleFactor);
+                title->setPos(0, (game->WINDOW_HEIGHT - \
+                                  scaleFactor * title->boundingRect().height()) / 2);
+                addItem(title);
+                title->setZValue(100);
+            }
+
+            //отрисовка заголовка
+            if (map[row][column] == 'D')
+            {
+                controls = new Cell(":/img/title", 2, this);
+                float scaleFactor = game->WINDOW_WIDTH / controls->boundingRect().width();
+                controls->setScale(scaleFactor);
+                controls->setPos(0, (game->WINDOW_HEIGHT - \
+                                  scaleFactor * controls->boundingRect().height()) / 2);
+                addItem(controls);
+                controls->setZValue(99);
             }
         }
     }

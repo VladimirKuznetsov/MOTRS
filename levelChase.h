@@ -2,7 +2,6 @@
 #define LEVELCHASE_H
 
 #include <QObject>
-#include <QGraphicsView>
 #include "level.h"
 
 class LevelChase : public Level

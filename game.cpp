@@ -5,13 +5,14 @@
 #include <QTextCodec>
 #include "levelChase.h"
 #include "levelInvestigate.h"
+#include "levelIntro.h"
 
 Game::Game()
 {
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
 
-    levelNumber = 5;
+    levelNumber = 0;
     WINDOW_HEIGHT = 600;
     WINDOW_WIDTH = 1100;
     CELL_SIZE = WINDOW_HEIGHT / 15;
@@ -26,6 +27,37 @@ Game::Game()
 void Game::loadLevel()
 {
     QString levelMap0[] =
+    {
+        "LEVEL: INTRO",
+        "---",
+        "250 250 250",
+        "---",
+        "                                                      ",
+        "                                                      ",
+        "                                                      ",
+        "                                                      ",
+        "                                                      ",
+        "  wwwww                                               ",
+        "  w p w                                               ",
+        "  wwwww                                               ",
+        "                                                      ",
+        "                                                      ",
+        "                                                      ",
+        "                                                      ",
+        "                                                      ",
+        "                                                      ",
+        "Du                                                    ",
+        "---",
+        "",
+        "---",
+        "",
+        "---",
+        "",
+        "---",
+        "%",
+    };
+
+    QString levelMap1[] =
     {
         "LEVEL: INVESTIGATION",
         "---",
@@ -63,7 +95,7 @@ void Game::loadLevel()
         "%",
     };
 
-    QString levelMap1[] =
+    QString levelMap2[] =
     {
         "LEVEL: INVESTIGATION",
         "---",
@@ -95,7 +127,7 @@ void Game::loadLevel()
         "%",
     };
 
-    QString levelMap2[] =
+    QString levelMap3[] =
     {
         "LEVEL: INVESTIGATION",
         "---",
@@ -127,7 +159,7 @@ void Game::loadLevel()
         "%",
     };
 
-    QString levelMap3[] =
+    QString levelMap4[] =
     {
         "LEVEL: INVESTIGATION",
         "---",
@@ -162,7 +194,7 @@ void Game::loadLevel()
         "%",
     };
 
-    QString levelMap4[] =
+    QString levelMap5[] =
     {
         "LEVEL: CHASE",
         "---",
@@ -193,7 +225,7 @@ void Game::loadLevel()
         "%",
     };
 
-    QString levelMap5[] =
+    QString levelMap6[] =
     {
         "LEVEL: INVESTIGATION",
         "---",
@@ -215,7 +247,7 @@ void Game::loadLevel()
         "w     P         O                                   w",
         "fffffffffffffffffffffffffffffffffffffffffffffffffffff",
         "---",
-        "a",
+        " ",
         "---",
         "—Господин Огурцов! Так это вы - тюлений вор?",
         "—У меня в багажнике трёхсоткилограммовый тюлень. Глупо что-либо отрицать.",
@@ -238,44 +270,6 @@ void Game::loadLevel()
         "—Теперь это будет решать суд.",
         "---",
         " ",
-        "---",
-        "%",
-    };
-
-    QString levelMap6[] =
-    {
-        "LEVEL: INVESTIGATION",
-                "---",
-                "20 20 50",
-                "---",
-                "w                                    w",
-                "w                                    w",
-                "w                                    w",
-                "w                                    w",
-                "w                                    w",
-                "w                                    w",
-                "w                                    w",
-                "w                                    w",
-                "w                                    w",
-                "w                                    w",
-                "w                                    w",
-                "w                                    w",
-                "w                                    w",
-                "w     P   O                          w",
-                "ffffffffffffffffffffffffffffffffffffff",
-                "---",
-                "a",
-                "---",
-                "-Господин Огурцов! Так это вы - тюлений вор?",
-                "-У меня в багажнике трёхсоткилограммовый тюлень. Глупо что-либо отрицать.",
-                "-Тогда давайте начистоту. Зачем вы похитили тюленя? Ради наживы?",
-                "...",
-                "-В последнее время дела в зоопарке идут не лучшим образом...",
-                "Старые вольеры уже разваливаются, а новые строить не на что.",
-                "Страховка за похищенного тюленя была нашей последней надеждой.",
-
-        "---",
-        "Старый склад... Думаю, я знаю, где это.",
         "---",
         "%",
     };
@@ -373,6 +367,12 @@ void Game::loadLevel()
     } else if (map[0] == QString("LEVEL: INVESTIGATION"))
     {
         level = new LevelInvestigate(this);
+        level->init(map);
+
+    //создаём уровень: введение
+    } else if (map[0] == QString("LEVEL: INTRO"))
+    {
+        level = new LevelIntro(this);
         level->init(map);
     }
 

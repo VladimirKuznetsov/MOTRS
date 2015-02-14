@@ -33,6 +33,8 @@ public:
     Enemy * enemy[10];
     QTimer * updateTimer;
     DialogBox * dialog;
+    Cell * title;
+    Cell * controls;
 
     //определ€ем геометрические параметры сцены
     short PLAYER_HEIGHT;

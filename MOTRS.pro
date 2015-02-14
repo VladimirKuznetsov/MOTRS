@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     level.cpp \
     game.cpp \
     dialogBox.cpp \
-    levelInvestigate.cpp
+    levelInvestigate.cpp \
+    levelIntro.cpp
 
 HEADERS  += \
     player.h \
@@ -28,7 +29,8 @@ HEADERS  += \
     level.h \
     game.h \
     dialogBox.h \
-    levelInvestigate.h
+    levelInvestigate.h \
+    levelIntro.h
 
 FORMS    +=
 
