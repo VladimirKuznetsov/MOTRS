@@ -16,7 +16,11 @@
         <file alias="letter">img/letter.png</file>
         <file alias="concrete_s">img/concrete_s.png</file>
         <file alias="concrete">img/concrete.png</file>
+        <file alias="docs">img/docs.png</file>
         <file alias="box">img/box.png</file>
+        <file alias="food">img/food.png</file>
+        <file alias="box_l">img/largeBox.png</file>
+        <file alias="cigarettes">img/cigarettes.png</file>
     </qresource>
     <qresource prefix="/img/van">
         <file alias="1">img/van1.png</file>

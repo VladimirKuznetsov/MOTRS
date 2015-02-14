@@ -290,14 +290,14 @@ void Level::init(QString map[])
             if (map[row][column] == 's')
             {
                 Cell * ball = new Cell(":/img/ball", 0, this);
-                float scaleFactor = game->CELL_SIZE / ball->boundingRect().height();
+                float scaleFactor = game->CELL_SIZE * 4 / ball->boundingRect().height();
                 ball->setScale(scaleFactor);
-                ball->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                ball->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * ball->boundingRect().height());
                 ball->addInteraction('s');
                 ball->setCellActive();
                 ball->interactionDialogue[0] = QString("Это мячик для шоу с тюленями. Что он здесь делает?..");
                 addItem(ball);
-                ball->setZValue(-1);
+                ball->setZValue(-2);
             }
             //отрисовка клетки для тюленя
             if (map[row][column] == 'c')
@@ -381,19 +381,119 @@ void Level::init(QString map[])
                 letter->interactionDialogue[2] = QString("...терпеть не могу, когда меня называют Дарья...");
                 letter->interactionDialogue[3] = QString("«...однако я вынужден держать свою личность в тайне.");
                 letter->interactionDialogue[4] = QString("У меня есть информация по делу об исчезновении полосатого тюленя.");
-                letter->interactionDialogue[5] = QString("Животное держат на старом складе сталелитейного завода по адресу...»");
-                letter->interactionDialogue[6] = QString("«...требуется срочное вмешательство сотрудников правопорядка...»");
+                letter->interactionDialogue[5] = QString("Животное держат на старом складе сталелитейного завода,");
+                letter->interactionDialogue[6] = QString("требуется срочное вмешательство сотрудников правопорядка.»");
                 addItem(letter);
+            }
+            //отрисовка ящиков
+            if (map[row][column] == 'q')
+            {
+                Cell * box = new Cell(":/img/box", 0, this);
+                float scaleFactor = game->CELL_SIZE * 4 / box->boundingRect().width();
+                box->setScale(scaleFactor);
+                box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
+                addItem(box);
+                box->setZValue(-1);
             }
             //отрисовка ящиков
             if (map[row][column] == 'Q')
             {
-                Cell * box = new Cell(":/img/box", 1, this);
-                float scaleFactor = game->CELL_SIZE * 2 / box->boundingRect().width();
+                Cell * box = new Cell(":/img/box_l", 0, this);
+                float scaleFactor = game->CELL_SIZE * 8 / box->boundingRect().width();
                 box->setScale(scaleFactor);
                 box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
-                box->isSolid = true;
                 addItem(box);
+                box->setZValue(-1);
+            }
+            //отрисовка ящиков
+            if (map[row][column] == 'j')
+            {
+                Cell * box = new Cell(":/img/box", 0, this);
+                float scaleFactor = game->CELL_SIZE * 4 / box->boundingRect().width();
+                box->setScale(scaleFactor);
+                box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
+                addItem(box);
+                box->setZValue(-1);
+            }
+            //отрисовка ящиков
+            if (map[row][column] == 'J')
+            {
+                Cell * box = new Cell(":/img/box_l", 1, this);
+                float scaleFactor = game->CELL_SIZE * 8 / box->boundingRect().width();
+                box->setScale(scaleFactor);
+                box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
+                addItem(box);
+                box->setZValue(-1);
+            }
+            //отрисовка ящиков
+            if (map[row][column] == 'j')
+            {
+                Cell * box = new Cell(":/img/box", 1, this);
+                float scaleFactor = game->CELL_SIZE * 4 / box->boundingRect().width();
+                box->setScale(scaleFactor);
+                box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
+                addItem(box);
+                box->setZValue(-1);
+            }
+            //отрисовка ящиков
+            if (map[row][column] == 'Z')
+            {
+                Cell * box = new Cell(":/img/box_l", 2, this);
+                float scaleFactor = game->CELL_SIZE * 8 / box->boundingRect().width();
+                box->setScale(scaleFactor);
+                box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
+                addItem(box);
+                box->setZValue(-1);
+            }
+            //отрисовка ящиков
+            if (map[row][column] == 'z')
+            {
+                Cell * box = new Cell(":/img/box", 2, this);
+                float scaleFactor = game->CELL_SIZE * 4 / box->boundingRect().width();
+                box->setScale(scaleFactor);
+                box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
+                addItem(box);
+                box->setZValue(-1);
+            }
+            //отрисовка документов
+            if (map[row][column] == 'd')
+            {
+                Cell * docs = new Cell(":/img/docs", 0, this);
+                float scaleFactor = game->CELL_SIZE* 2 / docs->boundingRect().width();
+                docs->setScale(scaleFactor);
+                docs->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*docs->boundingRect().height());
+                docs->addInteraction('d');
+                docs->setCellActive();
+                docs->interactionDialogue[0] = QString("Страховые документы...");
+                docs->interactionDialogue[1] = QString("Похоже, что зоопарк получит крупную сумму в случае пропажи тюленя.");
+                docs->interactionDialogue[2] = QString("И думаю, господин Огурцов прекрасно знает об этом.");
+                docs->interactionDialogue[3] = QString("Вопрос лишь в том, как эти документы попали сюда...");
+                addItem(docs);
+            }
+            //отрисовка сигарет
+            if (map[row][column] == 'L')
+            {
+                Cell * cig = new Cell(":/img/cigarettes", 0, this);
+                float scaleFactor = game->CELL_SIZE * 3 / cig->boundingRect().width();
+                cig->setScale(scaleFactor);
+                cig->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*cig->boundingRect().height());
+                cig->addInteraction('L');
+                cig->setCellActive();
+                cig->interactionDialogue[0] = QString("Окурки. Судя по всему, свежие.");
+                addItem(cig);
+            }
+            //отрисовка миски
+            if (map[row][column] == 'V')
+            {
+                Cell * food = new Cell(":/img/food", 0, this);
+                float scaleFactor = game->CELL_SIZE* 2 / food->boundingRect().width();
+                food->setScale(scaleFactor);
+                food->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*food->boundingRect().height());
+                food->addInteraction('V');
+                food->setCellActive();
+                food->interactionDialogue[0] = QString("Миска с рыбой.");
+                food->interactionDialogue[1] = QString("Кто-то держит здесь кота?");
+                addItem(food);
             }
         }
     }
@@ -455,8 +555,8 @@ void Level::gameOver(QString comment)
 void Level::levelCompleted(QString message[])
 {
     updateTimer->stop();
-    dialog->setDialog(message);
     connect (dialog, SIGNAL(ended()), this, SIGNAL(win()));
+    dialog->setDialog(message);
 }
 
 //макет проверки правил
