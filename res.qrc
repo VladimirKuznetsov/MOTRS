@@ -22,6 +22,7 @@
         <file alias="box_l">img/largeBox.png</file>
         <file alias="cigarettes">img/cigarettes.png</file>
         <file alias="van_ws">img/van_ws.png</file>
+        <file alias="end">img/the end.png</file>
     </qresource>
     <qresource prefix="/img/van">
         <file alias="2">img/van2.png</file>

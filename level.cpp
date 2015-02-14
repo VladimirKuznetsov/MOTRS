@@ -334,6 +334,15 @@ void Level::init(QString map[])
                 mr->interactionDialogue[8] = QString("– Любопытно...");
                 addItem(mr);
             }
+            //отрисовка г-на Огурцова крупным планом
+            if (map[row][column] == 'O')
+            {
+                Cell * mr = new Cell(":/img/ogurtsov", 0, this);
+                float scaleFactor = (float)PLAYER_HEIGHT * 3 / mr->boundingRect().height();
+                mr->setScale(scaleFactor);
+                mr->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * mr->boundingRect().height());
+                addItem(mr);
+            }
             //отрисовка кухни
             if (map[row][column] == 'k')
             {
@@ -496,6 +505,18 @@ void Level::init(QString map[])
                 food->interactionDialogue[0] = QString("Миска с рыбой.");
                 food->interactionDialogue[1] = QString("Кто-то держит здесь кота?");
                 addItem(food);
+            }
+            //отрисовка титров
+            if (map[row][column] == 'E')
+            {
+                Cell * end = new Cell(":/img/end", 0, this);
+                float scaleFactor = game->CELL_SIZE * 20 / end->boundingRect().width();
+                end->setScale(scaleFactor);
+                end->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * end->boundingRect().height());
+                end->addInteraction('V');
+                end->setCellActive();
+                end->interactionDialogue[0] = QString("");
+                addItem(end);
             }
         }
     }

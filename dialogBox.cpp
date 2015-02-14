@@ -31,7 +31,7 @@ DialogBox::DialogBox(QGraphicsObject *parent) : QGraphicsTextItem(parent)
 //загружаем текст из массива строк
 void DialogBox::setDialog(QString _text[30])
 {
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < MAX_LINES; i++)
     {
         text[i] = _text[i];
         if (text[i] == QString("")) break;
@@ -64,7 +64,7 @@ void DialogBox::move()
 void DialogBox::nextLine()
 {
     lineNumber++;
-    if ((text[lineNumber] == QString("")) || (lineNumber == 29))
+    if ((text[lineNumber] == QString("")) || (lineNumber == MAX_LINES - 1))
     {
         isOn = false;
         setVisible(false);
@@ -84,6 +84,6 @@ void DialogBox::nextLine()
 //пропуск диалога
 void DialogBox::skip()
 {
-    lineNumber = 28;
+    lineNumber = MAX_LINES - 2;
     nextLine();
 }

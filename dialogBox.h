@@ -12,7 +12,8 @@ public:
     DialogBox(QGraphicsObject *parent = 0);
     void nextLine();
     void skip();
-    QString text[30];
+    static const short MAX_LINES = 30;
+    QString text[MAX_LINES];
     Cell * cell;
     unsigned short lineNumber;
 
