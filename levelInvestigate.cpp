@@ -6,32 +6,32 @@
 
 extern Game * game;
 
-//конструктор
+//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 LevelInvestigate::LevelInvestigate(QGraphicsView *parent) : Level(parent)
 {
 }
 
-//проверка условий победы и поражения
+//РїСЂРѕРІРµСЂРєР° СѓСЃР»РѕРІРёР№ РїРѕР±РµРґС‹ Рё РїРѕСЂР°Р¶РµРЅРёСЏ
 void LevelInvestigate::checkRules()
 {
-    //камера следит за противником
+    //РєР°РјРµСЂР° СЃР»РµРґРёС‚ Р·Р° РїСЂРѕС‚РёРІРЅРёРєРѕРј
     followPlayer();
 
-    //если игрок стоит на клетке выхода
+    //РµСЃР»Рё РёРіСЂРѕРє СЃС‚РѕРёС‚ РЅР° РєР»РµС‚РєРµ РІС‹С…РѕРґР°
     QList <QGraphicsItem *> availableItems = player->actionArea->collidingItems();
     for (int i = 0; i < availableItems.size(); i++)
     {
-        //обнаруживаем клетку выхода
+        //РѕР±РЅР°СЂСѓР¶РёРІР°РµРј РєР»РµС‚РєСѓ РІС‹С…РѕРґР°
         if ((typeid(*availableItems[i]) == typeid(Cell)) && (((Cell*)availableItems[i])->isTarget == true))
         {
-            //сверяем списки улик
+            //СЃРІРµСЂСЏРµРј СЃРїРёСЃРєРё СѓР»РёРє
             bool unfoundClues = false;
             for (int i = 0; i < clues.size(); i++)
             {
                 if (player->clues.contains(clues[i]) == false) unfoundClues = true;
             }
 
-            //если все улики найдены, уровень закончен
+            //РµСЃР»Рё РІСЃРµ СѓР»РёРєРё РЅР°Р№РґРµРЅС‹, СѓСЂРѕРІРµРЅСЊ Р·Р°РєРѕРЅС‡РµРЅ
             if (unfoundClues == false)
             {
                 levelCompleted(endMessage);
@@ -40,7 +40,7 @@ void LevelInvestigate::checkRules()
     }
 }
 
-//камера следит за передвижениями игрока
+//РєР°РјРµСЂР° СЃР»РµРґРёС‚ Р·Р° РїРµСЂРµРґРІРёР¶РµРЅРёСЏРјРё РёРіСЂРѕРєР°
 void LevelInvestigate::followPlayer()
 {
     game->ensureVisible(player, game->WINDOW_WIDTH * 1/5, 0);

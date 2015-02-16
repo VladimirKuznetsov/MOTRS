@@ -23,11 +23,11 @@ public:
     QString endMessage[30];
     bool check;
 
-    //ввод с клавиатуры
+    //РІРІРѕРґ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
-    //некоторые объекты сцены
+    //РЅРµРєРѕС‚РѕСЂС‹Рµ РѕР±СЉРµРєС‚С‹ СЃС†РµРЅС‹
     unsigned short numberOfEnemies;
     Player * player;
     Enemy * enemy[10];
@@ -36,7 +36,7 @@ public:
     Cell * title;
     Cell * controls;
 
-    //определяем геометрические параметры сцены
+    //РѕРїСЂРµРґРµР»СЏРµРј РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ РїР°СЂР°РјРµС‚СЂС‹ СЃС†РµРЅС‹
     short PLAYER_HEIGHT;
     short PLAYER_WIDTH;
     short ENEMY_HEIGHT;

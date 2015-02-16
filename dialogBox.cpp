@@ -9,10 +9,9 @@
 
 extern Game * game;
 
-//конструктор
+//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 DialogBox::DialogBox(QGraphicsObject *parent) : QGraphicsTextItem(parent)
 {
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
 
     cell = new Cell();
     cell->setParent(this);
@@ -28,7 +27,7 @@ DialogBox::DialogBox(QGraphicsObject *parent) : QGraphicsTextItem(parent)
 
 }
 
-//загружаем текст из массива строк
+//Р·Р°РіСЂСѓР¶Р°РµРј С‚РµРєСЃС‚ РёР· РјР°СЃСЃРёРІР° СЃС‚СЂРѕРє
 void DialogBox::setDialog(QString _text[30])
 {
     for (int i = 0; i < MAX_LINES; i++)
@@ -42,11 +41,11 @@ void DialogBox::setDialog(QString _text[30])
     setPlainText(text[lineNumber]);
     setVisible(true);
 
-    //если массив пуст, пропускаем диалог
+    //РµСЃР»Рё РјР°СЃСЃРёРІ РїСѓСЃС‚, РїСЂРѕРїСѓСЃРєР°РµРј РґРёР°Р»РѕРі
     if (text[0] == QString("")) skip();
 }
 
-//загружаем текст из клетки
+//Р·Р°РіСЂСѓР¶Р°РµРј С‚РµРєСЃС‚ РёР· РєР»РµС‚РєРё
 void DialogBox::setDialog(Cell *_cell)
 {
     cell = _cell;
@@ -60,7 +59,7 @@ void DialogBox::move()
     setPos(textCoord);
 }
 
-//листаем диалог вперёд
+//Р»РёСЃС‚Р°РµРј РґРёР°Р»РѕРі РІРїРµСЂС‘Рґ
 void DialogBox::nextLine()
 {
     lineNumber++;
@@ -81,7 +80,7 @@ void DialogBox::nextLine()
     setPlainText(text[lineNumber]);
 }
 
-//пропуск диалога
+//РїСЂРѕРїСѓСЃРє РґРёР°Р»РѕРіР°
 void DialogBox::skip()
 {
     lineNumber = MAX_LINES - 2;

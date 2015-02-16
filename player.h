@@ -20,16 +20,16 @@ public:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
-    //переменные для взаимодействия с объектами
+    //РїРµСЂРµРјРµРЅРЅС‹Рµ РґР»СЏ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ СЃ РѕР±СЉРµРєС‚Р°РјРё
     QGraphicsPolygonItem * actionArea;
     QString clues;
 
-    //анимация
+    //Р°РЅРёРјР°С†РёСЏ
     float frame;
     float animationSpeed;
     QPixmap spriteSheet;
 
-    //переменные состояния и направления
+    //РїРµСЂРµРјРµРЅРЅС‹Рµ СЃРѕСЃС‚РѕСЏРЅРёСЏ Рё РЅР°РїСЂР°РІР»РµРЅРёСЏ
     float zoom;
     char action;
     bool shiftIsPressed;
@@ -37,21 +37,24 @@ public:
     signed int verticalSpeed;
     signed int horizontalSpeed;
 
-    //константы скорости
+    //РєРѕРЅСЃС‚Р°РЅС‚С‹ СЃРєРѕСЂРѕСЃС‚Рё
     short JUMP_SPEED;
     short WALK_SPEED;
     short RUN_SPEED;
     short MAX_STEP_HEIGHT;
 
-    //константы состояний
+    //РєРѕРЅСЃС‚Р°РЅС‚С‹ СЃРѕСЃС‚РѕСЏРЅРёР№
     static const char ACT_STAND = 1;
     static const char ACT_GO = 2;
     static const char ACT_RUN = 3;
     static const char ACT_JUMP = 4;
 
-    //константы направлений
+    //РєРѕРЅСЃС‚Р°РЅС‚С‹ РЅР°РїСЂР°РІР»РµРЅРёР№
     static const char DIR_LEFT = 1;
     static const char DIR_RIGHT = 2;
+
+private:
+    void flipHorizontal();
 
 public slots:
     void move();

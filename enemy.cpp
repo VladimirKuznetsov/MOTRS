@@ -22,17 +22,17 @@ Enemy::Enemy(QString _dir, QObject *parent) : QObject(parent)
 
 void Enemy::move()
 {
-    //перемещаемся по горизонтали
+    //РїРµСЂРµРјРµС‰Р°РµРјСЃСЏ РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
     int oldX = x();
     setPos(x() + horizontalSpeed, y());
 
-    //ограничение по горизонтальному перемещению
+    //РѕРіСЂР°РЅРёС‡РµРЅРёРµ РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРјСѓ РїРµСЂРµРјРµС‰РµРЅРёСЋ
     if (collideWithFloor() == true)
     {
         setPos(oldX, y());
     }
 
-    //плавный разгон
+    //РїР»Р°РІРЅС‹Р№ СЂР°Р·РіРѕРЅ
     static int i = 0;
     i++;
     if (i > 8) {
@@ -52,19 +52,19 @@ void Enemy::move()
         i = 0;
     }
 
-    //перемещаемся по вертикали
+    //РїРµСЂРµРјРµС‰Р°РµРјСЃСЏ РїРѕ РІРµСЂС‚РёРєР°Р»Рё
     int oldY = y();
     setPos(x(), y() - verticalSpeed);
     verticalSpeed -= game->GRAVITY;
 
-    //ограничение по вертикальному перемещению
+    //РѕРіСЂР°РЅРёС‡РµРЅРёРµ РїРѕ РІРµСЂС‚РёРєР°Р»СЊРЅРѕРјСѓ РїРµСЂРµРјРµС‰РµРЅРёСЋ
     if (collideWithFloor() == true)
     {
-        //упёрлись головой в потолок
+        //СѓРїС‘СЂР»РёСЃСЊ РіРѕР»РѕРІРѕР№ РІ РїРѕС‚РѕР»РѕРє
         if (verticalSpeed > 0) {
             numberOfJumps = 2;
         }
-        //провалились сквозь землю
+        //РїСЂРѕРІР°Р»РёР»РёСЃСЊ СЃРєРІРѕР·СЊ Р·РµРјР»СЋ
         if (verticalSpeed <= 0) {
             numberOfJumps = 0;
         }
@@ -72,13 +72,13 @@ void Enemy::move()
         verticalSpeed = 0;
     }
 
-    //анимация движения
+    //Р°РЅРёРјР°С†РёСЏ РґРІРёР¶РµРЅРёСЏ
     frame += animationSpeed;
     if (frame >= 3) frame = 1;
     setPixmap(QPixmap(dir + QString::number(int(frame))));
 }
 
-//проверка на коллизии с твёрдыми предметами
+//РїСЂРѕРІРµСЂРєР° РЅР° РєРѕР»Р»РёР·РёРё СЃ С‚РІС‘СЂРґС‹РјРё РїСЂРµРґРјРµС‚Р°РјРё
 bool Enemy::collideWithFloor()
 {
     QList <QGraphicsItem *> collisionList = collidingItems();

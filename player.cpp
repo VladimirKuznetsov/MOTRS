@@ -13,7 +13,7 @@
 
 extern Game * game;
 
-//конструктор класса
+//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 Player::Player(QString dir, QObject *parent) : QObject(parent)
 {
     clues = "";
@@ -33,7 +33,8 @@ Player::Player(QString dir, QObject *parent) : QObject(parent)
     spriteSheet = QPixmap(dir);
     setPixmap(spriteSheet.copy(0, 0, 50, 90));
     QVector <QPointF> areaCorners;
-    //описываем область действий игрока
+
+    //СЃРѕР·РґР°С‘Рј РїРѕР»РёРіРѕРЅ, РѕРіСЂР°РЅРёС‡РёРІР°СЋС‰РёР№ РѕР±Р»Р°СЃС‚СЊ РґРµР№СЃС‚РІРёСЏ
     areaCorners << QPointF(0, 0) << QPointF(boundingRect().width() * 3 / 2, 0) \
                    << QPointF(boundingRect().width() * 3 / 2, boundingRect().height()) \
                       << QPointF(0, boundingRect().height());
@@ -44,7 +45,7 @@ Player::Player(QString dir, QObject *parent) : QObject(parent)
     verticalSpeed = 0;
 }
 
-//режим крупного плана
+//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ Р·СѓРј
 void Player::setZoom(float _zoom)
 {
     zoom = _zoom;
@@ -54,31 +55,31 @@ void Player::setZoom(float _zoom)
     MAX_STEP_HEIGHT *= zoom;
 }
 
-//движение игрока
+//РїРµСЂРµРјРµС‰РµРЅРёСЏ РёРіСЂРѕРєР°
 void Player::move()
 {
-    //анимация
+    //СЃРјРµРЅР° РєР°РґСЂРѕРІ Р°РЅРёРјР°С†РёРё
     frame += animationSpeed;
     if (action == ACT_STAND) setPixmap((spriteSheet.copy(0, 0, 50, 90)));
     if (action == ACT_JUMP) setPixmap((spriteSheet.copy(50, 0, 50, 90)));
     if (action == ACT_GO) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 90, 50, 90));
     if (action == ACT_RUN) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 180, 50, 90));
 
-    //разрешаем коллизии анимации
+    //СЂР°Р·СЂРµС€РµРЅРёРµ РєРѕР»РёРёР·РёР№ Р°РЅРёРјР°С†РёРё
     while (collideWithSolid() == true)
     {
         if (collideWithSolid() == true) setPos(x(), y() - 1);
         if (collideWithSolid() == true) setPos(x() - pow(-1, (direction == DIR_RIGHT) + 1), y());
     }
 
-    //перемещаемся по вертикали
+    //РїРµСЂРµРјРµС‰РµРЅРёРµ РїРѕ РІРµСЂС‚РёРєР°Р»Рё
     unsigned int oldY = y();
     setPos(x(), y() - verticalSpeed);
     verticalSpeed -= (game->GRAVITY * zoom);
 
     if (collideWithSolid() == true)
     {
-        //провалились сквозь землю
+        //РїСЂРёР·РµРјР»СЏРµРјСЃСЏ РЅР° РїРѕР»
         if (verticalSpeed < 0) {
             if (horizontalSpeed == 0) action = ACT_STAND;
             else if (shiftIsPressed == true) {
@@ -92,7 +93,7 @@ void Player::move()
         }
     }
 
-    //ограничение по вертикальному перемещению
+    //СЂР°Р·СЂРµС€РµРЅРёРµ РєРѕР»РёРёР·РёР№ РїСЂРё РІРµСЂС‚РёРєР°Р»СЊРЅРѕРј РїРµСЂРµРјРµС‰РµРЅРёРё
     if (collideWithSolid() == true)
     {
         while (collideWithSolid() == true)
@@ -100,16 +101,16 @@ void Player::move()
             setPos(x(), y() - pow(-1, (verticalSpeed < 0) + 1));
         }
 
-        //не позволяем персонажу карабкаться на высокие препятствия
+        //РѕРіСЂР°РЅРёС‡РёРІР°РµРј РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РІС‹СЃРѕС‚Сѓ СЃС‚СѓРїРµРЅСЊРєРё, РґРѕСЃС‚СѓРїРЅСѓСЋ РїРµСЂСЃРѕРЅР°Р¶Сѓ
         if (abs(y() - oldY) > MAX_STEP_HEIGHT)  setPos(x(), oldY);
 
         verticalSpeed = 0;
     }
 
-    //перемещаемся по горизонтали
+    //РїРµСЂРµРјРµС‰РµРЅРёРµ РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
     setPos(x() + horizontalSpeed, y());
 
-    //ограничение по горизонтальному перемещению
+    //СЂР°Р·СЂРµС€РµРЅРёРµ РєРѕР»РёРёР·РёР№ РїСЂРё РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРј РїРµСЂРµРјРµС‰РµРЅРёРё
     while (collideWithSolid() == true)
     {
         setPos(x() - pow(-1, (direction == DIR_RIGHT) + 1), y());
@@ -117,7 +118,7 @@ void Player::move()
 
 }
 
-//регистрируем взаимодействие в списке
+//РѕР±РЅРѕРІР»СЏРµРј СЃРїРёСЃРѕРє РЅР°Р№РґРµРЅРЅС‹С… СѓР»РёРє
 void Player::addClue(Cell * c)
 {
     if (clues.contains(c->shortSymbol, Qt::CaseSensitive) == false)
@@ -126,7 +127,7 @@ void Player::addClue(Cell * c)
     }
 }
 
-//проверка на коллизии с твёрдыми предметами
+//РѕРїСЂРµРґРµР»СЏРµРј РєРѕР»Р»РёР·РёРё СЃ С‚РІС‘СЂРґС‹РјРё РѕР±СЉРµРєС‚Р°РјРё
 bool Player::collideWithSolid()
 {
     QList <QGraphicsItem *> collisionList = collidingItems();
@@ -140,74 +141,71 @@ bool Player::collideWithSolid()
     return false;
 }
 
-//отработка нажатия клавиши
+//РѕР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РєР»Р°РІРёС€Рё
 void Player::keyPressEvent(QKeyEvent *event)
 {
-    //взаимодействие
+    //РїРѕРїС‹С‚РєР° РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ
     if (event->key() == Qt::Key_Space)
     {
         QList <QGraphicsItem *> availableItems = actionArea->collidingItems();
         for (int i = 0; i < availableItems.size(); i++) {
 
-            //обнаруживаем интерактивную клетку в поле действия
+            //РЅР°С…РѕРґРёРј РёРЅС‚РµСЂР°РєРёРІРЅС‹Рµ РѕР±СЉРµРєС‚С‹ РѕРєСЂСѓР¶РµРЅРёСЏ
             if ((typeid(*availableItems[i]) == typeid(Cell)) && (((Cell*)availableItems[i])->isInteractive == true)) {
 
-                //останавливаемся для взаимодействия
+                //РѕСЃС‚Р°РЅР°РІР»РёРІР°РµРјСЃСЏ РґР»СЏ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ
                 horizontalSpeed = 0;
 
-                //переключаем объект в режим "активирован"
+                //РїРµСЂРµРІРѕРґРёРј РѕР±СЉРµРєС‚ РІ СЃРѕСЃС‚РѕСЏРЅРёРµ "Р°РєС‚РёРІРёСЂРѕРІР°РЅ"
                 Cell * c = dynamic_cast<Cell *>(availableItems[i]);
                 c->setCellActivated();
 
-                //отображаем диалог
+                //РѕС‚РїСЂР°РІР»СЏРµРј СЃРёРіРЅР°Р» РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РґРёР°Р»РѕРіР°
                 emit investigating(c);
 
-                //взаимодействуем с одной клеткой за раз
+                //РІР·Р°РёРјРѕРґРµР№СЃС‚РІСѓРµРј С‚РѕР»СЊРєРѕ СЃ РѕРґРЅРёРј РѕР±СЉРµРєС‚РѕРј Р·Р° РЅР°Р¶Р°С‚РёРµ
                 break;
             }
         }
     }
 
-    //движемся вправо или влево
+    //РґРІРёР¶РµРјСЃСЏ РІРїСЂР°РІРѕ
     if ((event->key() == Qt::Key_Right) || (event->key() == Qt::Key_Left))
     {
         if (action == ACT_STAND)
         {
-            //бежим при нажатии shift
+            //Р±РµРі
             if (shiftIsPressed == true)
             {
                 action = ACT_RUN;
-            //идём без нажатия shift
+            //С€Р°Рі
             } else {
                 action = ACT_GO;
             }
         }
 
-        //изменяем направление движения
+        //РїСЂРё СЃРјРµРЅРµ РЅР°РїСЂР°РІР»РµРЅРёСЏ, РѕС‚СЂР°Р¶Р°РµРј РѕР±СЉРµРєС‚ РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
         if ((event->key() == Qt::Key_Right) && (direction == DIR_LEFT))
         {
             frame = 0;
-            setOffset(-boundingRect().width() / 4, 0);
-            scale(-1, 1);
+            flipHorizontal();
             direction = DIR_RIGHT;
         }
 
         if ((event->key() == Qt::Key_Left) && (direction == DIR_RIGHT))
         {
             frame = 0;
-            setOffset(-boundingRect().width() / 4, 0);
-            scale(-1, 1);
+            flipHorizontal();
             direction = DIR_LEFT;
         }
 
-        //изменяем скорость движения
         if (shiftIsPressed == true) horizontalSpeed = RUN_SPEED;
         else horizontalSpeed = WALK_SPEED;
 
         horizontalSpeed *= pow(-1, (direction == DIR_RIGHT) + 1);
     }
 
-    //прыгаем, если это возможно
+    //РїСЂС‹Р¶РѕРє
     if ((event->key() == Qt::Key_Up) && (action != ACT_JUMP))
     {
         frame = 0;
@@ -215,12 +213,12 @@ void Player::keyPressEvent(QKeyEvent *event)
         verticalSpeed = JUMP_SPEED;
     }
 
-    //ускорение движения
+    //СѓСЃРєРѕСЂРµРЅРёРµ
     if (event->key() == Qt::Key_Shift)
     {
         shiftIsPressed = true;
 
-        //переходим на бег
+        //РїРµСЂРµС…РѕРґРёРј РЅР° Р±РµРі
         if (action == ACT_GO)
         {
             action = ACT_RUN;
@@ -229,31 +227,66 @@ void Player::keyPressEvent(QKeyEvent *event)
     }
 }
 
-//отработка отпускания клавиши
+//РѕС‚СЂР°Р±Р°С‚С‹РІР°РµРј РѕС‚РїСѓСЃРєР°РЅРёРµ РєР»Р°РІРёС€Рё
 void Player::keyReleaseEvent(QKeyEvent *event)
 {
-    //прекращаем движение
+    //РїСЂРµРєСЂР°С‰Р°РµРј РґРІРёР¶РµРЅРёРµ РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
     if (((event->key() == Qt::Key_Left) && (direction == DIR_LEFT)) || \
             ((event->key() == Qt::Key_Right) && (direction == DIR_RIGHT)))
     {
         horizontalSpeed = 0;
 
-        //останавливаемся, если игрок не в прыжке
+        //РѕСЃС‚Р°РЅРѕРІРєР°
         if ((action == ACT_GO) || (action == ACT_RUN)) {
             action = ACT_STAND;
         }
     }
 
-    //замедление движения
+    //Р·Р°РјРµРґР»СЏРµРј РґРІРёР¶РµРЅРёРµ
     if (event->key() == Qt::Key_Shift)
     {
         shiftIsPressed = false;
 
-        //переходим на шаг
+        //РїРµСЂРµС…РѕРґРёРј РЅР° С€Р°Рі
         if (action == ACT_RUN)
         {
             action = ACT_GO;
             horizontalSpeed = WALK_SPEED * pow(-1, (direction == DIR_RIGHT) + 1);
         }
     }
+}
+
+//РѕС‚СЂР°Р¶Р°РµРј РѕР±СЉРµРєС‚ РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
+void Player::flipHorizontal()
+{
+    // Get the current transform
+    QTransform transform(this->transform());
+
+    qreal m11 = transform.m11();    // Horizontal scaling
+    qreal m12 = transform.m12();    // Vertical shearing
+    qreal m13 = transform.m13();    // Horizontal Projection
+    qreal m21 = transform.m21();    // Horizontal shearing
+    qreal m22 = transform.m22();    // vertical scaling
+    qreal m23 = transform.m23();    // Vertical Projection
+    qreal m31 = transform.m31();    // Horizontal Position (DX)
+    qreal m32 = transform.m32();    // Vertical Position (DY)
+    qreal m33 = transform.m33();    // Addtional Projection Factor
+
+    // We need this in a minute
+    qreal scale = m11;
+
+    // Horizontal flip
+    m11 = -m11;
+
+    // Re-position back to origin
+    if(m31 > 0)
+        m31 = 0;
+    else
+        m31 = (boundingRect().width() * scale);
+
+    // Write back to the matrix
+    transform.setMatrix(m11, m12, m13, m21, m22, m23, m31, m32, m33);
+
+    // Set the items transformation
+    setTransform(transform);
 }

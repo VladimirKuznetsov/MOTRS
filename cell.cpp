@@ -3,10 +3,10 @@
 #include <QGraphicsRectItem>
 #include <QBrush>
 
-//упрощённый конструктор
+//СѓРїСЂРѕС‰С‘РЅРЅС‹Р№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 Cell::Cell(QObject *parent)
 {
-    //устанавливаем значения по умолчанию
+    //СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р·РЅР°С‡РµРЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
     isSolid = false;
     isFloor = false;
     isInteractive = false;
@@ -18,13 +18,13 @@ Cell::Cell(QObject *parent)
     cellToActivate = ' ';
 }
 
-//полноценный конструктор
+//РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 Cell::Cell(QString res, int num, QObject * parent) : QObject(parent)
 {
-    //загружаем спрайтлист
+    //Р·Р°РіСЂСѓР¶Р°РµРј СЃРїСЂР°Р№С‚Р»РёСЃС‚
     spSheet = QPixmap(res);
 
-    //устанавливаем значения по умолчанию
+    //СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р·РЅР°С‡РµРЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
     isSolid = false;
     isFloor = false;
     isInteractive = false;
@@ -37,37 +37,37 @@ Cell::Cell(QString res, int num, QObject * parent) : QObject(parent)
     setPixmap(spSheet.copy(spSheet.width() * num / 3, 0, spSheet.width()/3, spSheet.height()));
 }
 
-//установить неактивный режим
+//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРµР°РєС‚РёРІРЅС‹Р№ СЂРµР¶РёРј
 void Cell::setCellInactive()
 {
     isInteractive = false;
     setPixmap(spSheet.copy(0, 0, spSheet.width()/3, spSheet.height()));
 }
 
-//установить активный режим (готов к взаимодействию)
+//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ Р°РєС‚РёРІРЅС‹Р№ СЂРµР¶РёРј (РіРѕС‚РѕРІ Рє РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЋ)
 void Cell::setCellActive()
 {
     isInteractive = true;
     setPixmap(spSheet.copy(spSheet.width() / 3, 0, spSheet.width()/3, spSheet.height()));
 }
 
-//установить режим после активации
+//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ СЂРµР¶РёРј РїРѕСЃР»Рµ Р°РєС‚РёРІР°С†РёРё
 void Cell::setCellActivated()
 {
-    //перезаряжаемые предметы не входят в этот режим
+    //РїРµСЂРµР·Р°СЂСЏР¶Р°РµРјС‹Рµ РїСЂРµРґРјРµС‚С‹ РЅРµ РІС…РѕРґСЏС‚ РІ СЌС‚РѕС‚ СЂРµР¶РёРј
     if (isRechargeable == true) return;
 
     isInteractive = false;
     setPixmap(spSheet.copy(spSheet.width() * 2 / 3, 0, spSheet.width()/3, spSheet.height()));
 }
 
-//добавить возможность взаимодействия с игроком
+//РґРѕР±Р°РІРёС‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ СЃ РёРіСЂРѕРєРѕРј
 void Cell::addInteraction(char _shortSymbol)
 {
     shortSymbol = _shortSymbol;
 }
 
-//добавить возможность взаимодействия с игроком и другими клетками
+//РґРѕР±Р°РІРёС‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ СЃ РёРіСЂРѕРєРѕРј Рё РґСЂСѓРіРёРјРё РєР»РµС‚РєР°РјРё
 void Cell::addInteraction(char _shortSymbol, char _cellToActivate)
 {
     shortSymbol = _shortSymbol;

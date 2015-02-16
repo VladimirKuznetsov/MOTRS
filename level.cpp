@@ -7,13 +7,11 @@
 
 extern Game * game;
 
-//конструктор
+//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 Level::Level(QGraphicsView *parent) : QGraphicsScene(parent)
 {
 
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("Windows-1251"));
-
-    //определяем геометрические параметры сцены
+    //РѕРїСЂРµРґРµР»СЏРµРј РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ РїР°СЂР°РјРµС‚СЂС‹ СЃС†РµРЅС‹
     check = true;
     PLAYER_HEIGHT = game->CELL_SIZE * 2.5;
     PLAYER_WIDTH = PLAYER_HEIGHT * 0.75;
@@ -25,29 +23,29 @@ Level::Level(QGraphicsView *parent) : QGraphicsScene(parent)
     connect(this, SIGNAL(lose()), game, SLOT(resetLevel()));
 }
 
-//загрузка карты из массива строк
+//Р·Р°РіСЂСѓР·РєР° РєР°СЂС‚С‹ РёР· РјР°СЃСЃРёРІР° СЃС‚СЂРѕРє
 void Level::init(QString map[])
 {
-    //отрисовываем фон
+    //РѕС‚СЂРёСЃРѕРІС‹РІР°РµРј С„РѕРЅ
     QStringList colors = map[2].split(' ');
     setBackgroundBrush(QBrush(QColor(colors[0].toInt(), colors[1].toInt(), colors[2].toInt())));
 
-    //создаём таймер, который будет управлять движением
+    //СЃРѕР·РґР°С‘Рј С‚Р°Р№РјРµСЂ, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ СѓРїСЂР°РІР»СЏС‚СЊ РґРІРёР¶РµРЅРёРµРј
     updateTimer = new QTimer(this);
 
-    //загрузка информации из массива строк
+    //Р·Р°РіСЂСѓР·РєР° РёРЅС„РѕСЂРјР°С†РёРё РёР· РјР°СЃСЃРёРІР° СЃС‚СЂРѕРє
     short sceneLength = 0;
     for (int row = 4; row < 20; row++)
     {
-        //определяем длину сцены по самой длинной строке
+        //РѕРїСЂРµРґРµР»СЏРµРј РґР»РёРЅСѓ СЃС†РµРЅС‹ РїРѕ СЃР°РјРѕР№ РґР»РёРЅРЅРѕР№ СЃС‚СЂРѕРєРµ
         if (map[row].length() > sceneLength)
         {
             sceneLength = map[row].length();
         }
-        //парсинг строки
+        //РїР°СЂСЃРёРЅРі СЃС‚СЂРѕРєРё
         for (int column = 0; column < map[row].length(); column++)
         {
-            //отрисовка игрока
+            //РѕС‚СЂРёСЃРѕРІРєР° РёРіСЂРѕРєР°
             if (map[row][column] == 'p')
             {
                 player = new Player(":/img/dasha");
@@ -58,7 +56,7 @@ void Level::init(QString map[])
                 addItem(player);
                 connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
             }
-            //отрисовка игрока - крупнее
+            //РѕС‚СЂРёСЃРѕРІРєР° РёРіСЂРѕРєР° - РєСЂСѓРїРЅРµРµ
             if (map[row][column] == 'P')
             {
                 player = new Player(":/img/dasha");
@@ -70,7 +68,7 @@ void Level::init(QString map[])
                 addItem(player);
                 connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
             }
-            //отрисовка игрока - средний
+            //РѕС‚СЂРёСЃРѕРІРєР° РёРіСЂРѕРєР° - СЃСЂРµРґРЅРёР№
             if (map[row][column] == 'I')
             {
                 player = new Player(":/img/dasha");
@@ -82,7 +80,7 @@ void Level::init(QString map[])
                 addItem(player);
                 connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
             }
-            //отрисовка автомобиля
+            //РѕС‚СЂРёСЃРѕРІРєР° Р°РІС‚РѕРјРѕР±РёР»СЏ
             if (map[row][column] == 'v')
             {
                 enemy[numberOfEnemies] = new Enemy(":/img/van/", this);
@@ -95,7 +93,7 @@ void Level::init(QString map[])
 
                 numberOfEnemies++;
             }
-            //отрисовка выхода
+            //РѕС‚СЂРёСЃРѕРІРєР° РІС‹С…РѕРґР°
             if (map[row][column] == 't')
             {
                 Cell * target = new Cell(":/img/ground", 0, this);
@@ -106,7 +104,7 @@ void Level::init(QString map[])
                 target->setOpacity(0);
                 addItem(target);
             }
-            //отрисовка пола
+            //РѕС‚СЂРёСЃРѕРІРєР° РїРѕР»Р°
             if (map[row][column] == 'f')
             {
                 Cell * floor = new Cell(":/img/ground", 0, this);
@@ -117,7 +115,7 @@ void Level::init(QString map[])
                 floor->isFloor = true;
                 addItem(floor);
             }
-            //отрисовка пола
+            //РѕС‚СЂРёСЃРѕРІРєР° РїРѕР»Р°
             if (map[row][column] == 'g')
             {
                 Cell * floor = new Cell(":/img/ground", 1, this);
@@ -128,7 +126,7 @@ void Level::init(QString map[])
                 floor->isFloor = true;
                 addItem(floor);
             }
-            //отрисовка пола
+            //РѕС‚СЂРёСЃРѕРІРєР° РїРѕР»Р°
             if (map[row][column] == 'y')
             {
                 Cell * floor = new Cell(":/img/ground", 2, this);
@@ -139,7 +137,7 @@ void Level::init(QString map[])
                 floor->isFloor = true;
                 addItem(floor);
             }
-            //отрисовка деревянного пола
+            //РѕС‚СЂРёСЃРѕРІРєР° РґРµСЂРµРІСЏРЅРЅРѕРіРѕ РїРѕР»Р°
             if (map[row][column] == 'W')
             {
                 Cell * floor = new Cell(":/img/wood", 0, this);
@@ -150,7 +148,7 @@ void Level::init(QString map[])
                 floor->isFloor = true;
                 addItem(floor);
             }
-            //отрисовка деревянных cтен
+            //РѕС‚СЂРёСЃРѕРІРєР° РґРµСЂРµРІСЏРЅРЅС‹С… cС‚РµРЅ
             if (map[row][column] == 'R')
             {
                 Cell * wall = new Cell(":/img/wood", 1, this);
@@ -160,7 +158,7 @@ void Level::init(QString map[])
                 wall->isSolid = true;
                 addItem(wall);
             }
-            //отрисовка деревянного потолка
+            //РѕС‚СЂРёСЃРѕРІРєР° РґРµСЂРµРІСЏРЅРЅРѕРіРѕ РїРѕС‚РѕР»РєР°
             if (map[row][column] == 'T')
             {
                 Cell * ceiling = new Cell(":/img/wood", 2, this);
@@ -170,7 +168,7 @@ void Level::init(QString map[])
                 ceiling->isSolid = true;
                 addItem(ceiling);
             }
-            //отрисовка цельного дерева
+            //РѕС‚СЂРёСЃРѕРІРєР° С†РµР»СЊРЅРѕРіРѕ РґРµСЂРµРІР°
             if (map[row][column] == 'S')
             {
                 Cell * solid = new Cell(":/img/wood_s", 0, this);
@@ -180,7 +178,7 @@ void Level::init(QString map[])
                 solid->isSolid = true;
                 addItem(solid);
             }
-            //отрисовка бетонного пола
+            //РѕС‚СЂРёСЃРѕРІРєР° Р±РµС‚РѕРЅРЅРѕРіРѕ РїРѕР»Р°
             if (map[row][column] == 'C')
             {
                 Cell * floor = new Cell(":/img/concrete", 0, this);
@@ -191,7 +189,7 @@ void Level::init(QString map[])
                 floor->isFloor = true;
                 addItem(floor);
             }
-            //отрисовка бетонных cтен
+            //РѕС‚СЂРёСЃРѕРІРєР° Р±РµС‚РѕРЅРЅС‹С… cС‚РµРЅ
             if (map[row][column] == 'r')
             {
                 Cell * wall = new Cell(":/img/concrete", 1, this);
@@ -201,7 +199,7 @@ void Level::init(QString map[])
                 wall->isSolid = true;
                 addItem(wall);
             }
-            //отрисовка бетонного потолка
+            //РѕС‚СЂРёСЃРѕРІРєР° Р±РµС‚РѕРЅРЅРѕРіРѕ РїРѕС‚РѕР»РєР°
             if (map[row][column] == 'U')
             {
                 Cell * ceiling = new Cell(":/img/concrete", 2, this);
@@ -211,7 +209,7 @@ void Level::init(QString map[])
                 ceiling->isSolid = true;
                 addItem(ceiling);
             }
-            //отрисовка цельного бетона
+            //РѕС‚СЂРёСЃРѕРІРєР° С†РµР»СЊРЅРѕРіРѕ Р±РµС‚РѕРЅР°
             if (map[row][column] == 'F')
             {
                 Cell * solid = new Cell(":/img/concrete_s", 0, this);
@@ -221,7 +219,7 @@ void Level::init(QString map[])
                 solid->isSolid = true;
                 addItem(solid);
             }
-            //отрисовка невидимых стен
+            //РѕС‚СЂРёСЃРѕРІРєР° РЅРµРІРёРґРёРјС‹С… СЃС‚РµРЅ
             if (map[row][column] == 'w')
             {
                 Cell * wall = new Cell(":/img/ground", 0, this);
@@ -232,7 +230,7 @@ void Level::init(QString map[])
                 wall->setOpacity(0);
                 addItem(wall);
             }
-            //отрисовка гидрантов - препятствий
+            //РѕС‚СЂРёСЃРѕРІРєР° РіРёРґСЂР°РЅС‚РѕРІ - РїСЂРµРїСЏС‚СЃС‚РІРёР№
             if (map[row][column] == 'h')
             {
                 Cell * hydrant = new Cell(":/img/hydrant", 0, this);
@@ -242,10 +240,10 @@ void Level::init(QString map[])
                 hydrant->isSolid = true;
                 hydrant->addInteraction('h');
                 hydrant->setCellActive();
-                hydrant->interactionDialogue[0] = QString("Лучше я не буду тут ничего трогать...");
+                hydrant->interactionDialogue[0] = QString("Р›СѓС‡С€Рµ СЏ РЅРµ Р±СѓРґСѓ С‚СѓС‚ РЅРёС‡РµРіРѕ С‚СЂРѕРіР°С‚СЊ...");
                 addItem(hydrant);
             }
-            //отрисовка фоновых гидрантов
+            //РѕС‚СЂРёСЃРѕРІРєР° С„РѕРЅРѕРІС‹С… РіРёРґСЂР°РЅС‚РѕРІ
             if (map[row][column] == 'H')
             {
                 Cell * hydrant = new Cell(":/img/hydrant", 0, this);
@@ -254,10 +252,10 @@ void Level::init(QString map[])
                 hydrant->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
                 hydrant->addInteraction('h');
                 hydrant->setCellActive();
-                hydrant->interactionDialogue[0] = QString("Лучше я не буду тут ничего трогать...");
+                hydrant->interactionDialogue[0] = QString("Р›СѓС‡С€Рµ СЏ РЅРµ Р±СѓРґСѓ С‚СѓС‚ РЅРёС‡РµРіРѕ С‚СЂРѕРіР°С‚СЊ...");
                 addItem(hydrant);
             }
-            //отрисовка автомобиля без тюленя
+            //РѕС‚СЂРёСЃРѕРІРєР° Р°РІС‚РѕРјРѕР±РёР»СЏ Р±РµР· С‚СЋР»РµРЅСЏ
             if (map[row][column] == 'n')
             {
                 Cell * van_ns = new Cell(":/img/van_ns", 0, this);
@@ -266,11 +264,11 @@ void Level::init(QString map[])
                 van_ns->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * van_ns->boundingRect().height());
                 van_ns->addInteraction('n');
                 van_ns->setCellActive();
-                van_ns->interactionDialogue[0] = QString("Эта машина принадлежит зоопарку.");
+                van_ns->interactionDialogue[0] = QString("Р­С‚Р° РјР°С€РёРЅР° РїСЂРёРЅР°РґР»РµР¶РёС‚ Р·РѕРѕРїР°СЂРєСѓ.");
                 addItem(van_ns);
                 van_ns->setZValue(2);
             }
-            //отрисовка фоновых кустов
+            //РѕС‚СЂРёСЃРѕРІРєР° С„РѕРЅРѕРІС‹С… РєСѓСЃС‚РѕРІ
             if (map[row][column] == 'b')
             {
                 Cell * bush = new Cell(":/img/bush", 0, this);
@@ -279,7 +277,7 @@ void Level::init(QString map[])
                 bush->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * bush->boundingRect().height());
                 addItem(bush);
             }
-            //отрисовка фоновых кустов
+            //РѕС‚СЂРёСЃРѕРІРєР° С„РѕРЅРѕРІС‹С… РєСѓСЃС‚РѕРІ
             if (map[row][column] == 'B')
             {
                 Cell * bush = new Cell(":/img/bush", 1, this);
@@ -288,7 +286,7 @@ void Level::init(QString map[])
                 bush->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * bush->boundingRect().height());
                 addItem(bush);
             }
-            //отрисовка мячика
+            //РѕС‚СЂРёСЃРѕРІРєР° РјСЏС‡РёРєР°
             if (map[row][column] == 's')
             {
                 Cell * ball = new Cell(":/img/ball", 0, this);
@@ -297,11 +295,11 @@ void Level::init(QString map[])
                 ball->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * ball->boundingRect().height());
                 ball->addInteraction('s');
                 ball->setCellActive();
-                ball->interactionDialogue[0] = QString("Это мячик для шоу с тюленями. Что он здесь делает?..");
+                ball->interactionDialogue[0] = QString("Р­С‚Рѕ РјСЏС‡РёРє РґР»СЏ С€РѕСѓ СЃ С‚СЋР»РµРЅСЏРјРё. Р§С‚Рѕ РѕРЅ Р·РґРµСЃСЊ РґРµР»Р°РµС‚?..");
                 addItem(ball);
                 ball->setZValue(-2);
             }
-            //отрисовка клетки для тюленя
+            //РѕС‚СЂРёСЃРѕРІРєР° РєР»РµС‚РєРё РґР»СЏ С‚СЋР»РµРЅСЏ
             if (map[row][column] == 'c')
             {
                 Cell * cell = new Cell(":/img/cell", 0, this);
@@ -310,11 +308,11 @@ void Level::init(QString map[])
                 cell->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * cell->boundingRect().height());
                 cell->addInteraction('c');
                 cell->setCellActive();
-                cell->interactionDialogue[0] = QString("Кажется, эта дверь - единственный способ выбраться из клетки.");
-                cell->interactionDialogue[1] = QString("...что если нашему тюленю помогли сбежать?");
+                cell->interactionDialogue[0] = QString("РљР°Р¶РµС‚СЃСЏ, СЌС‚Р° РґРІРµСЂСЊ - РµРґРёРЅСЃС‚РІРµРЅРЅС‹Р№ СЃРїРѕСЃРѕР± РІС‹Р±СЂР°С‚СЊСЃСЏ РёР· РєР»РµС‚РєРё.");
+                cell->interactionDialogue[1] = QString("...С‡С‚Рѕ РµСЃР»Рё РЅР°С€РµРјСѓ С‚СЋР»РµРЅСЋ РїРѕРјРѕРіР»Рё СЃР±РµР¶Р°С‚СЊ?");
                 addItem(cell);
             }
-            //отрисовка г-на Огурцова
+            //РѕС‚СЂРёСЃРѕРІРєР° Рі-РЅР° РћРіСѓСЂС†РѕРІР°
             if (map[row][column] == 'o')
             {
                 Cell * mr = new Cell(":/img/ogurtsov", 0, this);
@@ -323,18 +321,18 @@ void Level::init(QString map[])
                 mr->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * mr->boundingRect().height());
                 mr->addInteraction('o');
                 mr->setCellActive();
-                mr->interactionDialogue[0] = QString("– Добрый день, господин Огурцов. Старший следователь Дарья Винокурова.");
-                mr->interactionDialogue[1] = QString("Это вы вызвали полицию?");
-                mr->interactionDialogue[2] = QString("– Да. Дело в том, что сегодня ночью из своей клетки пропал полосатый тюлень.");
-                mr->interactionDialogue[3] = QString("Прошу вас, найдите его скорее!");
-                mr->interactionDialogue[4] = QString("– Мы сделаем всё возможное. Скажите, у кого были ключи от клетки?");
-                mr->interactionDialogue[5] = QString("– У нашего сторожа.");
-                mr->interactionDialogue[6] = QString("– Могу я с ним побеседовать?");
-                mr->interactionDialogue[7] = QString("– Боюсь, что нет. Сегодня он не вышел на работу.");
-                mr->interactionDialogue[8] = QString("– Любопытно...");
+                mr->interactionDialogue[0] = QString("вЂ“ Р”РѕР±СЂС‹Р№ РґРµРЅСЊ, РіРѕСЃРїРѕРґРёРЅ РћРіСѓСЂС†РѕРІ. РЎС‚Р°СЂС€РёР№ СЃР»РµРґРѕРІР°С‚РµР»СЊ Р”Р°СЂСЊСЏ Р’РёРЅРѕРєСѓСЂРѕРІР°.");
+                mr->interactionDialogue[1] = QString("Р­С‚Рѕ РІС‹ РІС‹Р·РІР°Р»Рё РїРѕР»РёС†РёСЋ?");
+                mr->interactionDialogue[2] = QString("вЂ“ Р”Р°. Р”РµР»Рѕ РІ С‚РѕРј, С‡С‚Рѕ СЃРµРіРѕРґРЅСЏ РЅРѕС‡СЊСЋ РёР· СЃРІРѕРµР№ РєР»РµС‚РєРё РїСЂРѕРїР°Р» РїРѕР»РѕСЃР°С‚С‹Р№ С‚СЋР»РµРЅСЊ.");
+                mr->interactionDialogue[3] = QString("РџСЂРѕС€Сѓ РІР°СЃ, РЅР°Р№РґРёС‚Рµ РµРіРѕ СЃРєРѕСЂРµРµ!");
+                mr->interactionDialogue[4] = QString("вЂ“ РњС‹ СЃРґРµР»Р°РµРј РІСЃС‘ РІРѕР·РјРѕР¶РЅРѕРµ. РЎРєР°Р¶РёС‚Рµ, Сѓ РєРѕРіРѕ Р±С‹Р»Рё РєР»СЋС‡Рё РѕС‚ РєР»РµС‚РєРё?");
+                mr->interactionDialogue[5] = QString("вЂ“ РЈ РЅР°С€РµРіРѕ СЃС‚РѕСЂРѕР¶Р°.");
+                mr->interactionDialogue[6] = QString("вЂ“ РњРѕРіСѓ СЏ СЃ РЅРёРј РїРѕР±РµСЃРµРґРѕРІР°С‚СЊ?");
+                mr->interactionDialogue[7] = QString("вЂ“ Р‘РѕСЋСЃСЊ, С‡С‚Рѕ РЅРµС‚. РЎРµРіРѕРґРЅСЏ РѕРЅ РЅРµ РІС‹С€РµР» РЅР° СЂР°Р±РѕС‚Сѓ.");
+                mr->interactionDialogue[8] = QString("вЂ“ Р›СЋР±РѕРїС‹С‚РЅРѕ...");
                 addItem(mr);
             }
-            //отрисовка г-на Огурцова крупным планом
+            //РѕС‚СЂРёСЃРѕРІРєР° Рі-РЅР° РћРіСѓСЂС†РѕРІР° РєСЂСѓРїРЅС‹Рј РїР»Р°РЅРѕРј
             if (map[row][column] == 'O')
             {
                 Cell * mr = new Cell(":/img/ogurtsov", 0, this);
@@ -343,7 +341,7 @@ void Level::init(QString map[])
                 mr->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * mr->boundingRect().height());
                 addItem(mr);
             }
-            //отрисовка кухни
+            //РѕС‚СЂРёСЃРѕРІРєР° РєСѓС…РЅРё
             if (map[row][column] == 'k')
             {
                 Cell * kitchen = new Cell(":/img/kitchen", 0, this);
@@ -352,11 +350,11 @@ void Level::init(QString map[])
                 kitchen->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * kitchen->boundingRect().height());
                 kitchen->addInteraction('k');
                 kitchen->setCellActive();
-                kitchen->interactionDialogue[0] = QString("Превосходно...");
-                kitchen->interactionDialogue[1] = QString("Теперь можно и поспать.");
+                kitchen->interactionDialogue[0] = QString("РџСЂРµРІРѕСЃС…РѕРґРЅРѕ...");
+                kitchen->interactionDialogue[1] = QString("РўРµРїРµСЂСЊ РјРѕР¶РЅРѕ Рё РїРѕСЃРїР°С‚СЊ.");
                 addItem(kitchen);;
             }
-            //отрисовка ночной кухни
+            //РѕС‚СЂРёСЃРѕРІРєР° РЅРѕС‡РЅРѕР№ РєСѓС…РЅРё
             if (map[row][column] == 'K')
             {
                 Cell * kitchen = new Cell(":/img/kitchen_n", 0, this);
@@ -365,7 +363,7 @@ void Level::init(QString map[])
                 kitchen->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * kitchen->boundingRect().height());
                 addItem(kitchen);
             }
-            //отрисовка кровати
+            //РѕС‚СЂРёСЃРѕРІРєР° РєСЂРѕРІР°С‚Рё
             if (map[row][column] == 'i')
             {
                 Cell * bed = new Cell(":/img/bed", 0, this);
@@ -378,7 +376,7 @@ void Level::init(QString map[])
                 bed->isTarget = true;
                 addItem(bed);
             }
-            //отрисовка письма
+            //РѕС‚СЂРёСЃРѕРІРєР° РїРёСЃСЊРјР°
             if (map[row][column] == 'a')
             {
                 Cell * letter = new Cell(":/img/letter", 0, this);
@@ -387,16 +385,16 @@ void Level::init(QString map[])
                 letter->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * letter->boundingRect().height());
                 letter->addInteraction('a');
                 letter->setCellActive();
-                letter->interactionDialogue[0] = QString("Анонимное письмо?");
-                letter->interactionDialogue[1] = QString("«Дарья, мне жаль, что я не могу встретиться с вами лично...»");
-                letter->interactionDialogue[2] = QString("...терпеть не могу, когда меня называют Дарья...");
-                letter->interactionDialogue[3] = QString("«...однако я вынужден держать свою личность в тайне.");
-                letter->interactionDialogue[4] = QString("У меня есть информация по делу об исчезновении полосатого тюленя.");
-                letter->interactionDialogue[5] = QString("Животное держат на старом складе сталелитейного завода,");
-                letter->interactionDialogue[6] = QString("требуется срочное вмешательство сотрудников правопорядка.»");
+                letter->interactionDialogue[0] = QString("РђРЅРѕРЅРёРјРЅРѕРµ РїРёСЃСЊРјРѕ?");
+                letter->interactionDialogue[1] = QString("В«Р”Р°СЂСЊСЏ, РјРЅРµ Р¶Р°Р»СЊ, С‡С‚Рѕ СЏ РЅРµ РјРѕРіСѓ РІСЃС‚СЂРµС‚РёС‚СЊСЃСЏ СЃ РІР°РјРё Р»РёС‡РЅРѕ...В»");
+                letter->interactionDialogue[2] = QString("...С‚РµСЂРїРµС‚СЊ РЅРµ РјРѕРіСѓ, РєРѕРіРґР° РјРµРЅСЏ РЅР°Р·С‹РІР°СЋС‚ Р”Р°СЂСЊСЏ...");
+                letter->interactionDialogue[3] = QString("В«...РѕРґРЅР°РєРѕ СЏ РІС‹РЅСѓР¶РґРµРЅ РґРµСЂР¶Р°С‚СЊ СЃРІРѕСЋ Р»РёС‡РЅРѕСЃС‚СЊ РІ С‚Р°Р№РЅРµ.");
+                letter->interactionDialogue[4] = QString("РЈ РјРµРЅСЏ РµСЃС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЏ РїРѕ РґРµР»Сѓ РѕР± РёСЃС‡РµР·РЅРѕРІРµРЅРёРё РїРѕР»РѕСЃР°С‚РѕРіРѕ С‚СЋР»РµРЅСЏ.");
+                letter->interactionDialogue[5] = QString("Р–РёРІРѕС‚РЅРѕРµ РґРµСЂР¶Р°С‚ РЅР° СЃС‚Р°СЂРѕРј СЃРєР»Р°РґРµ СЃС‚Р°Р»РµР»РёС‚РµР№РЅРѕРіРѕ Р·Р°РІРѕРґР°,");
+                letter->interactionDialogue[6] = QString("С‚СЂРµР±СѓРµС‚СЃСЏ СЃСЂРѕС‡РЅРѕРµ РІРјРµС€Р°С‚РµР»СЊСЃС‚РІРѕ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ РїСЂР°РІРѕРїРѕСЂСЏРґРєР°.В»");
                 addItem(letter);
             }
-            //отрисовка ящиков
+            //РѕС‚СЂРёСЃРѕРІРєР° СЏС‰РёРєРѕРІ
             if (map[row][column] == 'q')
             {
                 Cell * box = new Cell(":/img/box", 0, this);
@@ -406,7 +404,7 @@ void Level::init(QString map[])
                 addItem(box);
                 box->setZValue(-1);
             }
-            //отрисовка ящиков
+            //РѕС‚СЂРёСЃРѕРІРєР° СЏС‰РёРєРѕРІ
             if (map[row][column] == 'Q')
             {
                 Cell * box = new Cell(":/img/box_l", 0, this);
@@ -416,7 +414,7 @@ void Level::init(QString map[])
                 addItem(box);
                 box->setZValue(-1);
             }
-            //отрисовка ящиков
+            //РѕС‚СЂРёСЃРѕРІРєР° СЏС‰РёРєРѕРІ
             if (map[row][column] == 'j')
             {
                 Cell * box = new Cell(":/img/box", 0, this);
@@ -426,7 +424,7 @@ void Level::init(QString map[])
                 addItem(box);
                 box->setZValue(-1);
             }
-            //отрисовка ящиков
+            //РѕС‚СЂРёСЃРѕРІРєР° СЏС‰РёРєРѕРІ
             if (map[row][column] == 'J')
             {
                 Cell * box = new Cell(":/img/box_l", 1, this);
@@ -436,7 +434,7 @@ void Level::init(QString map[])
                 addItem(box);
                 box->setZValue(-1);
             }
-            //отрисовка ящиков
+            //РѕС‚СЂРёСЃРѕРІРєР° СЏС‰РёРєРѕРІ
             if (map[row][column] == 'j')
             {
                 Cell * box = new Cell(":/img/box", 1, this);
@@ -446,7 +444,7 @@ void Level::init(QString map[])
                 addItem(box);
                 box->setZValue(-1);
             }
-            //отрисовка ящиков
+            //РѕС‚СЂРёСЃРѕРІРєР° СЏС‰РёРєРѕРІ
             if (map[row][column] == 'Z')
             {
                 Cell * box = new Cell(":/img/box_l", 2, this);
@@ -456,7 +454,7 @@ void Level::init(QString map[])
                 addItem(box);
                 box->setZValue(-1);
             }
-            //отрисовка ящиков
+            //РѕС‚СЂРёСЃРѕРІРєР° СЏС‰РёРєРѕРІ
             if (map[row][column] == 'z')
             {
                 Cell * box = new Cell(":/img/box", 2, this);
@@ -466,7 +464,7 @@ void Level::init(QString map[])
                 addItem(box);
                 box->setZValue(-1);
             }
-            //отрисовка документов
+            //РѕС‚СЂРёСЃРѕРІРєР° РґРѕРєСѓРјРµРЅС‚РѕРІ
             if (map[row][column] == 'd')
             {
                 Cell * docs = new Cell(":/img/docs", 0, this);
@@ -475,13 +473,13 @@ void Level::init(QString map[])
                 docs->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*docs->boundingRect().height());
                 docs->addInteraction('d');
                 docs->setCellActive();
-                docs->interactionDialogue[0] = QString("Страховые документы...");
-                docs->interactionDialogue[1] = QString("Похоже, что зоопарк получит крупную сумму в случае пропажи тюленя.");
-                docs->interactionDialogue[2] = QString("И думаю, господин Огурцов прекрасно об этом осведомлён.");
-                docs->interactionDialogue[3] = QString("Вопрос лишь в том, как эти документы попали сюда...");
+                docs->interactionDialogue[0] = QString("РЎС‚СЂР°С…РѕРІС‹Рµ РґРѕРєСѓРјРµРЅС‚С‹...");
+                docs->interactionDialogue[1] = QString("РџРѕС…РѕР¶Рµ, С‡С‚Рѕ Р·РѕРѕРїР°СЂРє РїРѕР»СѓС‡РёС‚ РєСЂСѓРїРЅСѓСЋ СЃСѓРјРјСѓ РІ СЃР»СѓС‡Р°Рµ РїСЂРѕРїР°Р¶Рё С‚СЋР»РµРЅСЏ.");
+                docs->interactionDialogue[2] = QString("Р РґСѓРјР°СЋ, РіРѕСЃРїРѕРґРёРЅ РћРіСѓСЂС†РѕРІ РїСЂРµРєСЂР°СЃРЅРѕ РѕР± СЌС‚РѕРј РѕСЃРІРµРґРѕРјР»С‘РЅ.");
+                docs->interactionDialogue[3] = QString("Р’РѕРїСЂРѕСЃ Р»РёС€СЊ РІ С‚РѕРј, РєР°Рє СЌС‚Рё РґРѕРєСѓРјРµРЅС‚С‹ РїРѕРїР°Р»Рё СЃСЋРґР°...");
                 addItem(docs);
             }
-            //отрисовка сигарет
+            //РѕС‚СЂРёСЃРѕРІРєР° СЃРёРіР°СЂРµС‚
             if (map[row][column] == 'L')
             {
                 Cell * cig = new Cell(":/img/cigarettes", 0, this);
@@ -490,10 +488,10 @@ void Level::init(QString map[])
                 cig->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*cig->boundingRect().height());
                 cig->addInteraction('L');
                 cig->setCellActive();
-                cig->interactionDialogue[0] = QString("Окурки. Судя по всему, свежие.");
+                cig->interactionDialogue[0] = QString("РћРєСѓСЂРєРё. РЎСѓРґСЏ РїРѕ РІСЃРµРјСѓ, СЃРІРµР¶РёРµ.");
                 addItem(cig);
             }
-            //отрисовка миски
+            //РѕС‚СЂРёСЃРѕРІРєР° РјРёСЃРєРё
             if (map[row][column] == 'V')
             {
                 Cell * food = new Cell(":/img/food", 0, this);
@@ -502,11 +500,11 @@ void Level::init(QString map[])
                 food->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*food->boundingRect().height());
                 food->addInteraction('V');
                 food->setCellActive();
-                food->interactionDialogue[0] = QString("Миска с рыбой.");
-                food->interactionDialogue[1] = QString("Кто-то держит здесь кота?");
+                food->interactionDialogue[0] = QString("РњРёСЃРєР° СЃ СЂС‹Р±РѕР№.");
+                food->interactionDialogue[1] = QString("РљС‚Рѕ-С‚Рѕ РґРµСЂР¶РёС‚ Р·РґРµСЃСЊ РєРѕС‚Р°?");
                 addItem(food);
             }
-            //отрисовка титров
+            //РѕС‚СЂРёСЃРѕРІРєР° С‚РёС‚СЂРѕРІ
             if (map[row][column] == 'E')
             {
                 Cell * end = new Cell(":/img/end", 0, this);
@@ -518,7 +516,7 @@ void Level::init(QString map[])
                 end->interactionDialogue[0] = QString("");
                 addItem(end);
             }
-            //отрисовка заголовка
+            //РѕС‚СЂРёСЃРѕРІРєР° Р·Р°РіРѕР»РѕРІРєР°
             if (map[row][column] == 'D')
             {
                 title = new Cell(":/img/title", 0, this);
@@ -530,7 +528,7 @@ void Level::init(QString map[])
                 title->setZValue(100);
             }
 
-            //отрисовка заголовка
+            //РѕС‚СЂРёСЃРѕРІРєР° Р·Р°РіРѕР»РѕРІРєР°
             if (map[row][column] == 'D')
             {
                 controls = new Cell(":/img/title", 2, this);
@@ -544,11 +542,11 @@ void Level::init(QString map[])
         }
     }
 
-    //загружаем список улик
+    //Р·Р°РіСЂСѓР¶Р°РµРј СЃРїРёСЃРѕРє СѓР»РёРє
     clues = map[20];
     clues.remove(' ');
 
-    //загружаем начальное и финальное сообщение уровня
+    //Р·Р°РіСЂСѓР¶Р°РµРј РЅР°С‡Р°Р»СЊРЅРѕРµ Рё С„РёРЅР°Р»СЊРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ СѓСЂРѕРІРЅСЏ
     int i;
     for (i = 22; i < 52; i++)
     {
@@ -566,30 +564,30 @@ void Level::init(QString map[])
     }
     endMessage[j - i] = "";
 
-    //определяем размеры сцены
+    //РѕРїСЂРµРґРµР»СЏРµРј СЂР°Р·РјРµСЂС‹ СЃС†РµРЅС‹
     setSceneRect(0, 0, sceneLength * game->CELL_SIZE, game->WINDOW_HEIGHT);
 
-    //позиционируем камеру в начальный момент времени
+    //РїРѕР·РёС†РёРѕРЅРёСЂСѓРµРј РєР°РјРµСЂСѓ РІ РЅР°С‡Р°Р»СЊРЅС‹Р№ РјРѕРјРµРЅС‚ РІСЂРµРјРµРЅРё
     game->setScene(this);
     game->centerOn(player);
 
-    //создаём диалоговое поле
+    //СЃРѕР·РґР°С‘Рј РґРёР°Р»РѕРіРѕРІРѕРµ РїРѕР»Рµ
     dialog = new DialogBox();
     addItem(dialog);
     dialog->setParent(this);
     connect(player, SIGNAL(investigating(Cell*)), dialog, SLOT(setDialog(Cell*)));
     connect(dialog, SIGNAL(ended(Cell*)), player, SLOT(addClue(Cell*)));
 
-    //запускаем таймер, управляющий движением
+    //Р·Р°РїСѓСЃРєР°РµРј С‚Р°Р№РјРµСЂ, СѓРїСЂР°РІР»СЏСЋС‰РёР№ РґРІРёР¶РµРЅРёРµРј
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(checkRules()));
     connect(updateTimer, SIGNAL(timeout()), dialog, SLOT(move()));
     updateTimer->start(20);
 
-    //загрузка начального диалога
+    //Р·Р°РіСЂСѓР·РєР° РЅР°С‡Р°Р»СЊРЅРѕРіРѕ РґРёР°Р»РѕРіР°
     dialog->setDialog(startMessage);
 }
 
-//отображаем в случае провала
+//РѕС‚РѕР±СЂР°Р¶Р°РµРј РІ СЃР»СѓС‡Р°Рµ РїСЂРѕРІР°Р»Р°
 void Level::gameOver(QString comment)
 {
     updateTimer->stop();
@@ -603,45 +601,45 @@ void Level::levelCompleted(QString message[])
     dialog->setDialog(message);
 }
 
-//макет проверки правил
+//РјР°РєРµС‚ РїСЂРѕРІРµСЂРєРё РїСЂР°РІРёР»
 void Level::checkRules()
 {
 }
 
-//отработка нажатий клавиш
+//РѕС‚СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёР№ РєР»Р°РІРёС€
 void Level::keyPressEvent(QKeyEvent *event)
 {
-    //режим прокрутки диалога
+    //СЂРµР¶РёРј РїСЂРѕРєСЂСѓС‚РєРё РґРёР°Р»РѕРіР°
     if (dialog->isOn == true)
     {
         switch (event->key())
         {
-        //прокрутка диалога
+        //РїСЂРѕРєСЂСѓС‚РєР° РґРёР°Р»РѕРіР°
         case (Qt::Key_Space):
             dialog->nextLine();
             break;
 
-        //выход из диалога
+        //РІС‹С…РѕРґ РёР· РґРёР°Р»РѕРіР°
         case (Qt::Key_Escape):
             dialog->skip();
             break;
 
-        //в противном случае игнорируем нажатие
+        //РІ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ РёРіРЅРѕСЂРёСЂСѓРµРј РЅР°Р¶Р°С‚РёРµ
         default:
             break;
         }
 
-    //обычный режим игры
+    //РѕР±С‹С‡РЅС‹Р№ СЂРµР¶РёРј РёРіСЂС‹
     } else
     {
         switch (event->key())
         {
-        //выход из игры
+        //РІС‹С…РѕРґ РёР· РёРіСЂС‹
         case (Qt::Key_Escape):
             game->close();
             break;
 
-        //передаём управление персонажу
+        //РїРµСЂРµРґР°С‘Рј СѓРїСЂР°РІР»РµРЅРёРµ РїРµСЂСЃРѕРЅР°Р¶Сѓ
         default:
             player->keyPressEvent(event);
             break;
@@ -649,7 +647,7 @@ void Level::keyPressEvent(QKeyEvent *event)
     }
 }
 
-//отработка отпускания клавиши
+//РѕС‚СЂР°Р±РѕС‚РєР° РѕС‚РїСѓСЃРєР°РЅРёСЏ РєР»Р°РІРёС€Рё
 void Level::keyReleaseEvent(QKeyEvent *event)
 {
     player->keyReleaseEvent(event);

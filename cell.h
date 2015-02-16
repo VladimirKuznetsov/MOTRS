@@ -15,12 +15,12 @@ public:
 
     QPixmap spSheet;
 
-    //переключение режимов
+    //РїРµСЂРµРєР»СЋС‡РµРЅРёРµ СЂРµР¶РёРјРѕРІ
     void setCellInactive();
     void setCellActive();
     void setCellActivated();
 
-    //флаги, определяющие свойства клетки
+    //С„Р»Р°РіРё, РѕРїСЂРµРґРµР»СЏСЋС‰РёРµ СЃРІРѕР№СЃС‚РІР° РєР»РµС‚РєРё
     bool isSolid;
     bool isFloor;
     bool isInteractive;
@@ -29,11 +29,11 @@ public:
     bool isRechargeable;
     bool activatesCell;
 
-    //символьные обозначения
+    //СЃРёРјРІРѕР»СЊРЅС‹Рµ РѕР±РѕР·РЅР°С‡РµРЅРёСЏ
     char shortSymbol;
     char cellToActivate;
 
-    //диалог, отображаемый при исследовании
+    //РґРёР°Р»РѕРі, РѕС‚РѕР±СЂР°Р¶Р°РµРјС‹Р№ РїСЂРё РёСЃСЃР»РµРґРѕРІР°РЅРёРё
     QString interactionDialogue[10];
 
 };

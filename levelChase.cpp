@@ -10,26 +10,26 @@
 
 extern Game * game;
 
-//конструктор
+//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 LevelChase::LevelChase(QGraphicsView * parent) : Level(parent)
 {
 }
 
-//следим за перемещениями игрока
+//СЃР»РµРґРёРј Р·Р° РїРµСЂРµРјРµС‰РµРЅРёСЏРјРё РёРіСЂРѕРєР°
 void LevelChase::followEnemy()
 {
     game->ensureVisible(enemy[0], game->WINDOW_WIDTH * 1/5, 0);
 }
 
-//проверка условий победы и поражения
+//РїСЂРѕРІРµСЂРєР° СѓСЃР»РѕРІРёР№ РїРѕР±РµРґС‹ Рё РїРѕСЂР°Р¶РµРЅРёСЏ
 void LevelChase::checkRules()
 {
-    //камера следит за противником
+    //РєР°РјРµСЂР° СЃР»РµРґРёС‚ Р·Р° РїСЂРѕС‚РёРІРЅРёРєРѕРј
     followEnemy();
 
     if (check == true)
     {
-        //победа если персонаж догнал соперника
+        //РїРѕР±РµРґР° РµСЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ РґРѕРіРЅР°Р» СЃРѕРїРµСЂРЅРёРєР°
         QList <QGraphicsItem *> collisionList = player->collidingItems();
         for (int i = 0; i < collisionList.size(); i++) {
             if (typeid(*collisionList[i]) == (typeid(Enemy))) {
@@ -38,19 +38,19 @@ void LevelChase::checkRules()
             }
         }
 
-        //поражение, если персонаж сильно отстал
+        //РїРѕСЂР°Р¶РµРЅРёРµ, РµСЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ СЃРёР»СЊРЅРѕ РѕС‚СЃС‚Р°Р»
         if (enemy[0]->x() - player->x() > game->CELL_SIZE * 20) {
             //updateTimer->stop();
             check = false;
-            gameOver("Похитителю удалось скрыться.");
+            gameOver("РџРѕС…РёС‚РёС‚РµР»СЋ СѓРґР°Р»РѕСЃСЊ СЃРєСЂС‹С‚СЊСЃСЏ.");
             return;
         }
 
-        //поражение, если противник уехал за границу экрана
+        //РїРѕСЂР°Р¶РµРЅРёРµ, РµСЃР»Рё РїСЂРѕС‚РёРІРЅРёРє СѓРµС…Р°Р» Р·Р° РіСЂР°РЅРёС†Сѓ СЌРєСЂР°РЅР°
         if (enemy[0]->x() > sceneRect().width()) {
             //updateTimer->stop();
             check = false;
-            gameOver("Похитителю удалось скрыться.");
+            gameOver("РџРѕС…РёС‚РёС‚РµР»СЋ СѓРґР°Р»РѕСЃСЊ СЃРєСЂС‹С‚СЊСЃСЏ.");
             return;
         }
     }
