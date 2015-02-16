@@ -22,6 +22,7 @@ Game::Game()
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
 }
 
 void Game::loadLevel()
