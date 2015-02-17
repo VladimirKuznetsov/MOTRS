@@ -9,10 +9,10 @@
 
 Game::Game()
 {
-
+    showFullScreen();
     levelNumber = 0;
-    WINDOW_HEIGHT = 600;
-    WINDOW_WIDTH = 1100;
+    WINDOW_HEIGHT = height();
+    WINDOW_WIDTH = width();
     CELL_SIZE = WINDOW_HEIGHT / 15;
     GRAVITY = ceil(float(CELL_SIZE) / 60);
 
@@ -376,7 +376,7 @@ void Game::loadLevel()
     }
 
     //вывод на экран
-    show();
+    showFullScreen();
 }
 
 void Game::nextLevel()

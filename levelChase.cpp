@@ -31,16 +31,14 @@ void LevelChase::checkRules()
     {
         //победа если персонаж догнал соперника
         QList <QGraphicsItem *> collisionList = player->collidingItems();
-        for (int i = 0; i < collisionList.size(); i++) {
-            if (typeid(*collisionList[i]) == (typeid(Enemy))) {
-                emit win();
-                return;
-            }
+        if (player->x() > enemy[0]->x() + enemy[0]->boundingRect().width()/2)
+        {
+            emit win();
+            return;
         }
 
         //поражение, если персонаж сильно отстал
         if (enemy[0]->x() - player->x() > game->CELL_SIZE * 20) {
-            //updateTimer->stop();
             check = false;
             gameOver("Похитителю удалось скрыться.");
             return;
@@ -48,7 +46,6 @@ void LevelChase::checkRules()
 
         //поражение, если противник уехал за границу экрана
         if (enemy[0]->x() > sceneRect().width()) {
-            //updateTimer->stop();
             check = false;
             gameOver("Похитителю удалось скрыться.");
             return;
