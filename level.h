@@ -9,6 +9,7 @@
 #include "dialogBox.h"
 #include "player.h"
 #include "enemy.h"
+#include <QPixmap>
 
 class Level : public QGraphicsScene
 {
@@ -22,6 +23,7 @@ public:
     QString startMessage[30];
     QString endMessage[30];
     bool check;
+    QPixmap sprites;
 
     //ввод с клавиатуры
     void keyPressEvent(QKeyEvent *event);

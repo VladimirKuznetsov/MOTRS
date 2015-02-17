@@ -14,7 +14,7 @@
 extern Game * game;
 
 //конструктор
-Player::Player(QString dir, QObject *parent) : QObject(parent)
+Player::Player(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
 {
     clues = "";
 
@@ -30,7 +30,7 @@ Player::Player(QString dir, QObject *parent) : QObject(parent)
     action = ACT_STAND;
     direction = DIR_RIGHT;
 
-    spriteSheet = QPixmap(dir);
+    spriteSheet = _spriteSheet;
     setPixmap(spriteSheet.copy(0, 0, 50, 90));
     QVector <QPointF> areaCorners;
 

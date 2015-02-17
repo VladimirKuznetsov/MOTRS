@@ -18,11 +18,13 @@ Cell::Cell(QObject *parent)
     cellToActivate = ' ';
 }
 
-//полноценный конструктор
 Cell::Cell(QString res, int num, QObject * parent) : QObject(parent)
 {
     //загружаем спрайтлист
     spSheet = QPixmap(res);
+    picInactive = spSheet.copy(0, 0, spSheet.width()/3, spSheet.height());
+    picActive = spSheet.copy(spSheet.width() / 3, 0, spSheet.width()/3, spSheet.height());
+    picActivated = spSheet.copy(spSheet.width() * 2 / 3, 0, spSheet.width()/3, spSheet.height());
 
     //устанавливаем значения по умолчанию
     isSolid = false;
@@ -41,14 +43,14 @@ Cell::Cell(QString res, int num, QObject * parent) : QObject(parent)
 void Cell::setCellInactive()
 {
     isInteractive = false;
-    setPixmap(spSheet.copy(0, 0, spSheet.width()/3, spSheet.height()));
+    setPixmap(picInactive);
 }
 
 //установить активный режим (готов к взаимодействию)
 void Cell::setCellActive()
 {
     isInteractive = true;
-    setPixmap(spSheet.copy(spSheet.width() / 3, 0, spSheet.width()/3, spSheet.height()));
+    setPixmap(picActive);
 }
 
 //установить режим после активации
@@ -58,7 +60,7 @@ void Cell::setCellActivated()
     if (isRechargeable == true) return;
 
     isInteractive = false;
-    setPixmap(spSheet.copy(spSheet.width() * 2 / 3, 0, spSheet.width()/3, spSheet.height()));
+    setPixmap(picActivated);
 }
 
 //добавить возможность взаимодействия с игроком
@@ -73,4 +75,22 @@ void Cell::addInteraction(char _shortSymbol, char _cellToActivate)
     shortSymbol = _shortSymbol;
     cellToActivate = _cellToActivate;
     activatesCell = true;
+}
+
+//загрузка изображения неактивной клетки
+void Cell::setPicInactive(QPixmap _pic)
+{
+    picInactive = _pic;
+}
+
+//загрузка изображения активной клетки
+void Cell::setPicActive(QPixmap _pic)
+{
+    picActive = _pic;
+}
+
+//загрузка изображения активированной клетки
+void Cell::setPicActivated(QPixmap _pic)
+{
+    picActivated = _pic;
 }

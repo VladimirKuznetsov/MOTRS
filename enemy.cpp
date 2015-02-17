@@ -8,12 +8,12 @@
 
 extern Game * game;
 
-Enemy::Enemy(QString _dir, QObject *parent) : QObject(parent)
+Enemy::Enemy(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
 {
-    dir = _dir;
-    frame = 1;
+    frame = 0;
     animationSpeed = 0.2;
-    setPixmap(QPixmap(dir + QString::number(int(frame))));
+    spriteSheet = _spriteSheet;
+    setPixmap(spriteSheet.copy(0 * (int)frame, 0, 194, 120));
     HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 17 / 100);
     numberOfJumps = 2;
     horizontalSpeed = 0;
@@ -74,8 +74,8 @@ void Enemy::move()
 
     //анимация движения
     frame += animationSpeed;
-    if (frame >= 3) frame = 1;
-    setPixmap(QPixmap(dir + QString::number(int(frame))));
+    if (frame >= 2) frame = 0;
+    setPixmap(spriteSheet.copy(194 * (int)frame, 0, 194, 120));
 }
 
 //проверка на коллизии с твёрдыми предметами

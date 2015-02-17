@@ -31,7 +31,7 @@ void LevelChase::checkRules()
     {
         //победа если персонаж догнал соперника
         QList <QGraphicsItem *> collisionList = player->collidingItems();
-        if (player->x() > enemy[0]->x() + enemy[0]->boundingRect().width()/2)
+        if (player->x() > enemy[0]->x() + enemy[0]->boundingRect().width())
         {
             emit win();
             return;

@@ -10,7 +10,7 @@
 Game::Game()
 {
     showFullScreen();
-    levelNumber = 0;
+    levelNumber = 1;
     WINDOW_HEIGHT = height();
     WINDOW_WIDTH = width();
     CELL_SIZE = WINDOW_HEIGHT / 15;
@@ -75,7 +75,7 @@ void Game::loadLevel()
         "w                                                      w",
         "w                                                      w",
         "w                                                      w",
-        "t     H  n      b p  B c          o       b   B        t",
+        "t      H n      b p  B c          o       b   B        t",
         "fffffyfffffgffffffffffffffffffffffffffyffffffffffffffgff",
         "---",
         "cno",

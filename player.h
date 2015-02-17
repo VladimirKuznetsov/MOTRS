@@ -14,7 +14,7 @@ class Player : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 
 public:
-    Player(QString dir, QObject * parent = 0);
+    Player(QPixmap _spriteSheet, QObject * parent = 0);
     void setZoom(float _zoom);
     bool collideWithSolid();
     void keyPressEvent(QKeyEvent *event);
