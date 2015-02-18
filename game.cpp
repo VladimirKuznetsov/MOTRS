@@ -1,6 +1,6 @@
 #include "game.h"
 #include <math.h>
-#include <QDebug>
+//#include <QDebug>
 #include <QVector>
 #include <QTextCodec>
 #include "levelChase.h"
@@ -368,7 +368,7 @@ void Game::loadLevel()
 
 void Game::nextLevel()
 {
-    qDebug() << "WE GOT A WINNER";
+    //qDebug() << "WE GOT A WINNER";
     levelNumber++;
     delete level;
     loadLevel();
@@ -376,7 +376,7 @@ void Game::nextLevel()
 
 void Game::resetLevel()
 {
-    qDebug() << "LOOK AT THIS LOOSER";
+    //qDebug() << "LOOK AT THIS LOOSER";
     delete level;
     loadLevel();
 }

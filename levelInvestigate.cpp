@@ -2,7 +2,7 @@
 #include "game.h"
 #include <typeinfo>
 #include <QList>
-#include <QDebug>
+//#include <QDebug>
 
 extern Game * game;
 

@@ -3,7 +3,7 @@
 #include <typeinfo>
 #include <math.h>
 #include <float.h>
-#include <QDebug>
+//#include <QDebug>
 #include "game.h"
 
 extern Game * game;

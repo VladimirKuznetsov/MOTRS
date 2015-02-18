@@ -1,6 +1,6 @@
 #include "dialogBox.h"
 #include <QTextCodec>
-#include <QDebug>
+//#include <QDebug>
 #include <QPointF>
 #include <QGraphicsRectItem>
 #include <QColor>

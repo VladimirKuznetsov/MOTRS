@@ -2,7 +2,7 @@
 #include "game.h"
 #include "dialogBox.h"
 #include <QGraphicsTextItem>
-#include <QDebug>
+//#include <QDebug>
 #include <QTextCodec>
 
 extern Game * game;

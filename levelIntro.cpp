@@ -46,6 +46,11 @@ void LevelIntro::keyPressEvent(QKeyEvent *event)
     {
         emit win();
     }
+
+    if (event->key() == Qt::Key_Escape)
+    {
+        game->close();
+    }
 }
 
 void LevelIntro::checkRules()

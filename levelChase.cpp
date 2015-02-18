@@ -1,7 +1,7 @@
 #include "levelChase.h"
 #include "cell.h"
 #include "game.h"
-#include <QDebug>
+//#include <QDebug>
 #include <QString>
 #include <QList>
 #include <typeinfo>

@@ -1,6 +1,6 @@
 #include "player.h"
 #include "cell.h"
-#include <QDebug>
+//#include <QDebug>
 #include <QGraphicsScene>
 #include <QList>
 #include <typeinfo>
