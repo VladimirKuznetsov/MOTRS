@@ -10,11 +10,17 @@
 Game::Game()
 {
     showFullScreen();
-    levelNumber = 1;
+    levelNumber = 0;
     WINDOW_HEIGHT = height();
     WINDOW_WIDTH = width();
     CELL_SIZE = WINDOW_HEIGHT / 15;
     GRAVITY = ceil(float(CELL_SIZE) / 60);
+    LARGE_FONT = WINDOW_WIDTH * 0.032;
+    MEDIUM_FONT = LARGE_FONT * 0.7;
+    SMALL_FONT = LARGE_FONT / 2;
+
+    if (LARGE_FONT < 20) LARGE_FONT = 20;
+    if (SMALL_FONT < 12) SMALL_FONT = 12;
 
     //настраиваем параметры отображения окна
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -29,30 +35,11 @@ void Game::loadLevel()
     {
         "LEVEL: INTRO",
         "---",
-        "250 250 250",
+        "230 230 230",
         "---",
-        "                                                      ",
-        "                                                      ",
-        "                                                      ",
-        "                                                      ",
-        "                                                      ",
-        "  wwwww                                               ",
-        "  w p w                                               ",
-        "  wwwww                                               ",
-        "                                                      ",
-        "                                                      ",
-        "                                                      ",
-        "                                                      ",
-        "                                                      ",
-        "                                                      ",
-        "Du                                                    ",
+        "Дарья Винокурова",
         "---",
-        "",
-        "---",
-        "",
-        "---",
-        "",
-        "---",
+        "по следам полосатого тюленя",
         "%",
     };
 
@@ -372,7 +359,7 @@ void Game::loadLevel()
     } else if (map[0] == QString("LEVEL: INTRO"))
     {
         level = new LevelIntro(this);
-        level->init(map);
+        ((LevelIntro *)level)->init(map);
     }
 
     //вывод на экран

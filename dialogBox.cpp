@@ -21,7 +21,7 @@ DialogBox::DialogBox(QGraphicsObject *parent) : QGraphicsTextItem(parent)
     back->setOpacity(0.2);
     back->setFlag(QGraphicsItem::ItemStacksBehindParent);
     setDefaultTextColor(Qt::white);
-    setFont(QFont("Calibri", 22));
+    setFont(QFont("Calibri", game->SMALL_FONT));
     setVisible(false);
     isOn = false;
 

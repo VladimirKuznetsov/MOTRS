@@ -12,8 +12,8 @@ class LevelIntro : public Level
     Q_OBJECT
 public:
     LevelIntro(QGraphicsView * parent);
+    void init(QString map[]);
     void keyPressEvent(QKeyEvent *event);
-    void showTitle();
     int step;
 
 signals:

@@ -19,6 +19,9 @@ public:
     unsigned short WINDOW_HEIGHT;
     unsigned short CELL_SIZE;
     unsigned short GRAVITY;
+    unsigned short SMALL_FONT;
+    unsigned short MEDIUM_FONT;
+    unsigned short LARGE_FONT;
 
 public slots:
     void nextLevel();
