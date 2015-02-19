@@ -13,6 +13,8 @@ class Game : public QGraphicsView
 public:
     Game();
     void loadLevel();
+    void mouseDoubleClickEvent(QMouseEvent * event);
+    void mousePressEvent(QMouseEvent * event);
     Level * level;
     unsigned short levelNumber;
     unsigned short WINDOW_WIDTH;
@@ -22,6 +24,11 @@ public:
     unsigned short SMALL_FONT;
     unsigned short MEDIUM_FONT;
     unsigned short LARGE_FONT;
+
+    enum Controls{
+        mouse = 0,
+        keyboard
+    }control_mode;
 
 public slots:
     void nextLevel();

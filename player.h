@@ -20,8 +20,13 @@ public:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
+    //переменные для управления с мышки
+    short targetX;
+    Cell * targetCell;
+
     //переменные для взаимодействия с объектами
     QGraphicsPolygonItem * actionArea;
+    QGraphicsPolygonItem * physicalArea;
     QString clues;
 
     //анимация
@@ -31,9 +36,7 @@ public:
 
     //переменные состояния и направления
     float zoom;
-    char action;
     bool shiftIsPressed;
-    char direction;
     signed int verticalSpeed;
     signed int horizontalSpeed;
 
@@ -44,14 +47,18 @@ public:
     short MAX_STEP_HEIGHT;
 
     //константы состояний
-    static const char ACT_STAND = 1;
-    static const char ACT_GO = 2;
-    static const char ACT_RUN = 3;
-    static const char ACT_JUMP = 4;
+    enum Action {
+        stand = 0,
+        go,
+        run,
+        jump
+    } action;
 
     //константы направлений
-    static const char DIR_LEFT = 1;
-    static const char DIR_RIGHT = 2;
+    enum Direction {
+        right = 0,
+        left
+    } direction;
 
 private:
     void flipHorizontal();

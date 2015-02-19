@@ -10,6 +10,8 @@ class LevelChase : public Level
 public:
     LevelChase(QGraphicsView * parent);
     void followEnemy();
+    void mousePressEvent(QMouseEvent * event);
+    void mouseDoubleClickEvent(QMouseEvent * event);
 
 signals:
 public slots:

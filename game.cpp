@@ -1,14 +1,16 @@
 #include "game.h"
 #include <math.h>
-//#include <QDebug>
+#include <QDebug>
 #include <QVector>
 #include <QTextCodec>
 #include "levelChase.h"
 #include "levelInvestigate.h"
 #include "levelIntro.h"
+#include <typeinfo>
 
 Game::Game()
 {
+    control_mode = mouse;
     showFullScreen();
     levelNumber = 0;
     WINDOW_HEIGHT = height();
@@ -27,6 +29,43 @@ Game::Game()
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
+}
+
+
+void Game::mousePressEvent(QMouseEvent * event)
+{
+    if (typeid(*level) == typeid(LevelChase))
+    {
+        ((LevelChase *)level)->mousePressEvent(event);
+    } else if (typeid(*level) == typeid(LevelInvestigate))
+    {
+        ((LevelInvestigate *)level)->mousePressEvent(event);
+    } else if (typeid(*level) == typeid(LevelIntro))
+    {
+        ((LevelIntro *)level)->mousePressEvent(event);
+    } else
+    {
+        level->mousePressEvent(event);
+    }
+}
+
+
+
+void Game::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    if (typeid(*level) == typeid(LevelChase))
+    {
+        ((LevelChase *)level)->mouseDoubleClickEvent(event);
+    } else if (typeid(*level) == typeid(LevelInvestigate))
+    {
+        ((LevelInvestigate *)level)->mouseDoubleClickEvent(event);
+    } else if (typeid(*level) == typeid(LevelIntro))
+    {
+        ((LevelIntro *)level)->mouseDoubleClickEvent(event);
+    } else
+    {
+        level->mouseDoubleClickEvent(event);
+    }
 }
 
 void Game::loadLevel()
@@ -63,7 +102,7 @@ void Game::loadLevel()
         "w                                                      w",
         "w                                                      w",
         "t      H n      b p  B c          o       b   B        t",
-        "fffffyfffffgffffffffffffffffffffffffffyffffffffffffffgff",
+        "ffffffffffffgfffffffffffffffffffffffffffffffffffffffffff",
         "---",
         "cno",
         "---",
@@ -186,21 +225,21 @@ void Game::loadLevel()
         "---",
         "20 20 50",
         "---",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w                                                                                                                                             ",
-        "w p    v    h     h     hh               hhh         h      h            h h         h    h h       hhh          h h        h          hh     ",
-        "ffffffffffffffgffffffffffffffffffyfffffffffffffffygfffffffffffffffffffffffffffffffffffffffffffffyffffffffffffffffffffffffffffffffffgffffffffff",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w                                                                                                                                                                            ",
+        "w p    v    h     h     hh               hhh         h      h            h h         h    h h       hhh          h h        h          hh         h         h h              ",
+        "ffffffffffffffgffffffffffffffffffyfffffffffffffffygffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffgfffffffffffffffffffffffffffffffffffffffff",
         "---",
         "h  ",
         "---",
@@ -347,13 +386,13 @@ void Game::loadLevel()
     if (map[0] == QString("LEVEL: CHASE"))
     {
         level = new LevelChase(this);
-        level->init(map);
+        ((LevelChase *)level)->init(map);
 
     //создаём уровень: расследование
     } else if (map[0] == QString("LEVEL: INVESTIGATION"))
     {
         level = new LevelInvestigate(this);
-        level->init(map);
+        ((LevelInvestigate *)level)->init(map);
 
     //создаём уровень: введение
     } else if (map[0] == QString("LEVEL: INTRO"))

@@ -15,10 +15,38 @@ LevelChase::LevelChase(QGraphicsView * parent) : Level(parent)
 {
 }
 
-//следим за перемещениями игрока
+//следим за перемещениями противника
 void LevelChase::followEnemy()
 {
     game->ensureVisible(enemy[0], game->WINDOW_WIDTH * 1/5, 0);
+
+    //имитируем нажатие клавиши "бег"
+    if (dialog->isOn == false)
+    {
+        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Right, 0, "", false, 1);
+        player->keyPressEvent(keyEvent);
+        keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Shift, 0, "", false, 1);
+        player->keyPressEvent(keyEvent);
+    }
+}
+
+//прыжок по нажатию на экран
+void LevelChase::mousePressEvent(QMouseEvent *event)
+{
+    if (dialog->isOn == true)
+    {
+        dialog->nextLine();
+    } else
+    {
+        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Up, 0, "", false, 1);
+        player->keyPressEvent(keyEvent);
+    }
+}
+
+//блокируем обработку двойного клика
+void LevelChase::mouseDoubleClickEvent(QMouseEvent *event)
+{
+
 }
 
 //проверка условий победы и поражения

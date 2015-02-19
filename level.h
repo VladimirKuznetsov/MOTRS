@@ -26,6 +26,8 @@ public:
     QPixmap sprites;
 
     //ввод с клавиатуры
+    void mousePressEvent(QMouseEvent * event);
+    void mouseDoubleClickEvent(QMouseEvent * event);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 

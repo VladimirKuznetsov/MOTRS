@@ -2,8 +2,9 @@
 #include "game.h"
 #include "dialogBox.h"
 #include <QGraphicsTextItem>
-//#include <QDebug>
+#include <QDebug>
 #include <QTextCodec>
+#include <typeinfo>
 
 extern Game * game;
 
@@ -629,11 +630,63 @@ void Level::gameOver(QString comment)
     emit lose();
 }
 
+//отрабатываем клик мышкой
 void Level::levelCompleted(QString message[])
 {
     updateTimer->stop();
     connect (dialog, SIGNAL(ended()), this, SIGNAL(win()));
     dialog->setDialog(message);
+}
+
+//обработка нажатия мыши
+void Level::mousePressEvent(QMouseEvent * event)
+{
+    qDebug() << QString("C");
+    //прокрутка диалога
+    if (dialog->isOn == true)
+    {
+        dialog->nextLine();
+    //движение к цели
+    } else
+    {
+        //задаём цель движения в координатах сцены
+        player->targetX = game->mapToScene(event->x(), event->y()).rx();
+
+        //движемся в заданном направлении
+        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
+        player->keyReleaseEvent(keyEvent);
+        if (player->x() < player->targetX)
+        {
+            QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Right, 0, "", false, 1);
+            player->keyPressEvent(keyEvent);
+        } else if (player->x() > player->targetX)
+        {
+            QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Left, 0, "", false, 1);
+            player->keyPressEvent(keyEvent);
+        }
+
+        //проверяем объекты под курсором
+        QGraphicsItem * clickedItem = itemAt(game->mapToScene(event->x(), event->y()), QTransform());
+        if (clickedItem)
+        {
+            if (typeid(*clickedItem) == typeid(Cell))
+            {
+                if (((Cell*)clickedItem)->isInteractive == true)
+                {
+                    player->targetCell = dynamic_cast<Cell *>(clickedItem);
+                }
+            }
+        }
+    }
+}
+
+//отрабатываем двойной клик
+void Level::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    qDebug() << QString("D");
+    mousePressEvent(event);
+    QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Shift, 0, "", false, 1);
+    player->keyPressEvent(keyEvent);
 }
 
 //макет проверки правил
@@ -644,40 +697,49 @@ void Level::checkRules()
 //отработка нажатий клавиш
 void Level::keyPressEvent(QKeyEvent *event)
 {
-    //режим прокрутки диалога
-    if (dialog->isOn == true)
+    if (game->control_mode == game->keyboard)
     {
-        switch (event->key())
+        //режим прокрутки диалога
+        if (dialog->isOn == true)
         {
-        //прокрутка диалога
-        case (Qt::Key_Space):
-            dialog->nextLine();
-            break;
+            switch (event->key())
+            {
+            //прокрутка диалога
+            case (Qt::Key_Space):
+                dialog->nextLine();
+                break;
 
-        //выход из диалога
-        case (Qt::Key_Escape):
-            dialog->skip();
-            break;
+            //выход из диалога
+            case (Qt::Key_Escape):
+                dialog->skip();
+                break;
 
-        //в противном случае игнорируем нажатие
-        default:
-            break;
+            //в противном случае игнорируем нажатие
+            default:
+                break;
+            }
+
+        //обычный режим игры
+        } else
+        {
+            switch (event->key())
+            {
+            //выход из игры
+            case (Qt::Key_Escape):
+                game->close();
+                break;
+
+            //передаём управление персонажу
+            default:
+                player->keyPressEvent(event);
+                break;
+            }
         }
-
-    //обычный режим игры
     } else
     {
-        switch (event->key())
+        if (event->key() == Qt::Key_Escape)
         {
-        //выход из игры
-        case (Qt::Key_Escape):
             game->close();
-            break;
-
-        //передаём управление персонажу
-        default:
-            player->keyPressEvent(event);
-            break;
         }
     }
 }

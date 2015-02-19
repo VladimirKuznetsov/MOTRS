@@ -14,7 +14,7 @@ Enemy::Enemy(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
     animationSpeed = 0.2;
     spriteSheet = _spriteSheet;
     setPixmap(spriteSheet.copy(0 * (int)frame, 0, 194, 120));
-    HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 17 / 100);
+    HORIZONTAL_SPEED = ceil(float(game->CELL_SIZE) * 18 / 100);
     numberOfJumps = 2;
     horizontalSpeed = 0;
     verticalSpeed = 0;

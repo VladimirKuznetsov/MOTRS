@@ -1,6 +1,6 @@
 #include "player.h"
 #include "cell.h"
-//#include <QDebug>
+#include <QDebug>
 #include <QGraphicsScene>
 #include <QList>
 #include <typeinfo>
@@ -17,6 +17,8 @@ extern Game * game;
 Player::Player(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
 {
     clues = "";
+    targetX = -1;
+    targetCell = new Cell();
 
     JUMP_SPEED = ceil(float(game->CELL_SIZE) / 3.5);
     WALK_SPEED = ceil(float(game->CELL_SIZE) / 8);
@@ -27,12 +29,22 @@ Player::Player(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
     frame = 0;
     animationSpeed = 0.3;
     shiftIsPressed = false;
-    action = ACT_STAND;
-    direction = DIR_RIGHT;
+    action = stand;
+    direction = right;
 
     spriteSheet = _spriteSheet;
     setPixmap(spriteSheet.copy(0, 0, 50, 90));
     QVector <QPointF> areaCorners;
+
+
+
+    //создаём полигон, ограничивающий область коллизий
+    areaCorners << QPointF(0, 0) << QPointF(boundingRect().width(), 0) \
+                   << QPointF(boundingRect().width(), boundingRect().height()) \
+                      << QPointF(0, boundingRect().height());
+
+    physicalArea = new QGraphicsPolygonItem(QPolygonF(areaCorners), this);
+    physicalArea->setOpacity(0);
 
     //создаём полигон, ограничивающий область действия
     areaCorners << QPointF(0, 0) << QPointF(boundingRect().width() * 3 / 2, 0) \
@@ -41,6 +53,7 @@ Player::Player(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
 
     actionArea = new QGraphicsPolygonItem(QPolygonF(areaCorners), this);
     actionArea->setVisible(false);
+
     horizontalSpeed = 0;
     verticalSpeed = 0;
 }
@@ -60,16 +73,16 @@ void Player::move()
 {
     //смена кадров анимации
     frame += animationSpeed;
-    if (action == ACT_STAND) setPixmap((spriteSheet.copy(0, 0, 50, 90)));
-    if (action == ACT_JUMP) setPixmap((spriteSheet.copy(50, 0, 50, 90)));
-    if (action == ACT_GO) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 90, 50, 90));
-    if (action == ACT_RUN) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 180, 50, 90));
+    if (action == stand) setPixmap((spriteSheet.copy(0, 0, 50, 90)));
+    if (action == jump) setPixmap((spriteSheet.copy(50, 0, 50, 90)));
+    if (action == go) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 90, 50, 90));
+    if (action == run) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 180, 50, 90));
 
     //разрешение колиизий анимации
     while (collideWithSolid() == true)
     {
         if (collideWithSolid() == true) setPos(x(), y() - 1);
-        if (collideWithSolid() == true) setPos(x() - pow(-1, (direction == DIR_RIGHT) + 1), y());
+        if (collideWithSolid() == true) setPos(x() - pow(-1, (direction == right) + 1), y());
     }
 
     //перемещение по вертикали
@@ -81,14 +94,14 @@ void Player::move()
     {
         //приземляемся на пол
         if (verticalSpeed < 0) {
-            if (horizontalSpeed == 0) action = ACT_STAND;
+            if (horizontalSpeed == 0) action = stand;
             else if (shiftIsPressed == true) {
-                action = ACT_RUN;
-                horizontalSpeed = RUN_SPEED * pow(-1, (direction == DIR_RIGHT) + 1);
+                action = run;
+                horizontalSpeed = RUN_SPEED * pow(-1, (direction == right) + 1);
             } else
             {
-                action = ACT_GO;
-                horizontalSpeed = WALK_SPEED * pow(-1, (direction == DIR_RIGHT) + 1);
+                action = go;
+                horizontalSpeed = WALK_SPEED * pow(-1, (direction == right) + 1);
             }
         }
     }
@@ -110,12 +123,61 @@ void Player::move()
     //перемещение по горизонтали
     setPos(x() + horizontalSpeed, y());
 
+    //проверяем на столкновение с препятствием
+    QList <QGraphicsItem *> collisions = collidingItems();
+    for (int i = 0; i < collisions.size(); i++)
+    {
+        if ((typeid(*collisions[i]) == typeid(Cell)) && \
+                (((Cell*)collisions[i])->isFloor == false) && (((Cell*)collisions[i])->isSolid == true))
+        {
+            targetCell = new Cell();
+            targetX = -1;
+            QKeyEvent * event = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Left, 0, "", false, 1);
+            keyReleaseEvent(event);
+            *event = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Right, 0, "", false, 1);
+            keyReleaseEvent(event);
+            *event = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
+            keyReleaseEvent(event);
+        }
+    }
+
     //разрешение колиизий при горизонтальном перемещении
     while (collideWithSolid() == true)
     {
-        setPos(x() - pow(-1, (direction == DIR_RIGHT) + 1), y());
+        setPos(x() - pow(-1, (direction == right) + 1), y());
     }
 
+    //персонаж достиг цели движения
+    if (actionArea->collidesWithItem(targetCell))
+    {
+        targetCell->setCellActivated();
+        emit investigating(targetCell);
+        targetCell = new Cell();
+        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Left, 0, "", false, 1);
+        keyReleaseEvent(keyEvent);
+        *keyEvent = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Right, 0, "", false, 1);
+        keyReleaseEvent(keyEvent);
+        *keyEvent = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
+        keyReleaseEvent(keyEvent);
+    }
+
+    //персонаж достиг цели движения
+    if (physicalArea->contains(mapFromScene(targetX, y())))
+    {
+        QKeyEvent * event = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Left, 0, "", false, 1);
+        keyReleaseEvent(event);
+        *event = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Right, 0, "", false, 1);
+        keyReleaseEvent(event);
+        *event = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
+        keyReleaseEvent(event);
+
+        //если до объекта необходимо допрыгнуть
+        if ((targetCell->shortSymbol != ' ') && (targetCell->y() + targetCell->boundingRect().width() < y()))
+        {
+            *event = QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Up, 0, "", false, 1);
+            keyPressEvent(event);
+        }
+    }
 }
 
 //обновляем список найденных улик
@@ -172,44 +234,44 @@ void Player::keyPressEvent(QKeyEvent *event)
     //движемся вправо
     if ((event->key() == Qt::Key_Right) || (event->key() == Qt::Key_Left))
     {
-        if (action == ACT_STAND)
+        if (action == stand)
         {
             //бег
             if (shiftIsPressed == true)
             {
-                action = ACT_RUN;
+                action = run;
             //шаг
             } else {
-                action = ACT_GO;
+                action = go;
             }
         }
 
         //при смене направления, отражаем объект по горизонтали
-        if ((event->key() == Qt::Key_Right) && (direction == DIR_LEFT))
+        if ((event->key() == Qt::Key_Right) && (direction == left))
         {
             frame = 0;
             flipHorizontal();
-            direction = DIR_RIGHT;
+            direction = right;
         }
 
-        if ((event->key() == Qt::Key_Left) && (direction == DIR_RIGHT))
+        if ((event->key() == Qt::Key_Left) && (direction == right))
         {
             frame = 0;
             flipHorizontal();
-            direction = DIR_LEFT;
+            direction = left;
         }
 
         if (shiftIsPressed == true) horizontalSpeed = RUN_SPEED;
         else horizontalSpeed = WALK_SPEED;
 
-        horizontalSpeed *= pow(-1, (direction == DIR_RIGHT) + 1);
+        horizontalSpeed *= pow(-1, (direction == right) + 1);
     }
 
     //прыжок
-    if ((event->key() == Qt::Key_Up) && (action != ACT_JUMP))
+    if ((event->key() == Qt::Key_Up) && (!event->isAutoRepeat()) && (action != jump))
     {
         frame = 0;
-        action = ACT_JUMP;
+        action = jump;
         verticalSpeed = JUMP_SPEED;
     }
 
@@ -219,10 +281,10 @@ void Player::keyPressEvent(QKeyEvent *event)
         shiftIsPressed = true;
 
         //переходим на бег
-        if (action == ACT_GO)
+        if (action == go)
         {
-            action = ACT_RUN;
-            horizontalSpeed = RUN_SPEED * pow(-1, (direction == DIR_RIGHT) + 1);
+            action = run;
+            horizontalSpeed = RUN_SPEED * pow(-1, (direction == right) + 1);
         }
     }
 }
@@ -231,14 +293,14 @@ void Player::keyPressEvent(QKeyEvent *event)
 void Player::keyReleaseEvent(QKeyEvent *event)
 {
     //прекращаем движение по горизонтали
-    if (((event->key() == Qt::Key_Left) && (direction == DIR_LEFT)) || \
-            ((event->key() == Qt::Key_Right) && (direction == DIR_RIGHT)))
+    if (((event->key() == Qt::Key_Left) && (direction == left)) || \
+            ((event->key() == Qt::Key_Right) && (direction == right)))
     {
         horizontalSpeed = 0;
 
         //остановка
-        if ((action == ACT_GO) || (action == ACT_RUN)) {
-            action = ACT_STAND;
+        if ((action == go) || (action == run)) {
+            action = stand;
         }
     }
 
@@ -248,10 +310,10 @@ void Player::keyReleaseEvent(QKeyEvent *event)
         shiftIsPressed = false;
 
         //переходим на шаг
-        if (action == ACT_RUN)
+        if (action == run)
         {
-            action = ACT_GO;
-            horizontalSpeed = WALK_SPEED * pow(-1, (direction == DIR_RIGHT) + 1);
+            action = go;
+            horizontalSpeed = WALK_SPEED * pow(-1, (direction == right) + 1);
         }
     }
 }

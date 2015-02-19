@@ -53,6 +53,16 @@ void LevelIntro::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void LevelIntro::mousePressEvent(QMouseEvent *event)
+{
+    emit win();
+}
+
+void LevelIntro::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    emit win();
+}
+
 void LevelIntro::checkRules()
 {
 }

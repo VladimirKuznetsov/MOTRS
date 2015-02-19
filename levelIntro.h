@@ -14,6 +14,8 @@ public:
     LevelIntro(QGraphicsView * parent);
     void init(QString map[]);
     void keyPressEvent(QKeyEvent *event);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseDoubleClickEvent(QMouseEvent * event);
     int step;
 
 signals:
