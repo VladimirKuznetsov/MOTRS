@@ -1,0 +1,24 @@
+C:\Qt\!Projects\MOTRS\android\android-build\gen\mystery\of\the\ribbon\seal\R.java \
+ : C:\Qt\!Projects\MOTRS\android\android-build\res\layout\splash.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values\libs.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-de\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-el\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-es\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-et\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-fa\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-fr\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-id\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-it\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-ja\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-ms\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-nb\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-nl\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-pl\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-pt-rBR\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-ro\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-rs\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-ru\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-zh-rCN\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\res\values-zh-rTW\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\bin\AndroidManifest.xml \

@@ -36,3 +36,27 @@ FORMS    +=
 
 RESOURCES += \
     res.qrc
+
+DISTFILES += \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew \
+    android/gradlew.bat \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew \
+    android/gradlew.bat \
+    ../android-template/gradle/wrapper/gradle-wrapper.jar \
+    ../android-template/AndroidManifest.xml \
+    ../android-template/res/values/libs.xml \
+    ../android-template/build.gradle \
+    ../android-template/gradle/wrapper/gradle-wrapper.properties \
+    ../android-template/gradlew \
+    ../android-template/gradlew.bat
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../android-template
+

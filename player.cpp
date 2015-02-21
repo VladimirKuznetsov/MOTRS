@@ -26,6 +26,7 @@ Player::Player(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
     MAX_STEP_HEIGHT = ceil(float(game->CELL_SIZE) / 3);
     zoom = 1.0;
 
+    qDebug() << QString("walk speed = ") + QString::number(WALK_SPEED);
     frame = 0;
     animationSpeed = 0.3;
     shiftIsPressed = false;
@@ -71,6 +72,8 @@ void Player::setZoom(float _zoom)
 //перемещения игрока
 void Player::move()
 {
+    static unsigned int i = 0;
+    qDebug() << QString::number(i);
     //смена кадров анимации
     frame += animationSpeed;
     if (action == stand) setPixmap((spriteSheet.copy(0, 0, 50, 90)));

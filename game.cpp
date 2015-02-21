@@ -7,19 +7,34 @@
 #include "levelInvestigate.h"
 #include "levelIntro.h"
 #include <typeinfo>
+#include <qscreen.h>
+#include <QApplication>
 
 Game::Game()
 {
-    control_mode = mouse;
+/*
+    //настраиваем параметры отображения для конкретной среды
+#ifdef WIN32
     showFullScreen();
+    control_mode = keyboard;
+#else
+    control_mode = mouse;
+#endif
+*/
+    QScreen * screen = QApplication::screens().at(0);
+    control_mode = mouse;
     levelNumber = 0;
-    WINDOW_HEIGHT = height();
-    WINDOW_WIDTH = width();
+    WINDOW_HEIGHT = screen->size().height();
+    WINDOW_WIDTH = screen->size().width();
     CELL_SIZE = WINDOW_HEIGHT / 15;
     GRAVITY = ceil(float(CELL_SIZE) / 60);
     LARGE_FONT = WINDOW_WIDTH * 0.032;
     MEDIUM_FONT = LARGE_FONT * 0.7;
     SMALL_FONT = LARGE_FONT / 2;
+
+    qDebug() << QString("window width = ") + QString::number(WINDOW_WIDTH);
+    qDebug() << QString("window height = ") + QString::number(WINDOW_HEIGHT);
+    qDebug() << QString("cell size = ") + QString::number(CELL_SIZE);
 
     if (LARGE_FONT < 20) LARGE_FONT = 20;
     if (SMALL_FONT < 12) SMALL_FONT = 12;
@@ -27,7 +42,7 @@ Game::Game()
     //настраиваем параметры отображения окна
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+    //setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 }
 
@@ -206,7 +221,7 @@ void Game::loadLevel()
         "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
         "---",
-        "Lds",
+        "ds",
         "---",
         "Не нравится мне это место...",
         "Нужно быстро тут всё проверить и возвращаться.",
@@ -225,21 +240,21 @@ void Game::loadLevel()
         "---",
         "20 20 50",
         "---",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w                                                                                                                                                                            ",
-        "w p    v    h     h     hh               hhh         h      h            h h         h    h h       hhh          h h        h          hh         h         h h              ",
-        "ffffffffffffffgffffffffffffffffffyfffffffffffffffygffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffgfffffffffffffffffffffffffffffffffffffffff",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w                                                                                                                                                                                     ",
+        "w p    v            h     h     hh               hhh         h      h            h h         h    h h       hhh          h h        h          hh         h         h h               ",
+        "ffffffffffffffffffffffffgffffffffffffffffffyffffffffffffffygffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffgfffffffffffffffffffffffffffffffffffffffff",
         "---",
         "h  ",
         "---",
@@ -256,21 +271,21 @@ void Game::loadLevel()
         "---",
         "20 20 50",
         "---",
-        "w                                                   w",
-        "w                                                   w",
-        "w                                                   w",
-        "w                                                   w",
-        "w                                                   w",
-        "w                                                   w",
-        "w                                                   w",
-        "w                                                   w",
-        "w                                                   w",
-        "w                                                   w",
-        "w                            E                      w",
-        "w                                                   w",
-        "w                                                   w",
-        "w     P         O                                   w",
-        "fffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "w                                                                 w",
+        "w                                                                 w",
+        "w                                                                 w",
+        "w                                                                 w",
+        "w                                                                 w",
+        "w                                                                 w",
+        "w                                                                 w",
+        "w                                                                 w",
+        "w                                                                 w",
+        "w                                                                 w",
+        "w                                          E                      w",
+        "w                                                                 w",
+        "w                                                                 w",
+        "w     P         O                                                 w",
+        "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
         "---",
         " ",
         "---",

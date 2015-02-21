@@ -37,7 +37,7 @@ void Level::init(QString map[])
 
     //загрузка информации из массива строк
     short sceneLength = 0;
-    for (int row = 4; row < 20; row++)
+    for (int row = 4; row < 19; row++)
     {
         //определяем длину сцены по самой длинной строке
         if (map[row].length() > sceneLength)
@@ -103,7 +103,7 @@ void Level::init(QString map[])
                 target->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / target->boundingRect().width();
                 target->setScale(scaleFactor);
-                target->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                target->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - target->boundingRect().height()*scaleFactor);
                 target->isTarget = true;
                 target->setOpacity(0);
                 addItem(target);
@@ -116,7 +116,7 @@ void Level::init(QString map[])
                 floor->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
-                floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                floor->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - floor->boundingRect().height()*scaleFactor);
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
@@ -129,7 +129,7 @@ void Level::init(QString map[])
                 floor->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
-                floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                floor->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - floor->boundingRect().height()*scaleFactor);
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
@@ -142,7 +142,7 @@ void Level::init(QString map[])
                 floor->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
-                floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                floor->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - floor->boundingRect().height()*scaleFactor);
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
@@ -155,7 +155,7 @@ void Level::init(QString map[])
                 floor->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
-                floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                floor->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - floor->boundingRect().height()*scaleFactor);
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
@@ -168,7 +168,7 @@ void Level::init(QString map[])
                 wall->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / wall->boundingRect().width();
                 wall->setScale(scaleFactor);
-                wall->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                wall->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - wall->boundingRect().height()*scaleFactor);
                 wall->isSolid = true;
                 addItem(wall);
             }
@@ -180,7 +180,7 @@ void Level::init(QString map[])
                 ceiling->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / ceiling->boundingRect().width();
                 ceiling->setScale(scaleFactor);
-                ceiling->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                ceiling->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - ceiling->boundingRect().height()*scaleFactor);
                 ceiling->isSolid = true;
                 addItem(ceiling);
             }
@@ -192,7 +192,7 @@ void Level::init(QString map[])
                 solid->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / solid->boundingRect().width();
                 solid->setScale(scaleFactor);
-                solid->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                solid->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - solid->boundingRect().height()*scaleFactor);
                 solid->isSolid = true;
                 addItem(solid);
             }
@@ -204,7 +204,7 @@ void Level::init(QString map[])
                 floor->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / floor->boundingRect().width();
                 floor->setScale(scaleFactor);
-                floor->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                floor->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - floor->boundingRect().height()*scaleFactor);
                 floor->isSolid = true;
                 floor->isFloor = true;
                 addItem(floor);
@@ -216,7 +216,7 @@ void Level::init(QString map[])
                 wall->setPicInactive(sprites.copy(120,390,30,30));
                 float scaleFactor = game->CELL_SIZE / wall->boundingRect().width();
                 wall->setScale(scaleFactor);
-                wall->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                wall->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - wall->boundingRect().height()*scaleFactor);
                 wall->isSolid = true;
                 addItem(wall);
             }
@@ -228,7 +228,7 @@ void Level::init(QString map[])
                 ceiling->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / ceiling->boundingRect().width();
                 ceiling->setScale(scaleFactor);
-                ceiling->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                ceiling->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - ceiling->boundingRect().height()*scaleFactor);
                 ceiling->isSolid = true;
                 addItem(ceiling);
             }
@@ -240,7 +240,7 @@ void Level::init(QString map[])
                 solid->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / solid->boundingRect().width();
                 solid->setScale(scaleFactor);
-                solid->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                solid->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - solid->boundingRect().height()*scaleFactor);
                 solid->isSolid = true;
                 addItem(solid);
             }
@@ -252,7 +252,7 @@ void Level::init(QString map[])
                 wall->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / wall->boundingRect().width();
                 wall->setScale(scaleFactor);
-                wall->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                wall->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - wall->boundingRect().height()*scaleFactor);
                 wall->isSolid = true;
                 wall->setOpacity(0);
                 addItem(wall);
@@ -265,7 +265,7 @@ void Level::init(QString map[])
                 hydrant->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / hydrant->boundingRect().width();
                 hydrant->setScale(scaleFactor);
-                hydrant->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                hydrant->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - hydrant->boundingRect().height()*scaleFactor);
                 hydrant->isSolid = true;
                 addItem(hydrant);
             }
@@ -278,7 +278,7 @@ void Level::init(QString map[])
                 hydrant->setCellActive();
                 float scaleFactor = game->CELL_SIZE / hydrant->boundingRect().width();
                 hydrant->setScale(scaleFactor);
-                hydrant->setPos(column * game->CELL_SIZE, (row - 4) * game->CELL_SIZE);
+                hydrant->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - hydrant->boundingRect().height()*scaleFactor);
                 hydrant->addInteraction('h');
                 hydrant->setCellActive();
                 hydrant->interactionDialogue[0] = QString("Лучше я не буду тут ничего трогать...");
@@ -617,7 +617,7 @@ void Level::init(QString map[])
     //запускаем таймер, управляющий движением
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(checkRules()));
     connect(updateTimer, SIGNAL(timeout()), dialog, SLOT(move()));
-    updateTimer->start(20);
+    updateTimer->start(30);
 
     //загрузка начального диалога
     dialog->setDialog(startMessage);
@@ -641,7 +641,7 @@ void Level::levelCompleted(QString message[])
 //обработка нажатия мыши
 void Level::mousePressEvent(QMouseEvent * event)
 {
-    qDebug() << QString("C");
+    qDebug() << QString::number(event->y());
     //прокрутка диалога
     if (dialog->isOn == true)
     {
@@ -683,7 +683,6 @@ void Level::mousePressEvent(QMouseEvent * event)
 //отрабатываем двойной клик
 void Level::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    qDebug() << QString("D");
     mousePressEvent(event);
     QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Shift, 0, "", false, 1);
     player->keyPressEvent(keyEvent);
