@@ -43,5 +43,5 @@ void LevelInvestigate::checkRules()
 //камера следит за передвижениями игрока
 void LevelInvestigate::followPlayer()
 {
-    game->ensureVisible(player, game->WINDOW_WIDTH * 1/3, 0);
+    game->ensureVisible(player, game->width() * 1/3, 0);
 }

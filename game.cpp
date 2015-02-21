@@ -12,15 +12,16 @@
 
 Game::Game()
 {
-/*
-    //настраиваем параметры отображения для конкретной среды
-#ifdef WIN32
-    showFullScreen();
+
+    //под windows включаем управление с клавиатуры
+#if defined(WIN32)
     control_mode = keyboard;
+
+    //под мобильные платформы используем тачскрин
 #else
     control_mode = mouse;
 #endif
-*/
+
     QScreen * screen = QApplication::screens().at(0);
     control_mode = mouse;
     levelNumber = 0;
@@ -42,7 +43,9 @@ Game::Game()
     //настраиваем параметры отображения окна
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+    double zoom = 2;
+    scale(zoom, zoom);
+    setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 }
 
