@@ -683,50 +683,48 @@ void Level::checkRules()
 //отработка нажатий клавиш
 void Level::keyPressEvent(QKeyEvent *event)
 {
-    if (game->control_mode == game->keyboard)
+    //режим прокрутки диалога
+    if (dialog->isOn == true)
     {
-        //режим прокрутки диалога
-        if (dialog->isOn == true)
+        switch (event->key())
         {
-            switch (event->key())
-            {
-            //прокрутка диалога
-            case (Qt::Key_Space):
-                dialog->nextLine();
-                break;
+        //прокрутка диалога
+        case (Qt::Key_Space):
+            dialog->nextLine();
+            break;
 
-            //выход из диалога
-            case (Qt::Key_Escape):
-                dialog->skip();
-                break;
+        //выход из диалога
+        case (Qt::Key_Escape):
+            dialog->skip();
+            break;
 
-            //в противном случае игнорируем нажатие
-            default:
-                break;
-            }
-
-        //обычный режим игры
-        } else
-        {
-            switch (event->key())
-            {
-            //выход из игры
-            case (Qt::Key_Escape):
-                game->close();
-                break;
-
-            //передаём управление персонажу
-            default:
-                player->keyPressEvent(event);
-                break;
-            }
+        //в противном случае игнорируем нажатие
+        default:
+            break;
         }
+
+    //обычный режим игры
     } else
     {
-        if (event->key() == Qt::Key_Escape)
+        switch (event->key())
         {
+        //выход из игры
+        case (Qt::Key_Escape):
             game->close();
+            break;
+
+        //передаём управление персонажу
+        default:
+            player->keyPressEvent(event);
+            break;
         }
+    }
+
+    if (event->key() == Qt::Key_Back)
+    {
+        QKeyEvent *virtualEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Escape, 0, "", false, 0);
+        keyPressEvent(virtualEvent);
+        return;
     }
 }
 
