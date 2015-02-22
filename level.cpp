@@ -58,30 +58,6 @@ void Level::init(QString map[])
                 addItem(player);
                 connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
             }
-            //отрисовка игрока - крупнее
-            if (map[row][column] == 'P')
-            {
-                player = new Player(sprites.copy(0,0,700,300), this);
-                player->setZoom(2);
-                float scaleFactor = PLAYER_HEIGHT * 3 / player->boundingRect().height();
-                player->setScale(scaleFactor);
-                player->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - PLAYER_HEIGHT*3);
-                player->setZValue(10);
-                addItem(player);
-                connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
-            }
-            //отрисовка игрока - средний
-            if (map[row][column] == 'I')
-            {
-                player = new Player(sprites.copy(0,0,700,300), this);
-                player->setZoom(2);
-                float scaleFactor = PLAYER_HEIGHT * 2 / player->boundingRect().height();
-                player->setScale(scaleFactor);
-                player->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - PLAYER_HEIGHT*2);
-                player->setZValue(10);
-                addItem(player);
-                connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
-            }
             //отрисовка автомобиля
             if (map[row][column] == 'v')
             {
@@ -214,6 +190,7 @@ void Level::init(QString map[])
             {
                 Cell * wall = new Cell(this);
                 wall->setPicInactive(sprites.copy(120,390,30,30));
+                wall->setCellInactive();
                 float scaleFactor = game->CELL_SIZE / wall->boundingRect().width();
                 wall->setScale(scaleFactor);
                 wall->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - wall->boundingRect().height()*scaleFactor);
@@ -328,7 +305,7 @@ void Level::init(QString map[])
                 ball->setPicActive(sprites.copy(60,450,30,30));
                 ball->setPicActivated(sprites.copy(60,450,30,30));
                 ball->setCellActive();
-                float scaleFactor = game->CELL_SIZE * 4 / ball->boundingRect().height();
+                float scaleFactor = game->CELL_SIZE * 1.2/ ball->boundingRect().height();
                 ball->setScale(scaleFactor);
                 ball->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * ball->boundingRect().height());
                 ball->addInteraction('s');
@@ -373,13 +350,13 @@ void Level::init(QString map[])
                 mr->interactionDialogue[8] = QString("– Любопытно...");
                 addItem(mr);
             }
-            //отрисовка г-на Огурцова крупным планом
+            //отрисовка молчаливого г-на Огурцова
             if (map[row][column] == 'O')
             {
                 Cell * mr = new Cell(this);
                 mr->setPicInactive(sprites.copy(110,0,60,80));
                 mr->setCellInactive();
-                float scaleFactor = (float)PLAYER_HEIGHT * 3 / mr->boundingRect().height();
+                float scaleFactor = (float)PLAYER_HEIGHT / mr->boundingRect().height();
                 mr->setScale(scaleFactor);
                 mr->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * mr->boundingRect().height());
                 addItem(mr);
@@ -391,7 +368,7 @@ void Level::init(QString map[])
                 kitchen->setPicActive(sprites.copy(0,586,160,106));
                 kitchen->setPicActivated(sprites.copy(160,586,160,106));
                 kitchen->setCellActive();
-                float scaleFactor = game->CELL_SIZE * 9 / kitchen->boundingRect().height();
+                float scaleFactor = game->CELL_SIZE * 3 / kitchen->boundingRect().height();
                 kitchen->setScale(scaleFactor);
                 kitchen->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * kitchen->boundingRect().height());
                 kitchen->addInteraction('k');
@@ -405,7 +382,7 @@ void Level::init(QString map[])
                 Cell * kitchen = new Cell(this);
                 kitchen->setPicInactive(sprites.copy(320,586,160,106));
                 kitchen->setCellInactive();
-                float scaleFactor = game->CELL_SIZE * 9 / kitchen->boundingRect().height();
+                float scaleFactor = game->CELL_SIZE * 3 / kitchen->boundingRect().height();
                 kitchen->setScale(scaleFactor);
                 kitchen->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * kitchen->boundingRect().height());
                 addItem(kitchen);
@@ -417,7 +394,7 @@ void Level::init(QString map[])
                 bed->setPicActive(sprites.copy(115,692,115,57));
                 bed->setPicActivated(sprites.copy(115,692,115,57));
                 bed->setCellActive();
-                float scaleFactor = game->CELL_SIZE * 9 / bed->boundingRect().width();
+                float scaleFactor = game->CELL_SIZE * 3 / bed->boundingRect().width();
                 bed->setScale(scaleFactor);
                 bed->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * bed->boundingRect().height());
                 bed->addInteraction('i');
@@ -432,7 +409,7 @@ void Level::init(QString map[])
                 letter->setPicActive(sprites.copy(230,692,16,10));
                 letter->setPicActivated(sprites.copy(0,0,1,1));
                 letter->setCellActive();
-                float scaleFactor = game->CELL_SIZE / letter->boundingRect().height();
+                float scaleFactor = game->CELL_SIZE *0.3 / letter->boundingRect().height();
                 letter->setScale(scaleFactor);
                 letter->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * letter->boundingRect().height());
                 letter->addInteraction('a');
@@ -451,7 +428,7 @@ void Level::init(QString map[])
                 Cell * box = new Cell(this);
                 box->setPicInactive(sprites.copy(90,450,30,30));
                 box->setCellInactive();
-                float scaleFactor = game->CELL_SIZE * 4 / box->boundingRect().width();
+                float scaleFactor = game->CELL_SIZE * 2 / box->boundingRect().width();
                 box->setScale(scaleFactor);
                 box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
                 addItem(box);
@@ -463,7 +440,7 @@ void Level::init(QString map[])
                 Cell * box = new Cell(this);
                 box->setPicInactive(sprites.copy(580,390,120,120));
                 box->setCellInactive();
-                float scaleFactor = game->CELL_SIZE * 8 / box->boundingRect().width();
+                float scaleFactor = game->CELL_SIZE * 4 / box->boundingRect().width();
                 box->setScale(scaleFactor);
                 box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
                 addItem(box);
@@ -475,7 +452,7 @@ void Level::init(QString map[])
                 Cell * box = new Cell(this);
                 box->setPicInactive(sprites.copy(580,510,120,120));
                 box->setCellInactive();
-                float scaleFactor = game->CELL_SIZE * 8 / box->boundingRect().width();
+                float scaleFactor = game->CELL_SIZE * 4 / box->boundingRect().width();
                 box->setScale(scaleFactor);
                 box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
                 addItem(box);
@@ -487,7 +464,7 @@ void Level::init(QString map[])
                 Cell * box = new Cell(this);
                 box->setPicInactive(sprites.copy(120,450,30,30));
                 box->setCellInactive();
-                float scaleFactor = game->CELL_SIZE * 4 / box->boundingRect().width();
+                float scaleFactor = game->CELL_SIZE * 2 / box->boundingRect().width();
                 box->setScale(scaleFactor);
                 box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
                 addItem(box);
@@ -499,7 +476,7 @@ void Level::init(QString map[])
                 Cell * box = new Cell(this);
                 box->setPicInactive(sprites.copy(580,630,120,120));
                 box->setCellInactive();
-                float scaleFactor = game->CELL_SIZE * 8 / box->boundingRect().width();
+                float scaleFactor = game->CELL_SIZE * 4 / box->boundingRect().width();
                 box->setScale(scaleFactor);
                 box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
                 addItem(box);
@@ -511,7 +488,7 @@ void Level::init(QString map[])
                 Cell * box = new Cell(this);
                 box->setPicInactive(sprites.copy(150,450,30,30));
                 box->setCellInactive();
-                float scaleFactor = game->CELL_SIZE * 4 / box->boundingRect().width();
+                float scaleFactor = game->CELL_SIZE * 2 / box->boundingRect().width();
                 box->setScale(scaleFactor);
                 box->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*box->boundingRect().height());
                 addItem(box);
@@ -524,7 +501,7 @@ void Level::init(QString map[])
                 docs->setPicActive(sprites.copy(230,705,23,5));
                 docs->setPicActivated(sprites.copy(0,0,1,1));
                 docs->setCellActive();
-                float scaleFactor = game->CELL_SIZE* 2 / docs->boundingRect().width();
+                float scaleFactor = game->CELL_SIZE / docs->boundingRect().width();
                 docs->setScale(scaleFactor);
                 docs->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*docs->boundingRect().height());
                 docs->addInteraction('d');
@@ -541,7 +518,7 @@ void Level::init(QString map[])
                 cig->setPicActive(sprites.copy(230,710,23,1));
                 cig->setPicActivated(sprites.copy(230,710,23,1));
                 cig->setCellActive();
-                float scaleFactor = game->CELL_SIZE * 3 / cig->boundingRect().width();
+                float scaleFactor = game->CELL_SIZE / cig->boundingRect().width();
                 cig->setScale(scaleFactor);
                 cig->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*cig->boundingRect().height());
                 cig->addInteraction('L');
@@ -555,7 +532,7 @@ void Level::init(QString map[])
                 food->setPicActive(sprites.copy(230,715,20,14));
                 food->setPicActivated(sprites.copy(230,715,20,14));
                 food->setCellActive();
-                float scaleFactor = game->CELL_SIZE* 2 / food->boundingRect().width();
+                float scaleFactor = game->CELL_SIZE * 0.6 / food->boundingRect().width();
                 food->setScale(scaleFactor);
                 food->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*food->boundingRect().height());
                 food->addInteraction('V');
@@ -569,10 +546,9 @@ void Level::init(QString map[])
                 Cell * end = new Cell(this);
                 end->setPicInactive(sprites.copy(260,705,151,41));
                 end->setCellInactive();
-                float scaleFactor = game->CELL_SIZE * 20 / end->boundingRect().width();
+                float scaleFactor = game->CELL_SIZE * 7 / end->boundingRect().width();
                 end->setScale(scaleFactor);
                 end->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * end->boundingRect().height());
-                end->addInteraction('V');
                 addItem(end);
             }
         }
@@ -600,12 +576,16 @@ void Level::init(QString map[])
     }
     endMessage[j - i] = "";
 
+    zoom = map[j + 1].toDouble();
+    game->scale(zoom, zoom);
+
     //определяем размеры сцены
     setSceneRect(0, 0, sceneLength * game->CELL_SIZE, game->WINDOW_HEIGHT);
 
     //позиционируем камеру в начальный момент времени
     game->setScene(this);
-    game->centerOn(player);
+    game->centerOn(player->x(), player->y());
+    game->ensureVisible(player, game->width() / 3, game->height() / 10);
 
     //создаём диалоговое поле
     dialog = new DialogBox();
@@ -641,7 +621,6 @@ void Level::levelCompleted(QString message[])
 //обработка нажатия мыши
 void Level::mousePressEvent(QMouseEvent * event)
 {
-    qDebug() << QString::number(event->y());
     //прокрутка диалога
     if (dialog->isOn == true)
     {
@@ -659,13 +638,14 @@ void Level::mousePressEvent(QMouseEvent * event)
         {
             QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Right, 0, "", false, 1);
             player->keyPressEvent(keyEvent);
-        } else if (player->x() > player->targetX)
+        } else
         {
             QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Left, 0, "", false, 1);
             player->keyPressEvent(keyEvent);
         }
 
-        //проверяем объекты под курсором
+        //проверяем объекты под курсором (исключаем игрока из проверки)
+        player->setVisible(false);
         QGraphicsItem * clickedItem = itemAt(game->mapToScene(event->x(), event->y()), QTransform());
         if (clickedItem)
         {
@@ -677,15 +657,22 @@ void Level::mousePressEvent(QMouseEvent * event)
                 }
             }
         }
+        player->setVisible(true);
     }
 }
 
 //отрабатываем двойной клик
 void Level::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    mousePressEvent(event);
-    QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Shift, 0, "", false, 1);
-    player->keyPressEvent(keyEvent);
+    if (dialog->isOn == true)
+    {
+        dialog->nextLine();
+    } else
+    {
+        mousePressEvent(event);
+        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Shift, 0, "", false, 1);
+        player->keyPressEvent(keyEvent);
+    }
 }
 
 //макет проверки правил

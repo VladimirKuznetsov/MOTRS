@@ -1,29 +1,5 @@
 <RCC>
     <qresource prefix="/img">
-        <file alias="dasha">img/Dasha_spritesheet.png</file>
-        <file alias="hydrant">img/hydrant.png</file>
-        <file alias="ground">img/ground.png</file>
-        <file alias="van_ns">img/van_ns.png</file>
-        <file alias="bush">img/bush.png</file>
-        <file alias="ball">img/ball.png</file>
-        <file alias="cell">img/cell.png</file>
-        <file alias="ogurtsov">img/ogurtsov.png</file>
-        <file alias="wood">img/wood.png</file>
-        <file alias="wood_s">img/wood_solid.png</file>
-        <file alias="kitchen">img/kitchen.png</file>
-        <file alias="bed">img/bed.png</file>
-        <file alias="kitchen_n">img/kitchen_n.png</file>
-        <file alias="letter">img/letter.png</file>
-        <file alias="concrete_s">img/concrete_s.png</file>
-        <file alias="concrete">img/concrete.png</file>
-        <file alias="docs">img/docs.png</file>
-        <file alias="box">img/box.png</file>
-        <file alias="food">img/food.png</file>
-        <file alias="box_l">img/largeBox.png</file>
-        <file alias="cigarettes">img/cigarettes.png</file>
-        <file alias="van_ws">img/van_ws.png</file>
-        <file alias="title">img/Title.png</file>
-        <file>img/the end.png</file>
         <file alias="sprites">img/sprites.png</file>
     </qresource>
 </RCC>

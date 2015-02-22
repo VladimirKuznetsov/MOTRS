@@ -45,6 +45,7 @@ public:
     short PLAYER_WIDTH;
     short ENEMY_HEIGHT;
     short ENEMY_WIDTH;
+    double zoom;
     
 signals:
     void lose();

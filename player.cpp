@@ -26,7 +26,6 @@ Player::Player(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
     MAX_STEP_HEIGHT = ceil(float(game->CELL_SIZE) / 3);
     zoom = 1.0;
 
-    qDebug() << QString("walk speed = ") + QString::number(WALK_SPEED);
     frame = 0;
     animationSpeed = 0.3;
     shiftIsPressed = false;
@@ -36,8 +35,6 @@ Player::Player(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
     spriteSheet = _spriteSheet;
     setPixmap(spriteSheet.copy(0, 0, 50, 90));
     QVector <QPointF> areaCorners;
-
-
 
     //создаём полигон, ограничивающий область коллизий
     areaCorners << QPointF(0, 0) << QPointF(boundingRect().width(), 0) \
@@ -72,8 +69,38 @@ void Player::setZoom(float _zoom)
 //перемещения игрока
 void Player::move()
 {
-    static unsigned int i = 0;
-    qDebug() << QString::number(i);
+    //персонаж достиг цели движения
+    if (actionArea->collidesWithItem(targetCell))
+    {
+        targetCell->setCellActivated();
+        emit investigating(targetCell);
+        targetCell = new Cell();
+        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Left, 0, "", false, 1);
+        keyReleaseEvent(keyEvent);
+        *keyEvent = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Right, 0, "", false, 1);
+        keyReleaseEvent(keyEvent);
+        *keyEvent = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
+        keyReleaseEvent(keyEvent);
+    }
+
+    //персонаж достиг цели движения
+    if (physicalArea->contains(mapFromScene(targetX, y())))
+    {
+        QKeyEvent * event = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Left, 0, "", false, 1);
+        keyReleaseEvent(event);
+        *event = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Right, 0, "", false, 1);
+        keyReleaseEvent(event);
+        *event = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
+        keyReleaseEvent(event);
+
+        //если до объекта необходимо допрыгнуть
+        if ((targetCell->shortSymbol != ' ') && (targetCell->y() + targetCell->boundingRect().width() < y()))
+        {
+            *event = QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Up, 0, "", false, 1);
+            keyPressEvent(event);
+        }
+    }
+
     //смена кадров анимации
     frame += animationSpeed;
     if (action == stand) setPixmap((spriteSheet.copy(0, 0, 50, 90)));
@@ -149,38 +176,6 @@ void Player::move()
     {
         setPos(x() - pow(-1, (direction == right) + 1), y());
     }
-
-    //персонаж достиг цели движения
-    if (actionArea->collidesWithItem(targetCell))
-    {
-        targetCell->setCellActivated();
-        emit investigating(targetCell);
-        targetCell = new Cell();
-        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Left, 0, "", false, 1);
-        keyReleaseEvent(keyEvent);
-        *keyEvent = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Right, 0, "", false, 1);
-        keyReleaseEvent(keyEvent);
-        *keyEvent = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
-        keyReleaseEvent(keyEvent);
-    }
-
-    //персонаж достиг цели движения
-    if (physicalArea->contains(mapFromScene(targetX, y())))
-    {
-        QKeyEvent * event = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Left, 0, "", false, 1);
-        keyReleaseEvent(event);
-        *event = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Right, 0, "", false, 1);
-        keyReleaseEvent(event);
-        *event = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
-        keyReleaseEvent(event);
-
-        //если до объекта необходимо допрыгнуть
-        if ((targetCell->shortSymbol != ' ') && (targetCell->y() + targetCell->boundingRect().width() < y()))
-        {
-            *event = QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Up, 0, "", false, 1);
-            keyPressEvent(event);
-        }
-    }
 }
 
 //обновляем список найденных улик
@@ -195,7 +190,7 @@ void Player::addClue(Cell * c)
 //определяем коллизии с твёрдыми объектами
 bool Player::collideWithSolid()
 {
-    QList <QGraphicsItem *> collisionList = collidingItems();
+    QList <QGraphicsItem *> collisionList = physicalArea->collidingItems();
     for (int i = 0; i < collisionList.size(); i++) {
         if (typeid(*collisionList[i]) == typeid(Cell)) {
             if (((Cell*)(collisionList[i]))->isSolid == true) {

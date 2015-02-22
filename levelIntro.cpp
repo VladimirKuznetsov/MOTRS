@@ -11,6 +11,7 @@ LevelIntro::LevelIntro(QGraphicsView *parent) : Level(parent)
 
 void LevelIntro::init(QString map[])
 {
+    zoom = 1;
 
     //отрисовываем фон
     QStringList colors = map[2].split(' ');
@@ -20,7 +21,7 @@ void LevelIntro::init(QString map[])
     QGraphicsTextItem * title = new QGraphicsTextItem(QString(map[4]));
     title->setParent(this);
     title->setDefaultTextColor(Qt::black);
-    title->setFont(QFont("Calibri", game->LARGE_FONT));
+    title->setFont(QFont("Calibri", game->LARGE_FONT / game->zoom()));
     addItem(title);
     title->setZValue(200);
 
@@ -28,7 +29,7 @@ void LevelIntro::init(QString map[])
     QGraphicsTextItem * subTitle = new QGraphicsTextItem(QString(QString(map[6])));
     subTitle->setParent(this);
     subTitle->setDefaultTextColor(Qt::black);
-    subTitle->setFont(QFont("Calibri", game->MEDIUM_FONT));
+    subTitle->setFont(QFont("Calibri", game->MEDIUM_FONT / game->zoom()));
     subTitle->setPos(title->boundingRect().width()/2 - subTitle->boundingRect().width()/2, \
                      title->boundingRect().height());
     addItem(subTitle);

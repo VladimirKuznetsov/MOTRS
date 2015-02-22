@@ -25,6 +25,8 @@ DialogBox::DialogBox(QGraphicsObject *parent) : QGraphicsTextItem(parent)
     setVisible(false);
     isOn = false;
 
+    setScale(1 / game->zoom());
+
 }
 
 //загружаем текст из массива строк
@@ -55,7 +57,7 @@ void DialogBox::setDialog(Cell *_cell)
 void DialogBox::move()
 {
     QPointF textCoord;
-    textCoord = game->mapToScene(QPoint(game->CELL_SIZE, game->CELL_SIZE / 2));
+    textCoord = game->mapToScene(QPoint(game->CELL_SIZE / game->zoom(), game->CELL_SIZE / (2 * game->zoom())));
     setPos(textCoord);
 }
 

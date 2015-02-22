@@ -15,16 +15,17 @@ Game::Game()
 
     //под windows включаем управление с клавиатуры
 #if defined(WIN32)
+    platformZoom = 1;
     control_mode = keyboard;
 
     //под мобильные платформы используем тачскрин
 #else
+    platformZoom = 1.2;
     control_mode = mouse;
 #endif
 
-    QScreen * screen = QApplication::screens().at(0);
-    control_mode = mouse;
     levelNumber = 0;
+    QScreen * screen = QApplication::screens().at(0);
     WINDOW_HEIGHT = screen->size().height();
     WINDOW_WIDTH = screen->size().width();
     CELL_SIZE = WINDOW_HEIGHT / 15;
@@ -33,19 +34,15 @@ Game::Game()
     MEDIUM_FONT = LARGE_FONT * 0.7;
     SMALL_FONT = LARGE_FONT / 2;
 
-    qDebug() << QString("window width = ") + QString::number(WINDOW_WIDTH);
-    qDebug() << QString("window height = ") + QString::number(WINDOW_HEIGHT);
-    qDebug() << QString("cell size = ") + QString::number(CELL_SIZE);
-
     if (LARGE_FONT < 20) LARGE_FONT = 20;
     if (SMALL_FONT < 12) SMALL_FONT = 12;
 
     //настраиваем параметры отображения окна
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    double zoom = 2;
-    scale(zoom, zoom);
     setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    scale(platformZoom, platformZoom);
 
 }
 
@@ -66,7 +63,6 @@ void Game::mousePressEvent(QMouseEvent * event)
         level->mousePressEvent(event);
     }
 }
-
 
 
 void Game::mouseDoubleClickEvent(QMouseEvent *event)
@@ -135,6 +131,8 @@ void Game::loadLevel()
         "...",
         "Шесть часов вечера, пора домой. Вот только закончу с бумажной работой.",
         "---",
+        "1",
+        "---",
         "%",
     };
 
@@ -144,21 +142,21 @@ void Game::loadLevel()
         "---",
         "190 180 110",
         "---",
-        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
-        "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTSSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w                                 RSSS",
-        "w  P    k               i         RSSS",
-        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWSSSS",
-        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSS",
+        "TTTTTTTTTTTTTTTTSSSS",
+        "w               RSSS",
+        "w               RSSS",
+        "w               RSSS",
+        "w  p  k     i   RSSS",
+        "WWWWWWWWWWWWWWWWSSSS",
+        "SSSSSSSSSSSSSSSSSSSS",
         "---",
         "ik",
         "---",
@@ -166,6 +164,8 @@ void Game::loadLevel()
         "Всё бы сейчас отдала за чашку хорошего кофе...",
         "---",
         "Это был странный день. Пора с ним заканчивать.",
+        "---",
+        "2.5",
         "---",
         "%",
     };
@@ -176,21 +176,22 @@ void Game::loadLevel()
         "---",
         "110 110 115",
         "---",
-        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-        "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUFFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "w                                 rFFF",
-        "ta     K               i  P       rFFF",
-        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCFFFF",
-        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFF",
+        "UUUUUUUUUUUUUUUUFFFF",
+        "w               rFFF",
+        "w               rFFF",
+        "w               rFFF",
+        "ta    K     ip  rFFF",
+        "CCCCCCCCCCCCCCCCFFFF",
+        "FFFFFFFFFFFFFFFFFFFF",
+
         "---",
         "a",
         "---",
@@ -198,6 +199,8 @@ void Game::loadLevel()
         "Три часа ночи... кто станет ломиться в дверь в такое время?",
         "---",
         "Старый склад... Думаю, я знаю, где это.",
+        "---",
+        "2.5",
         "---",
         "%",
     };
@@ -208,21 +211,21 @@ void Game::loadLevel()
         "---",
         "80 80 80",
         "---",
-        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-        "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU",
-        "w                                                               w",
-        "w                                                               w",
-        "w                                                 d             w",
-        "w                                                               w",
-        "w                                                               w",
-        "w                                                               w",
-        "w           q                      j   q                        w",
-        "w                                                               w",
-        "w                                                               w",
-        "w                                                               w",
-        "w V   P     j L Z       j        s q   z          Q   z         t",
-        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
-        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "UUUUUUUUUUUUUUUUUUUUUUUUUUUUU",
+        "w                     d     w",
+        "w                           w",
+        "w      q   j                w",
+        "w                           w",
+        "wV  p  jLZ j   q zs   Q z   t",
+        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
         "---",
         "ds",
         "---",
@@ -233,6 +236,8 @@ void Game::loadLevel()
         "Хотела бы я знать, кто и зачем привёл меня сюда...",
         "*РЁВ ДВИГАТЕЛЯ*",
         "Что за чёрт?",
+        "---",
+        "2.5",
         "---",
         "%",
     };
@@ -257,13 +262,15 @@ void Game::loadLevel()
         "w                                                                                                                                                                                     ",
         "w                                                                                                                                                                                     ",
         "w p    v            h     h     hh               hhh         h      h            h h         h    h h       hhh          h h        h          hh         h         h h               ",
-        "ffffffffffffffffffffffffgffffffffffffffffffyffffffffffffffygffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffgfffffffffffffffffffffffffffffffffffffffff",
+        "ffffffffffffffffffffffffgfffffffffffffffffffffffffffffffffygffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffgfffffffffffffffffffffffffffffffffffffffff",
         "---",
         "h  ",
         "---",
         "Это же машина зоопарка! Стоять! Полиция!",
         "---",
         " ",
+        "---",
+        "1",
         "---",
         "%",
     };
@@ -274,21 +281,21 @@ void Game::loadLevel()
         "---",
         "20 20 50",
         "---",
-        "w                                                                 w",
-        "w                                                                 w",
-        "w                                                                 w",
-        "w                                                                 w",
-        "w                                                                 w",
-        "w                                                                 w",
-        "w                                                                 w",
-        "w                                                                 w",
-        "w                                                                 w",
-        "w                                                                 w",
-        "w                                          E                      w",
-        "w                                                                 w",
-        "w                                                                 w",
-        "w     P         O                                                 w",
-        "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "w                            w",
+        "w                            w",
+        "w                            w",
+        "w                            w",
+        "w                            w",
+        "w                            w",
+        "w                            w",
+        "w                            w",
+        "w                            w",
+        "w                            w",
+        "w                            w",
+        "w                            w",
+        "w                Е           w",
+        "w  p   O                     w",
+        "ffffffffffffffffffffffffffffff",
         "---",
         " ",
         "---",
@@ -313,6 +320,8 @@ void Game::loadLevel()
         "—Теперь это будет решать суд.",
         "---",
         " ",
+        "---",
+        "2.5",
         "---",
         "%",
     };
@@ -423,17 +432,38 @@ void Game::loadLevel()
     showFullScreen();
 }
 
+double Game::zoom()
+{
+    return level->zoom * platformZoom;
+}
+
 void Game::nextLevel()
 {
-    //qDebug() << "WE GOT A WINNER";
+    //рассчитываем коэффициент отдаления
+    double zoomOut = 1 / level->zoom;
+
+    //удаляем предыдущий уровень
     levelNumber++;
     delete level;
+
+    //отдаляем камеру в начальное положение
+    scale(zoomOut, zoomOut);
+
+    //загружаем следующий уровень
     loadLevel();
 }
 
 void Game::resetLevel()
 {
-    //qDebug() << "LOOK AT THIS LOOSER";
+    //рассчитываем коэффициент отдаления
+    double zoomOut = 1 / level->zoom;
+
+    //удаляем предыдущий уровень
     delete level;
+
+    //отдаляем камеру в начальное положение
+    scale(zoomOut, zoomOut);
+
+    //загружаем уровень повторно
     loadLevel();
 }
