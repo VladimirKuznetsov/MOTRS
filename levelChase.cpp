@@ -1,12 +1,12 @@
 #include "levelChase.h"
 #include "cell.h"
 #include "game.h"
-//#include <QDebug>
 #include <QString>
 #include <QList>
 #include <typeinfo>
 #include <QGraphicsItem>
 #include <float.h>
+//#include <QDebug>
 
 extern Game * game;
 

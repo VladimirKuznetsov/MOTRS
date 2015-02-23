@@ -2,9 +2,9 @@
 #include "game.h"
 #include "dialogBox.h"
 #include <QGraphicsTextItem>
-#include <QDebug>
 #include <QTextCodec>
 #include <typeinfo>
+//#include <QDebug>
 
 extern Game * game;
 
@@ -51,6 +51,17 @@ void Level::init(QString map[])
             if (map[row][column] == 'p')
             {
                 player = new Player(sprites.copy(0,0,700,300));
+                float scaleFactor = PLAYER_HEIGHT / player->boundingRect().height();
+                player->setScale(scaleFactor);
+                player->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - PLAYER_HEIGHT);
+                player->setZValue(10);
+                addItem(player);
+                connect(updateTimer, SIGNAL(timeout()), player, SLOT(move()));
+            }
+            //отрисовка игрока посреди ночи
+            if (map[row][column] == 'P')
+            {
+                player = new Player(sprites.copy(0,760,700,300));
                 float scaleFactor = PLAYER_HEIGHT / player->boundingRect().height();
                 player->setScale(scaleFactor);
                 player->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - PLAYER_HEIGHT);
@@ -391,15 +402,24 @@ void Level::init(QString map[])
             if (map[row][column] == 'i')
             {
                 Cell * bed = new Cell(this);
-                bed->setPicActive(sprites.copy(115,692,115,57));
-                bed->setPicActivated(sprites.copy(115,692,115,57));
+                bed->setPicActive(sprites.copy(0,692,115,57));
+                bed->setPicActivated(sprites.copy(0,692,115,57));
                 bed->setCellActive();
                 float scaleFactor = game->CELL_SIZE * 3 / bed->boundingRect().width();
                 bed->setScale(scaleFactor);
                 bed->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * bed->boundingRect().height());
-                bed->addInteraction('i');
-                bed->interactionDialogue[0] = QString("");
                 bed->isTarget = true;
+                addItem(bed);
+            }
+            //отрисовка кровати
+            if (map[row][column] == 'I')
+            {
+                Cell * bed = new Cell(this);
+                bed->setPicInactive(sprites.copy(115,692,115,57));
+                bed->setCellInactive();
+                float scaleFactor = game->CELL_SIZE * 3 / bed->boundingRect().width();
+                bed->setScale(scaleFactor);
+                bed->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * bed->boundingRect().height());
                 addItem(bed);
             }
             //отрисовка письма

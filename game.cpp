@@ -1,14 +1,13 @@
 #include "game.h"
 #include <math.h>
-#include <QDebug>
 #include <QVector>
-#include <QTextCodec>
 #include "levelChase.h"
 #include "levelInvestigate.h"
 #include "levelIntro.h"
 #include <typeinfo>
 #include <qscreen.h>
 #include <QApplication>
+//#include <QDebug>
 
 Game::Game()
 {
@@ -38,12 +37,12 @@ Game::Game()
     if (SMALL_FONT < 12) SMALL_FONT = 12;
 
     //настраиваем параметры отображения окна
+    setStyleSheet( "QGraphicsView { border-style: none; }" );
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     scale(platformZoom, platformZoom);
-
 }
 
 
@@ -158,7 +157,7 @@ void Game::loadLevel()
         "WWWWWWWWWWWWWWWWSSSS",
         "SSSSSSSSSSSSSSSSSSSS",
         "---",
-        "ik",
+        "k",
         "---",
         "Опять провозилась с протоколами до позднего вечера.",
         "Всё бы сейчас отдала за чашку хорошего кофе...",
@@ -188,7 +187,7 @@ void Game::loadLevel()
         "w               rFFF",
         "w               rFFF",
         "w               rFFF",
-        "ta    K     ip  rFFF",
+        "ta    K     IP  rFFF",
         "CCCCCCCCCCCCCCCCFFFF",
         "FFFFFFFFFFFFFFFFFFFF",
 
@@ -293,8 +292,8 @@ void Game::loadLevel()
         "w                            w",
         "w                            w",
         "w                            w",
-        "w                Е           w",
-        "w  p   O                     w",
+        "w                     E      w",
+        "w  p O                       w",
         "ffffffffffffffffffffffffffffff",
         "---",
         " ",
@@ -308,7 +307,7 @@ void Game::loadLevel()
         "Страховка за похищенного тюленя была нашей последней надеждой.",
         "Потом я, конечно, устроил бы счастливое воссоединение...",
         "...но на время тюлень должен был исчезнуть.",
-        "—А что же сторож? Он, ведь, не согласился на вашу аферу.",
+        "—А что же сторож? Он ведь не согласился на вашу аферу.",
         "Как вы убрали его с дороги?",
         "—Отпустил погулять на денёк, пригрозил  уволить, если он проболтается...",
         "...так что ним всё в порядке.",

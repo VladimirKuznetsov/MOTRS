@@ -1,6 +1,5 @@
 #include "player.h"
 #include "cell.h"
-#include <QDebug>
 #include <QGraphicsScene>
 #include <QList>
 #include <typeinfo>
@@ -10,6 +9,7 @@
 #include <QVector>
 #include <QPointF>
 #include <QPolygonF>
+//#include <QDebug>
 
 extern Game * game;
 
@@ -154,7 +154,7 @@ void Player::move()
     setPos(x() + horizontalSpeed, y());
 
     //проверяем на столкновение с препятствием
-    QList <QGraphicsItem *> collisions = collidingItems();
+    QList <QGraphicsItem *> collisions = physicalArea->collidingItems();
     for (int i = 0; i < collisions.size(); i++)
     {
         if ((typeid(*collisions[i]) == typeid(Cell)) && \

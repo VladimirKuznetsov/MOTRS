@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <QString>
 #include "game.h"
-#include "levelChase.h"
 
 Game * game;
 
