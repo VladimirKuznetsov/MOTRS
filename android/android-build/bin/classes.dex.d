@@ -2,6 +2,7 @@ C:\Qt\!Projects\MOTRS\android\android-build\bin\classes.dex : \
 C:\Qt\!Projects\MOTRS\android\android-build\bin\classes\mystery\of\the\ribbon\seal\BuildConfig.class \
 C:\Qt\!Projects\MOTRS\android\android-build\bin\classes\mystery\of\the\ribbon\seal\R$array.class \
 C:\Qt\!Projects\MOTRS\android\android-build\bin\classes\mystery\of\the\ribbon\seal\R$attr.class \
+C:\Qt\!Projects\MOTRS\android\android-build\bin\classes\mystery\of\the\ribbon\seal\R$drawable.class \
 C:\Qt\!Projects\MOTRS\android\android-build\bin\classes\mystery\of\the\ribbon\seal\R$layout.class \
 C:\Qt\!Projects\MOTRS\android\android-build\bin\classes\mystery\of\the\ribbon\seal\R$string.class \
 C:\Qt\!Projects\MOTRS\android\android-build\bin\classes\mystery\of\the\ribbon\seal\R.class \

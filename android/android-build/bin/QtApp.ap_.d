@@ -1,5 +1,6 @@
 C:\Qt\!Projects\MOTRS\android\android-build\bin\QtApp.ap_ \
- : C:\Qt\!Projects\MOTRS\android\android-build\res\layout\splash.xml \
+ : C:\Qt\!Projects\MOTRS\android\android-build\res\drawable-ldpi\icon.png \
+C:\Qt\!Projects\MOTRS\android\android-build\res\layout\splash.xml \
 C:\Qt\!Projects\MOTRS\android\android-build\res\values\libs.xml \
 C:\Qt\!Projects\MOTRS\android\android-build\res\values\strings.xml \
 C:\Qt\!Projects\MOTRS\android\android-build\res\values-de\strings.xml \
@@ -21,6 +22,7 @@ C:\Qt\!Projects\MOTRS\android\android-build\res\values-rs\strings.xml \
 C:\Qt\!Projects\MOTRS\android\android-build\res\values-ru\strings.xml \
 C:\Qt\!Projects\MOTRS\android\android-build\res\values-zh-rCN\strings.xml \
 C:\Qt\!Projects\MOTRS\android\android-build\res\values-zh-rTW\strings.xml \
+C:\Qt\!Projects\MOTRS\android\android-build\bin\res\drawable-ldpi\icon.png \
 C:\Qt\!Projects\MOTRS\android\android-build\assets\--Added-by-androiddeployqt-- \
 C:\Qt\!Projects\MOTRS\android\android-build\assets\--Added-by-androiddeployqt--\qt_cache_pregenerated_file_list \
 C:\Qt\!Projects\MOTRS\android\android-build\bin\AndroidManifest.xml \

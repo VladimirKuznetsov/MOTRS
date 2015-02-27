@@ -33,6 +33,10 @@ public:
     float frame;
     float animationSpeed;
     QPixmap spriteSheet;
+    QPixmap spriteWalk[8];
+    QPixmap spriteRun[8];
+    QPixmap spriteStand;
+    QPixmap spriteJump;
 
     //переменные состояния и направления
     float zoom;

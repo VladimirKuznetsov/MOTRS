@@ -33,6 +33,16 @@ Player::Player(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
     direction = right;
 
     spriteSheet = _spriteSheet;
+
+    //загружаем изображения из спрайтлиста
+    spriteStand = spriteSheet.copy(0, 0, 50, 90);
+    spriteJump = spriteSheet.copy(50, 0, 50, 90);
+    for (int i = 0; i < 8; i++)
+    {
+        spriteWalk[i] = spriteSheet.copy(50 * i, 90, 50, 90);
+        spriteRun[i] = spriteSheet.copy(50 * i, 180, 50, 90);
+    }
+
     setPixmap(spriteSheet.copy(0, 0, 50, 90));
     QVector <QPointF> areaCorners;
 
@@ -103,10 +113,21 @@ void Player::move()
 
     //смена кадров анимации
     frame += animationSpeed;
-    if (action == stand) setPixmap((spriteSheet.copy(0, 0, 50, 90)));
-    if (action == jump) setPixmap((spriteSheet.copy(50, 0, 50, 90)));
-    if (action == go) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 90, 50, 90));
-    if (action == run) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 180, 50, 90));
+    if (int(frame) > int (frame - animationSpeed))
+    {
+    /*
+        if (action == stand) setPixmap((spriteSheet.copy(0, 0, 50, 90)));
+        if (action == jump) setPixmap((spriteSheet.copy(50, 0, 50, 90)));
+        if (action == go) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 90, 50, 90));
+        if (action == run) setPixmap(spriteSheet.copy(50*(int(frame) % 8), 180, 50, 90));
+    */
+
+        if (action == stand) setPixmap(spriteStand);
+        if (action == jump) setPixmap(spriteJump);
+        if (action == go) setPixmap(spriteWalk[int(frame) % 8]);
+        if (action == run) setPixmap(spriteRun[int(frame) % 8]);
+    }
+
 
     //разрешение колиизий анимации
     while (collideWithSolid() == true)
@@ -114,6 +135,7 @@ void Player::move()
         if (collideWithSolid() == true) setPos(x(), y() - 1);
         if (collideWithSolid() == true) setPos(x() - pow(-1, (direction == right) + 1), y());
     }
+
 
     //перемещение по вертикали
     unsigned int oldY = y();
@@ -166,8 +188,6 @@ void Player::move()
             keyReleaseEvent(event);
             *event = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Right, 0, "", false, 1);
             keyReleaseEvent(event);
-            *event = QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
-            keyReleaseEvent(event);
         }
     }
 
@@ -190,7 +210,7 @@ void Player::addClue(Cell * c)
 //определяем коллизии с твёрдыми объектами
 bool Player::collideWithSolid()
 {
-    QList <QGraphicsItem *> collisionList = physicalArea->collidingItems();
+    QList <QGraphicsItem *> collisionList = physicalArea->collidingItems(Qt::IntersectsItemBoundingRect);
     for (int i = 0; i < collisionList.size(); i++) {
         if (typeid(*collisionList[i]) == typeid(Cell)) {
             if (((Cell*)(collisionList[i]))->isSolid == true) {

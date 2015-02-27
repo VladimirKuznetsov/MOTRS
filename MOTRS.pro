@@ -56,7 +56,8 @@ DISTFILES += \
     ../android-template/build.gradle \
     ../android-template/gradle/wrapper/gradle-wrapper.properties \
     ../android-template/gradlew \
-    ../android-template/gradlew.bat
+    ../android-template/gradlew.bat \
+    ../android-template/res/values/strings.xml
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../android-template
 

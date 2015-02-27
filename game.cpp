@@ -7,6 +7,7 @@
 #include <typeinfo>
 #include <qscreen.h>
 #include <QApplication>
+#include <QFontMetrics>
 //#include <QDebug>
 
 Game::Game()
@@ -29,12 +30,26 @@ Game::Game()
     WINDOW_WIDTH = screen->size().width();
     CELL_SIZE = WINDOW_HEIGHT / 15;
     GRAVITY = ceil(float(CELL_SIZE) / 60);
-    LARGE_FONT = WINDOW_WIDTH * 0.032;
-    MEDIUM_FONT = LARGE_FONT * 0.7;
-    SMALL_FONT = LARGE_FONT / 2;
 
-    if (LARGE_FONT < 20) LARGE_FONT = 20;
-    if (SMALL_FONT < 12) SMALL_FONT = 12;
+    //подстройка размера шрифтов под экран
+    SMALL_FONT = 12;
+
+    QFont sFont("Calibri", SMALL_FONT);
+    QFontMetrics fm(sFont);
+    QString longLine("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+    //увеличиваем шрифт пока строка максимальной длины
+    //не выйдет за допустимые размеры поля
+    while (fm.width(longLine) < WINDOW_WIDTH - CELL_SIZE * 2)
+    {
+        SMALL_FONT++;
+        sFont = QFont("Calibri", SMALL_FONT);
+        fm = QFontMetrics(sFont);
+    }
+    SMALL_FONT -= 1;
+
+    LARGE_FONT = SMALL_FONT * 2;
+    MEDIUM_FONT =  SMALL_FONT * 1.4;
 
     //настраиваем параметры отображения окна
     setStyleSheet( "QGraphicsView { border-style: none; }" );

@@ -1,5 +1,6 @@
 C:\Qt\!Projects\MOTRS\android\android-build\gen\mystery\of\the\ribbon\seal\R.java \
- : C:\Qt\!Projects\MOTRS\android\android-build\res\layout\splash.xml \
+ : C:\Qt\!Projects\MOTRS\android\android-build\res\drawable-ldpi\icon.png \
+C:\Qt\!Projects\MOTRS\android\android-build\res\layout\splash.xml \
 C:\Qt\!Projects\MOTRS\android\android-build\res\values\libs.xml \
 C:\Qt\!Projects\MOTRS\android\android-build\res\values\strings.xml \
 C:\Qt\!Projects\MOTRS\android\android-build\res\values-de\strings.xml \
