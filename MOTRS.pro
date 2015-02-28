@@ -32,6 +32,8 @@ HEADERS  += \
     levelInvestigate.h \
     levelIntro.h
 
+TRANSLATIONS += motrs_ru.ts
+
 FORMS    +=
 
 RESOURCES += \

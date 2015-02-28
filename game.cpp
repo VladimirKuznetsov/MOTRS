@@ -104,9 +104,9 @@ void Game::loadLevel()
         "---",
         "230 230 230",
         "---",
-        "Дарья Винокурова",
+        tr("Dasha Vinokurova"),
         "---",
-        "по следам полосатого тюленя",
+        tr("Mystery of the Ribbon Seal"),
         "%",
     };
 
@@ -134,8 +134,8 @@ void Game::loadLevel()
         "---",
         "cno",
         "---",
-        "Сегодня ночью из Московского зоопарка сбежал редкий полосатый тюлень.",
-        "Моя задача отыскать его и вернуть домой. Но с чего начать?",
+        tr("A rare ribbon seal disappeared this night from the Moscow zoo."),
+        tr("My job is to get him back home. But what should I start with?"),
         "Куда пойдёт огромный полосатый тюлень в большом городе?",
         "Сосредоточься, Даша! Ты должна думать как тюлень.",
         "---",

@@ -2,4 +2,7 @@
     <qresource prefix="/img">
         <file alias="sprites">img/sprites.png</file>
     </qresource>
+    <qresource prefix="/translations">
+        <file>motrs_ru.qm</file>
+    </qresource>
 </RCC>
