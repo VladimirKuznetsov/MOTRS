@@ -37,6 +37,8 @@ Cell::Cell(QString res, int num, QObject * parent) : QObject(parent)
     shortSymbol = ' ';
     cellToActivate = ' ';
     setPixmap(spSheet.copy(spSheet.width() * num / 3, 0, spSheet.width()/3, spSheet.height()));
+
+    //setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 }
 
 //установить неактивный режим

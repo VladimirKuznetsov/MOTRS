@@ -64,6 +64,11 @@ void LevelIntro::mouseDoubleClickEvent(QMouseEvent *event)
     emit win();
 }
 
+void LevelIntro::mouseReleaseEvent(QMouseEvent *event)
+{
+
+}
+
 void LevelIntro::checkRules()
 {
 }

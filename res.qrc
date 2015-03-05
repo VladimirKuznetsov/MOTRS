@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/img">
         <file alias="sprites">img/sprites.png</file>
+        <file>img/sprites.jpg</file>
     </qresource>
     <qresource prefix="/translations">
         <file>motrs_ru.qm</file>

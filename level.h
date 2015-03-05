@@ -28,8 +28,10 @@ public:
     //ввод с клавиатуры
     void mousePressEvent(QMouseEvent * event);
     void mouseDoubleClickEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
+    bool startedMotion;
 
     //некоторые объекты сцены
     unsigned short numberOfEnemies;

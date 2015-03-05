@@ -49,6 +49,12 @@ void LevelChase::mouseDoubleClickEvent(QMouseEvent *event)
 
 }
 
+//блокируем обработку отпускания пальца
+void LevelChase::mouseReleaseEvent(QMouseEvent *event)
+{
+
+}
+
 //проверка условий победы и поражения
 void LevelChase::checkRules()
 {

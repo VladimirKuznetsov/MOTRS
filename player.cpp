@@ -9,7 +9,7 @@
 #include <QVector>
 #include <QPointF>
 #include <QPolygonF>
-//#include <QDebug>
+#include <QDebug>
 
 extern Game * game;
 
@@ -20,14 +20,13 @@ Player::Player(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
     targetX = -1;
     targetCell = new Cell();
 
-    JUMP_SPEED = ceil(float(game->CELL_SIZE) / 3.5);
-    WALK_SPEED = ceil(float(game->CELL_SIZE) / 8);
-    RUN_SPEED = ceil(float(game->CELL_SIZE) / 5);
-    MAX_STEP_HEIGHT = ceil(float(game->CELL_SIZE) / 3);
-    zoom = 1.0;
+    JUMP_SPEED = ceil(float(game->CELL_SIZE) / 3.5) * 40;
+    WALK_SPEED = ceil(float(game->CELL_SIZE) / 8) * 40;
+    RUN_SPEED = ceil(float(game->CELL_SIZE) / 5) * 40;
+    MAX_STEP_HEIGHT = ceil(float(game->CELL_SIZE) / 3) * 40;
 
     frame = 0;
-    animationSpeed = 0.3;
+    animationSpeed = 12;
     shiftIsPressed = false;
     action = stand;
     direction = right;
@@ -64,21 +63,19 @@ Player::Player(QPixmap _spriteSheet, QObject *parent) : QObject(parent)
 
     horizontalSpeed = 0;
     verticalSpeed = 0;
-}
 
-//установить зум
-void Player::setZoom(float _zoom)
-{
-    zoom = _zoom;
-    JUMP_SPEED *= zoom;
-    WALK_SPEED *= zoom;
-    RUN_SPEED *= zoom;
-    MAX_STEP_HEIGHT *= zoom;
+    time = new QTime();
+    time->start();
 }
 
 //перемещения игрока
 void Player::move()
 {
+
+    float deltaTime = (float)time->elapsed() / 1000;
+    if (deltaTime > 0.1) deltaTime = 0.1;
+    time->restart();
+
     //персонаж достиг цели движения
     if (actionArea->collidesWithItem(targetCell))
     {
@@ -112,7 +109,7 @@ void Player::move()
     }
 
     //смена кадров анимации
-    frame += animationSpeed;
+    frame += animationSpeed * deltaTime;
     if (int(frame) > int (frame - animationSpeed))
     {
     /*
@@ -139,8 +136,8 @@ void Player::move()
 
     //перемещение по вертикали
     unsigned int oldY = y();
-    setPos(x(), y() - verticalSpeed);
-    verticalSpeed -= (game->GRAVITY * zoom);
+    setPos(x(), int(y() - verticalSpeed * deltaTime));
+    verticalSpeed -= (game->GRAVITY);
 
     if (collideWithSolid() == true)
     {
@@ -173,7 +170,7 @@ void Player::move()
     }
 
     //перемещение по горизонтали
-    setPos(x() + horizontalSpeed, y());
+    setPos(x() + horizontalSpeed * deltaTime, y());
 
     //проверяем на столкновение с препятствием
     QList <QGraphicsItem *> collisions = physicalArea->collidingItems();
@@ -249,7 +246,7 @@ void Player::keyPressEvent(QKeyEvent *event)
         }
     }
 
-    //движемся вправо
+    //движемся вправо или влево
     if ((event->key() == Qt::Key_Right) || (event->key() == Qt::Key_Left))
     {
         if (action == stand)

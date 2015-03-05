@@ -16,6 +16,7 @@ public:
     void keyPressEvent(QKeyEvent *event);
     void mousePressEvent(QMouseEvent * event);
     void mouseDoubleClickEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
     int step;
 
 signals:

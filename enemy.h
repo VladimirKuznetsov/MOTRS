@@ -7,6 +7,7 @@
 #include <QGraphicsItem>
 #include <QString>
 #include <float.h>
+#include<QTime>
 
 class Enemy : public QObject, public QGraphicsPixmapItem
 {
@@ -23,6 +24,9 @@ public:
 
     float frame;
     float animationSpeed;
+
+    QTime * time;
+
 public slots:
     void move();
     

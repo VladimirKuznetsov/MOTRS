@@ -4,6 +4,7 @@
 #include <QGraphicsPixmapItem>
 #include <QString>
 #include <QPixmap>
+#include <QDebug>
 
 class Cell : public QObject, public QGraphicsPixmapItem
 {

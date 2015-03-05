@@ -12,6 +12,7 @@ public:
     void followEnemy();
     void mousePressEvent(QMouseEvent * event);
     void mouseDoubleClickEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
 
 signals:
 public slots:

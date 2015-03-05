@@ -29,7 +29,7 @@ Game::Game()
     WINDOW_HEIGHT = screen->size().height();
     WINDOW_WIDTH = screen->size().width();
     CELL_SIZE = WINDOW_HEIGHT / 15;
-    GRAVITY = ceil(float(CELL_SIZE) / 60);
+    GRAVITY = ceil(float(CELL_SIZE) / 60) * 40;
 
     //подстройка размера шрифтов под экран
     SMALL_FONT = 12;
@@ -58,6 +58,8 @@ Game::Game()
     setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     scale(platformZoom, platformZoom);
+    setOptimizationFlags( QGraphicsView::DontClipPainter  | QGraphicsView::DontSavePainterState | QGraphicsView::DontAdjustForAntialiasing );
+
 }
 
 
@@ -93,6 +95,23 @@ void Game::mouseDoubleClickEvent(QMouseEvent *event)
     } else
     {
         level->mouseDoubleClickEvent(event);
+    }
+}
+
+void Game::mouseReleaseEvent(QMouseEvent * event)
+{
+    if (typeid(*level) == typeid(LevelChase))
+    {
+        ((LevelChase *)level)->mouseReleaseEvent(event);
+    } else if (typeid(*level) == typeid(LevelInvestigate))
+    {
+        ((LevelInvestigate *)level)->mouseReleaseEvent(event);
+    } else if (typeid(*level) == typeid(LevelIntro))
+    {
+        ((LevelIntro *)level)->mouseReleaseEvent(event);
+    } else
+    {
+        level->mouseReleaseEvent(event);
     }
 }
 
@@ -134,16 +153,16 @@ void Game::loadLevel()
         "---",
         "cno",
         "---",
-        tr("A rare ribbon seal disappeared this night from the Moscow zoo."),
+        tr("This night a rare ribbon seal ran away from the Moscow zoo."),
         tr("My job is to get him back home. But what should I start with?"),
-        "Куда пойдёт огромный полосатый тюлень в большом городе?",
-        "Сосредоточься, Даша! Ты должна думать как тюлень.",
+        tr("Where would a giant ribbon seal go in a big city of Moscow?"),
+        tr("Concentrate, Dasha! You gotta think like a seal."),
         "---",
-        "Итак, наш главный подозреваемый это пропавший сторож...",
-        "Ночью он мог открыть дверь клетки и похитить тюленя...",
-        "Но в чём мотив? И где его теперь искать?",
+        tr("So what do we have? It looks like our main suspect is the watchman."),
+        tr("He could open the door of the cage and steal the seal at night."),
+        tr("But what was the motive? And where would he hide the seal?"),
         "...",
-        "Шесть часов вечера, пора домой. Вот только закончу с бумажной работой.",
+        tr("It's 6 PM! Time to go home. I only need to finish with papers."),
         "---",
         "1",
         "---",
@@ -174,10 +193,10 @@ void Game::loadLevel()
         "---",
         "k",
         "---",
-        "Опять провозилась с протоколами до позднего вечера.",
-        "Всё бы сейчас отдала за чашку хорошего кофе...",
+        tr("Great. I spent whole evening messing around with documents."),
+        tr("I'd kill for a cup of coffee now."),
         "---",
-        "Это был странный день. Пора с ним заканчивать.",
+        tr("It was a strange day. I should have finished it long ago."),
         "---",
         "2.5",
         "---",
@@ -209,10 +228,10 @@ void Game::loadLevel()
         "---",
         "a",
         "---",
-        "*БАХ!*",
-        "Три часа ночи... кто станет ломиться в дверь в такое время?",
+        tr("*KNOCK KNOCK*"),
+        tr("It's 3 AM. Who's that at the door?"),
         "---",
-        "Старый склад... Думаю, я знаю, где это.",
+        tr("Old warehouse. I think I know where it is..."),
         "---",
         "2.5",
         "---",
@@ -243,13 +262,13 @@ void Game::loadLevel()
         "---",
         "ds",
         "---",
-        "Не нравится мне это место...",
-        "Нужно быстро тут всё проверить и возвращаться.",
+        tr("I don't like this place..."),
+        tr("Better check it fast and get back home."),
         "---",
-        "Похоже, что недавно здесь действительно держали тюленя.",
-        "Хотела бы я знать, кто и зачем привёл меня сюда...",
-        "*РЁВ ДВИГАТЕЛЯ*",
-        "Что за чёрт?",
+        tr("It seems like someone actually kept a seal here for some time."),
+        tr("I wish I knew who led me here and why..."),
+        tr("*SOUND OF THE MOTOR*"),
+        tr("What the?.."),
         "---",
         "2.5",
         "---",
@@ -280,7 +299,7 @@ void Game::loadLevel()
         "---",
         "h  ",
         "---",
-        "Это же машина зоопарка! Стоять! Полиция!",
+        tr("What is this car doing here? Police! Freeze!"),
         "---",
         " ",
         "---",
@@ -313,25 +332,25 @@ void Game::loadLevel()
         "---",
         " ",
         "---",
-        "—Господин Огурцов! Так это вы - тюлений вор?",
-        "—У меня в багажнике трёхсоткилограммовый тюлень. Глупо что-либо отрицать.",
-        "—Тогда давайте начистоту. Зачем вы похитили тюленя? Ради наживы?",
+        tr("—Mr Ogurtsov! So you're the mysterious seal thiev?"),
+        tr("—I got 300 kg seal in a trunk. That's quite a solid evidence."),
+        tr("—So let's make it clear. Why did you steal the seal? For money?"),
         "...",
-        "—В последнее время дела в зоопарке идут не лучшим образом...",
-        "Старые вольеры уже разваливаются, а новые строить не на что.",
-        "Страховка за похищенного тюленя была нашей последней надеждой.",
-        "Потом я, конечно, устроил бы счастливое воссоединение...",
-        "...но на время тюлень должен был исчезнуть.",
-        "—А что же сторож? Он ведь не согласился на вашу аферу.",
-        "Как вы убрали его с дороги?",
-        "—Отпустил погулять на денёк, пригрозил  уволить, если он проболтается...",
-        "...так что ним всё в порядке.",
-        "Более того, как я понимаю, это именно он подсказал вам, где искать тюленя.",
-        "Больше об этом месте никто не знал.",
+        tr("—Things haven't been going well in the zoo lately..."),
+        tr("Old cages were falling apart and we did not have money to repair them."),
+        tr("That's when I came up with this idea. Insuranse payments could have saved us!"),
+        tr("I swear I was going to bring the seal back after we got the money..."),
+        tr("...but for some time it had to vanish."),
+        tr("—And what about the watchman? He didn't agree with this plan, did he?"),
+        tr("But you found a way to make him disappear..."),
+        tr("—I gave him a day off, threatened to fire him, if he'd say a word..."),
+        tr("...so it seems to me he's perfectly fine now."),
+        tr("Moreover I suppose he gave you the seal's location."),
+        tr("Nobody else knew about this place."),
         "...",
-        "Послушайте, Дарья, всё что я делал было в интересах зоопарка!",
-        "Я ведь директор зоопарка, а не преступник!",
-        "—Теперь это будет решать суд.",
+        tr("Listen, Daria, all I did was for the zoo's best!"),
+        tr("For the love of god! I'm a director of the zoo, not a criminal!"),
+        tr("—That's for jury to judge."),
         "---",
         " ",
         "---",

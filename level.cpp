@@ -4,13 +4,15 @@
 #include <QGraphicsTextItem>
 #include <QTextCodec>
 #include <typeinfo>
-//#include <QDebug>
+#include <QDebug>
 
 extern Game * game;
 
 //конструктор
 Level::Level(QGraphicsView *parent) : QGraphicsScene(parent)
 {
+    startedMotion = false;
+
     sprites = QPixmap(":/img/sprites");
 
     //определяем геометрические параметры сцены
@@ -268,8 +270,7 @@ void Level::init(QString map[])
                 hydrant->setScale(scaleFactor);
                 hydrant->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - hydrant->boundingRect().height()*scaleFactor);
                 hydrant->addInteraction('h');
-                hydrant->setCellActive();
-                hydrant->interactionDialogue[0] = QString("Лучше я не буду тут ничего трогать...");
+                hydrant->interactionDialogue[0] = QString(tr("I'd better not touch enything..."));
                 addItem(hydrant);
             }
             //отрисовка автомобиля без тюленя
@@ -283,7 +284,7 @@ void Level::init(QString map[])
                 van_ns->setScale(scaleFactor);
                 van_ns->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * van_ns->boundingRect().height());
                 van_ns->addInteraction('n');
-                van_ns->interactionDialogue[0] = QString("Эта машина принадлежит зоопарку.");
+                van_ns->interactionDialogue[0] = QString(tr("This car belongs to the zoo."));
                 addItem(van_ns);
                 van_ns->setZValue(2);
             }
@@ -320,7 +321,7 @@ void Level::init(QString map[])
                 ball->setScale(scaleFactor);
                 ball->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * ball->boundingRect().height());
                 ball->addInteraction('s');
-                ball->interactionDialogue[0] = QString("Это мячик для шоу с тюленями. Что он здесь делает?..");
+                ball->interactionDialogue[0] = QString(tr("This is the ball for the seal show. Now it's getting creepy..."));
                 addItem(ball);
                 ball->setZValue(-2);
             }
@@ -335,8 +336,9 @@ void Level::init(QString map[])
                 cell->setScale(scaleFactor);
                 cell->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * cell->boundingRect().height());
                 cell->addInteraction('c');
-                cell->interactionDialogue[0] = QString("Кажется, эта дверь - единственный способ выбраться из клетки.");
-                cell->interactionDialogue[1] = QString("...что если нашему тюленю помогли сбежать?");
+                qDebug() << QString::number(cell->boundingRect().height());
+                cell->interactionDialogue[0] = QString(tr("This door seems to be the only way out of the cage..."));
+                cell->interactionDialogue[1] = QString(tr("...what if somebody helped our seal to run away?"));
                 addItem(cell);
             }
             //отрисовка г-на Огурцова
@@ -350,15 +352,15 @@ void Level::init(QString map[])
                 mr->setScale(scaleFactor);
                 mr->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * mr->boundingRect().height());
                 mr->addInteraction('o');
-                mr->interactionDialogue[0] = QString("– Добрый день, господин Огурцов. Старший следователь Дарья Винокурова.");
-                mr->interactionDialogue[1] = QString("Это вы вызвали полицию?");
-                mr->interactionDialogue[2] = QString("– Да. Дело в том, что сегодня ночью из своей клетки пропал полосатый тюлень.");
-                mr->interactionDialogue[3] = QString("Прошу вас, найдите его скорее!");
-                mr->interactionDialogue[4] = QString("– Мы сделаем всё возможное. Скажите, у кого были ключи от клетки?");
-                mr->interactionDialogue[5] = QString("– У нашего сторожа.");
-                mr->interactionDialogue[6] = QString("– Могу я с ним побеседовать?");
-                mr->interactionDialogue[7] = QString("– Боюсь, что нет. Сегодня он не вышел на работу.");
-                mr->interactionDialogue[8] = QString("– Любопытно...");
+                mr->interactionDialogue[0] = QString(tr("–Mr Ogurtsov I suppose? My name is detective Daria Vinokurova."));
+                mr->interactionDialogue[1] = QString(tr("Did you call the police?"));
+                mr->interactionDialogue[2] = QString(tr("–Yes. This night a ribbon seal disappeared from its cage."));
+                mr->interactionDialogue[3] = QString(tr("Please find him, detective!"));
+                mr->interactionDialogue[4] = QString(tr("–We'll handle this situation, mr Ogurtsov. Who had the keys to the cage?"));
+                mr->interactionDialogue[5] = QString(tr("–Our watchman had."));
+                mr->interactionDialogue[6] = QString(tr("–Can I speak to him?"));
+                mr->interactionDialogue[7] = QString(tr("–Unfortunately no. He didn't come to work today."));
+                mr->interactionDialogue[8] = QString(tr("–That's interesting..."));
                 addItem(mr);
             }
             //отрисовка молчаливого г-на Огурцова
@@ -383,8 +385,8 @@ void Level::init(QString map[])
                 kitchen->setScale(scaleFactor);
                 kitchen->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * kitchen->boundingRect().height());
                 kitchen->addInteraction('k');
-                kitchen->interactionDialogue[0] = QString("Превосходно...");
-                kitchen->interactionDialogue[1] = QString("Теперь можно и поспать.");
+                kitchen->interactionDialogue[0] = QString(tr("That's a damn fine cup of coffee..."));
+                kitchen->interactionDialogue[1] = QString(tr("Now I need a good sleep."));
                 addItem(kitchen);
             }
             //отрисовка ночной кухни
@@ -433,13 +435,13 @@ void Level::init(QString map[])
                 letter->setScale(scaleFactor);
                 letter->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * letter->boundingRect().height());
                 letter->addInteraction('a');
-                letter->interactionDialogue[0] = QString("Анонимное письмо?");
-                letter->interactionDialogue[1] = QString("«Дарья, мне жаль, что я не могу встретиться с вами лично...»");
-                letter->interactionDialogue[2] = QString("...терпеть не могу, когда меня называют Дарья...");
-                letter->interactionDialogue[3] = QString("«...однако я вынужден держать свою личность в тайне.");
-                letter->interactionDialogue[4] = QString("У меня есть информация по делу об исчезновении полосатого тюленя.");
-                letter->interactionDialogue[5] = QString("Животное держат на старом складе сталелитейного завода,");
-                letter->interactionDialogue[6] = QString("требуется срочное вмешательство сотрудников правопорядка.»");
+                letter->interactionDialogue[0] = QString(tr("Anonymous letter?"));
+                letter->interactionDialogue[1] = QString(tr("«Daria, I'm sorry that I can't meet you personally...»"));
+                letter->interactionDialogue[2] = QString(tr("...I hate when somebody calls me Daria..."));
+                letter->interactionDialogue[3] = QString(tr("«...but I have to stay anonymous for the sefety of both of us."));
+                letter->interactionDialogue[4] = QString(tr("I have some information about the case you're  currently working on."));
+                letter->interactionDialogue[5] = QString(tr("The seal is being kept in the old warehouse of the metalworks factory."));
+                letter->interactionDialogue[6] = QString(tr("Somebody has to save this poor animal.»"));
                 addItem(letter);
             }
             //отрисовка ящиков
@@ -525,10 +527,10 @@ void Level::init(QString map[])
                 docs->setScale(scaleFactor);
                 docs->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*docs->boundingRect().height());
                 docs->addInteraction('d');
-                docs->interactionDialogue[0] = QString("Страховые документы...");
-                docs->interactionDialogue[1] = QString("Похоже, что зоопарк получит крупную сумму в случае пропажи тюленя.");
-                docs->interactionDialogue[2] = QString("И думаю, господин Огурцов прекрасно об этом осведомлён.");
-                docs->interactionDialogue[3] = QString("Вопрос лишь в том, как эти документы попали сюда...");
+                docs->interactionDialogue[0] = QString(tr("Insurance papers..."));
+                docs->interactionDialogue[1] = QString(tr("Seems like the zoo will get a huge sum of money if the seal doesn't show up."));
+                docs->interactionDialogue[2] = QString(tr("I bet mr Ogurtsov knows it."));
+                docs->interactionDialogue[3] = QString(tr("But how did those papers get here?.."));
                 addItem(docs);
             }
             //отрисовка сигарет
@@ -542,7 +544,7 @@ void Level::init(QString map[])
                 cig->setScale(scaleFactor);
                 cig->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*cig->boundingRect().height());
                 cig->addInteraction('L');
-                cig->interactionDialogue[0] = QString("Окурки. Судя по всему, свежие.");
+                cig->interactionDialogue[0] = QString(tr("Cigarette butts. Fresh."));
                 addItem(cig);
             }
             //отрисовка миски
@@ -556,8 +558,8 @@ void Level::init(QString map[])
                 food->setScale(scaleFactor);
                 food->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor*food->boundingRect().height());
                 food->addInteraction('V');
-                food->interactionDialogue[0] = QString("Миска с рыбой.");
-                food->interactionDialogue[1] = QString("Кто-то держит здесь кота?");
+                food->interactionDialogue[0] = QString(tr("A bowl of fish."));
+                food->interactionDialogue[1] = QString(tr("Does someone keep a cat here?"));
                 addItem(food);
             }
             //отрисовка титров
@@ -645,24 +647,65 @@ void Level::mousePressEvent(QMouseEvent * event)
     if (dialog->isOn == true)
     {
         dialog->nextLine();
-    //движение к цели
+
+    //движение в сторону клика
     } else
     {
-        //задаём цель движения в координатах сцены
-        player->targetX = game->mapToScene(event->x(), event->y()).rx();
+        //эта переменная нужна, чтобы персонаж не начинал движение
+        //при отпускании нажатия на последней строчки диалога
+        startedMotion = true;
+
+        //сбрасываем предыдущую цель движения
+        player->targetX = -1;
+        player->targetCell->shortSymbol = ' ';
+
+        //определяем координаты клика в системе координат сцены
+        int clickX = game->mapToScene(event->x(), event->y()).rx();
+
+        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Right, 0, "", false, 1);
+        player->keyReleaseEvent(keyEvent);
+        keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
+        player->keyReleaseEvent(keyEvent);
+        keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Left, 0, "", false, 1);
+        player->keyReleaseEvent(keyEvent);
 
         //движемся в заданном направлении
-        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
-        player->keyReleaseEvent(keyEvent);
-        if (player->x() < player->targetX)
+        if (player->x() < clickX)
         {
-            QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Right, 0, "", false, 1);
+            keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Right, 0, "", false, 1);
             player->keyPressEvent(keyEvent);
         } else
         {
-            QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Left, 0, "", false, 1);
+            keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Left, 0, "", false, 1);
             player->keyPressEvent(keyEvent);
         }
+    }
+}
+
+//отрабатываем двойной клик
+void Level::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    if (dialog->isOn == true)
+    {
+        dialog->nextLine();
+    } else
+    {
+        mousePressEvent(event);
+        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Shift, 0, "", false, 1);
+        player->keyPressEvent(keyEvent);
+    }
+}
+
+void Level::mouseReleaseEvent(QMouseEvent *event)
+{
+
+    if (startedMotion == true)
+    {
+        //задаём движение в сторону той точки, где прекратилось нажатие
+        mousePressEvent(event);
+
+        //задаём цель движения в координатах сцены
+        player->targetX = game->mapToScene(event->x(), event->y()).rx();
 
         //проверяем объекты под курсором (исключаем игрока из проверки)
         player->setVisible(false);
@@ -679,20 +722,7 @@ void Level::mousePressEvent(QMouseEvent * event)
         }
         player->setVisible(true);
     }
-}
-
-//отрабатываем двойной клик
-void Level::mouseDoubleClickEvent(QMouseEvent *event)
-{
-    if (dialog->isOn == true)
-    {
-        dialog->nextLine();
-    } else
-    {
-        mousePressEvent(event);
-        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Shift, 0, "", false, 1);
-        player->keyPressEvent(keyEvent);
-    }
+    startedMotion = false;
 }
 
 //макет проверки правил

@@ -15,6 +15,7 @@ public:
     void loadLevel();
     void mouseDoubleClickEvent(QMouseEvent * event);
     void mousePressEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
     double zoom();
     Level * level;
     double platformZoom;

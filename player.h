@@ -8,6 +8,7 @@
 #include <QString>
 #include <cell.h>
 #include <float.h>
+#include <QTime>
 
 class Player : public QObject, public QGraphicsPixmapItem
 {
@@ -39,7 +40,6 @@ public:
     QPixmap spriteJump;
 
     //переменные состояния и направления
-    float zoom;
     bool shiftIsPressed;
     signed int verticalSpeed;
     signed int horizontalSpeed;
@@ -49,6 +49,8 @@ public:
     short WALK_SPEED;
     short RUN_SPEED;
     short MAX_STEP_HEIGHT;
+
+    QTime * time;
 
     //константы состояний
     enum Action {
@@ -66,6 +68,7 @@ public:
 
 private:
     void flipHorizontal();
+
 
 public slots:
     void move();
