@@ -1,11 +1,11 @@
 #include "dialogBox.h"
 #include <QTextCodec>
-//#include <QDebug>
 #include <QPointF>
 #include <QGraphicsRectItem>
 #include <QColor>
 #include <float.h>
 #include "game.h"
+//#include <QDebug>
 
 extern Game * game;
 

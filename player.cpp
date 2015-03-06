@@ -9,7 +9,7 @@
 #include <QVector>
 #include <QPointF>
 #include <QPolygonF>
-#include <QDebug>
+//#include <QDebug>
 
 extern Game * game;
 

@@ -4,7 +4,7 @@
 #include <math.h>
 #include <float.h>
 #include "game.h"
-#include <QDebug>
+//#include <QDebug>
 
 extern Game * game;
 

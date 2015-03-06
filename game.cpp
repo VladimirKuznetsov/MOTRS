@@ -29,7 +29,7 @@ Game::Game()
     WINDOW_HEIGHT = screen->size().height();
     WINDOW_WIDTH = screen->size().width();
     CELL_SIZE = WINDOW_HEIGHT / 15;
-    GRAVITY = ceil(float(CELL_SIZE) / 60) * 40;
+    GRAVITY = ceil(float(CELL_SIZE) / 50) * 40;
 
     //подстройка размера шрифтов под экран
     SMALL_FONT = 12;
@@ -65,6 +65,7 @@ Game::Game()
 
 void Game::mousePressEvent(QMouseEvent * event)
 {
+
     if (typeid(*level) == typeid(LevelChase))
     {
         ((LevelChase *)level)->mousePressEvent(event);
@@ -83,6 +84,7 @@ void Game::mousePressEvent(QMouseEvent * event)
 
 void Game::mouseDoubleClickEvent(QMouseEvent *event)
 {
+
     if (typeid(*level) == typeid(LevelChase))
     {
         ((LevelChase *)level)->mouseDoubleClickEvent(event);
@@ -100,6 +102,7 @@ void Game::mouseDoubleClickEvent(QMouseEvent *event)
 
 void Game::mouseReleaseEvent(QMouseEvent * event)
 {
+
     if (typeid(*level) == typeid(LevelChase))
     {
         ((LevelChase *)level)->mouseReleaseEvent(event);

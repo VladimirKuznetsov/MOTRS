@@ -1,8 +1,8 @@
 #include <QApplication>
 #include <QString>
 #include <QTranslator>
-#include <QDebug>
 #include "game.h"
+//#include <QDebug>
 
 Game * game;
 

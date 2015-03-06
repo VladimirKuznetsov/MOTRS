@@ -19,6 +19,7 @@ public:
     void init (QString map[]);
     void gameOver (QString comment);
     void levelCompleted (QString message[]);
+    void sendPlayerTowards(int clickX);
     QString clues;
     QString startMessage[30];
     QString endMessage[30];

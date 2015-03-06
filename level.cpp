@@ -4,7 +4,7 @@
 #include <QGraphicsTextItem>
 #include <QTextCodec>
 #include <typeinfo>
-#include <QDebug>
+//#include <QDebug>
 
 extern Game * game;
 
@@ -336,7 +336,6 @@ void Level::init(QString map[])
                 cell->setScale(scaleFactor);
                 cell->setPos(column * game->CELL_SIZE, (row - 3) * game->CELL_SIZE - scaleFactor * cell->boundingRect().height());
                 cell->addInteraction('c');
-                qDebug() << QString::number(cell->boundingRect().height());
                 cell->interactionDialogue[0] = QString(tr("This door seems to be the only way out of the cage..."));
                 cell->interactionDialogue[1] = QString(tr("...what if somebody helped our seal to run away?"));
                 addItem(cell);
@@ -632,7 +631,7 @@ void Level::gameOver(QString comment)
     emit lose();
 }
 
-//отрабатываем клик мышкой
+//победа
 void Level::levelCompleted(QString message[])
 {
     updateTimer->stop();
@@ -640,9 +639,32 @@ void Level::levelCompleted(QString message[])
     dialog->setDialog(message);
 }
 
+//отправляем игрока в нужную сторону
+void Level::sendPlayerTowards(int clickX)
+{
+    QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Right, 0, "", false, 1);
+    player->keyReleaseEvent(keyEvent);
+    keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
+    player->keyReleaseEvent(keyEvent);
+    keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Left, 0, "", false, 1);
+    player->keyReleaseEvent(keyEvent);
+
+    //движемся в заданном направлении
+    if (player->x() < clickX)
+    {
+        keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Right, 0, "", false, 1);
+        player->keyPressEvent(keyEvent);
+    } else
+    {
+        keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Left, 0, "", false, 1);
+        player->keyPressEvent(keyEvent);
+    }
+}
+
 //обработка нажатия мыши
 void Level::mousePressEvent(QMouseEvent * event)
 {
+
     //прокрутка диалога
     if (dialog->isOn == true)
     {
@@ -657,34 +679,17 @@ void Level::mousePressEvent(QMouseEvent * event)
 
         //сбрасываем предыдущую цель движения
         player->targetX = -1;
-        player->targetCell->shortSymbol = ' ';
+        player->targetCell = new Cell();
 
         //определяем координаты клика в системе координат сцены
-        int clickX = game->mapToScene(event->x(), event->y()).rx();
-
-        QKeyEvent * keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Right, 0, "", false, 1);
-        player->keyReleaseEvent(keyEvent);
-        keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Shift, 0, "", false, 1);
-        player->keyReleaseEvent(keyEvent);
-        keyEvent = new QKeyEvent(QKeyEvent::KeyRelease, Qt::Key_Left, 0, "", false, 1);
-        player->keyReleaseEvent(keyEvent);
-
-        //движемся в заданном направлении
-        if (player->x() < clickX)
-        {
-            keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Right, 0, "", false, 1);
-            player->keyPressEvent(keyEvent);
-        } else
-        {
-            keyEvent = new QKeyEvent(QKeyEvent::KeyPress, Qt::Key_Left, 0, "", false, 1);
-            player->keyPressEvent(keyEvent);
-        }
+        sendPlayerTowards(game->mapToScene(event->x(), event->y()).rx());
     }
 }
 
 //отрабатываем двойной клик
 void Level::mouseDoubleClickEvent(QMouseEvent *event)
 {
+
     if (dialog->isOn == true)
     {
         dialog->nextLine();
@@ -701,11 +706,11 @@ void Level::mouseReleaseEvent(QMouseEvent *event)
 
     if (startedMotion == true)
     {
-        //задаём движение в сторону той точки, где прекратилось нажатие
-        mousePressEvent(event);
-
         //задаём цель движения в координатах сцены
         player->targetX = game->mapToScene(event->x(), event->y()).rx();
+
+        //задаём движение в сторону той точки, где прекратилось нажатие
+        sendPlayerTowards(player->targetX);
 
         //проверяем объекты под курсором (исключаем игрока из проверки)
         player->setVisible(false);
